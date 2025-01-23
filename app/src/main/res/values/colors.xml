@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="metalickBlack">#FF191F22</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#90C2C2C2</color>
+    <color name="purple">#FF4C2882</color>
+    <color name="mediumGray">#FFC2C2C2</color>
+</resources>
