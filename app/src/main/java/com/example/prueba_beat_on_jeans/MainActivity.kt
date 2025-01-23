@@ -1,15 +1,63 @@
 package com.example.prueba_beat_on_jeans
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    lateinit var navigation : BottomNavigationView
+
+    private val navMenu = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+
+         when (item.itemId){
+             R.id.itemFragment1 -> {
+                 supportFragmentManager.commit {
+                     replace<FIrstFragment>(R.id.frame_container)
+                     setReorderingAllowed(true)
+                     addToBackStack("replacement")
+                 }
+                 return@OnNavigationItemSelectedListener true
+             }
+         }
+
+        when (item.itemId){
+            R.id.itemFragment2 -> {
+                supportFragmentManager.commit {
+                    replace<SecondFragment>(R.id.frame_container)
+                    setReorderingAllowed(true)
+                    addToBackStack("replacement")
+                }
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+
+        when (item.itemId){
+            R.id.itemFragment3 -> {
+                supportFragmentManager.commit {
+                    replace<ThirdFragment>(R.id.frame_container)
+                    setReorderingAllowed(true)
+                    addToBackStack("replacement")
+                }
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+
+        when (item.itemId){
+            R.id.itemFragment4 -> {
+                supportFragmentManager.commit {
+                    replace<FourthFragment>(R.id.frame_container)
+                    setReorderingAllowed(true)
+                    addToBackStack("replacement")
+                }
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,10 +65,14 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        val btnSearch = findViewById<Button>(R.id.BtnSearch)
-        btnSearch.setOnClickListener{
-            val intent = Intent(this,MusicosActivity::class.java)
-            startActivity(intent)
+        navigation = findViewById(R.id.navMenu)
+        navigation.setOnNavigationItemSelectedListener(navMenu)
+
+        supportFragmentManager.commit {
+            replace<FIrstFragment>(R.id.frame_container)
+            setReorderingAllowed(true)
+            addToBackStack("replacement")
         }
+
     }
 }

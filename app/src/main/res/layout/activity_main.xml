@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/frame_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_gravity="center|bottom"
+        android:id="@+id/navMenu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="35sp"
-            android:textAlignment="center"
-            android:text="Comprueba los Musicos de tu zona"
-            />
-        <Button
-            android:id="@+id/BtnSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:textSize="35sp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_gravity="center"/>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        app:menu="@menu/navigation_menu"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
