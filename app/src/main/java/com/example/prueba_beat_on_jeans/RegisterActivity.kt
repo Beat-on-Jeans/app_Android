@@ -13,11 +13,11 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
 
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             if (editTextUser.text.toString() == "admin" && editTextPassword.text.toString() == "1234"){
-                val intent = Intent(this, NavigationBar::class.java)
+                val intent = Intent(this, MainActivity::class.java)
+                Toast.makeText(this, "User created correctly", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "User or password incorrect", Toast.LENGTH_SHORT).show()
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         registerText.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
