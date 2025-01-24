@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MusicsAdapter(
-    private val context: Context,
+    private val context: Context?,
     private val musicList: List<Music>,
     private val onLikeClick: (Music) -> Unit,
     private val onTalkClick: (Music) -> Unit

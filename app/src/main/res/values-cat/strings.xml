@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Prueba_Beat_on_Jeans</string>
+    <string name="hello_blank_fragment">Hola framgment en blanc</string>
+    <string name="you_chosed_enought_locals_for_now">Has cribat massa locas per ara</string>
+</resources>
