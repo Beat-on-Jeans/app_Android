@@ -10,13 +10,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RVMusicians"
+            <com.yuyakaido.android.cardstackview.CardStackView
+                android:id="@+id/CVMusicians"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 />
-
             <ImageButton
                 android:id="@+id/ImgBtnBack"
                 android:layout_width="wrap_content"
