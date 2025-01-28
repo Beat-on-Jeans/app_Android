@@ -37,6 +37,8 @@ android {
 
 dependencies {
 
+    implementation(libs.osmdroid.android)
+    implementation(libs.play.services.location.v2101)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
