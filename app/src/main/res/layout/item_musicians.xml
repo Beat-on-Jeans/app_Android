@@ -16,6 +16,26 @@
         >
     </LinearLayout>
 
+    <FrameLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+        <ImageView
+            android:id="@+id/left_overlay"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_bad_finger"
+            />
+        <ImageView
+            android:id="@+id/right_overlay"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_good_finger"
+            />
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,23 +81,23 @@
         >
         <ImageButton
             android:id="@+id/BtnHeart"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="5dp"
             android:layout_margin="10dp"
-            android:src="@drawable/heart"
+            android:src="@drawable/ic_bad_finger"
             android:background="@drawable/rounded_button_like"
             />
 
         <ImageButton
             android:id="@+id/BtnTalk"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="5dp"
             android:layout_margin="10dp"
-            android:src="@drawable/hearth_broken"
+            android:src="@drawable/ic_good_finger"
             android:background="@drawable/rounded_button_talk"
             />
 
