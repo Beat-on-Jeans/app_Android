@@ -1,16 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".FIrstFragment">
+    tools:context=".SecondFragment"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="25sp"
-        android:text="Fragment 2"/>
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_above="@+id/btnShowLocation" />
 
-</FrameLayout>
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+    </GridView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:gravity="center"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:gravity="center"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:gravity="center"
+            >
+        </TextView>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btnShowLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Contact"
+            android:layout_gravity="center"
+            />
+
+    </FrameLayout>
+
+
+
+</LinearLayout>
