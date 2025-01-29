@@ -21,6 +21,7 @@
     </GridView>
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -31,15 +32,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Location"
             android:gravity="center"
             >
         </TextView>
 
         <TextView
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="Description Description Description Description Description Description Description Description Description Description Description Description Description Description "
             android:gravity="center"
             >
         </TextView>
@@ -47,8 +49,9 @@
 
 
     <FrameLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/btnShowLocation"
