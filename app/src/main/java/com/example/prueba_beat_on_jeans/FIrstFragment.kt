@@ -38,12 +38,26 @@ class FIrstFragment : Fragment() {
     private fun setCardView(view: View) {
         val musicsList = setBetaUsers()
 
-        // Encontrar el CardStackView en el diseño inflado
         val cardStackMusicinas = view.findViewById<CardStackView>(R.id.CVMusicians)
 
         val adapter = MusicsAdapter(requireContext(), musicsList, { _ -> }, { _ -> })
 
-        val manager = CardStackLayoutManager(context, adapter)
+        val manager = CardStackLayoutManager(requireContext(), object : CardStackListener {
+            override fun onCardDragging(direction: Direction?, ratio: Float) {
+                adapter.onCardDragging(direction, ratio)
+            }
+
+            override fun onCardSwiped(direction: Direction?) {
+                adapter.onCardSwiped(direction)
+            }
+
+            override fun onCardRewound() {}
+            override fun onCardCanceled() {
+                adapter.onCardCanceled()
+            }
+            override fun onCardAppeared(view: View?, position: Int) {}
+            override fun onCardDisappeared(view: View?, position: Int) {}
+        })
 
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
@@ -55,7 +69,6 @@ class FIrstFragment : Fragment() {
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(false)
 
-        // Asignar el manager y el adapter al CardStackView
         cardStackMusicinas.layoutManager = manager
         cardStackMusicinas.adapter = adapter
 

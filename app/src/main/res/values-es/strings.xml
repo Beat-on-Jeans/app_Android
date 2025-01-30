@@ -2,4 +2,6 @@
     <string name="app_name">Prueba_Beat_on_Jeans</string>
     <string name="hello_blank_fragment">Hola fragmento en blano</string>
     <string name="you_chosed_enought_locals_for_now">Has cribado demasiados locales por ahora</string>
+    <string name="dislike">Dislike</string>
+    <string name="like">like</string>
 </resources>
