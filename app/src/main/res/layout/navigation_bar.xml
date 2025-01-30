@@ -5,17 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/frame_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_gravity="center|bottom"
-        android:id="@+id/navMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/navigation_menu"
-        />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_gravity="center|bottom"
+            android:id="@+id/navMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/navigation_menu"
+            />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

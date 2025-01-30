@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
+import com.yuyakaido.android.cardstackview.StackFrom
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,29 +41,24 @@ class FIrstFragment : Fragment() {
         // Encontrar el CardStackView en el diseño inflado
         val cardStackMusicinas = view.findViewById<CardStackView>(R.id.CVMusicians)
 
-        // Configurar el CardStackLayoutManager
-        val manager = CardStackLayoutManager(requireContext(), object : CardStackListener {
-            override fun onCardDragging(direction: Direction?, ratio: Float) {}
-            override fun onCardSwiped(direction: Direction?) {}
-            override fun onCardRewound() {}
-            override fun onCardCanceled() {}
-            override fun onCardAppeared(view: View?, position: Int) {}
-            override fun onCardDisappeared(view: View?, position: Int) {}
-        })
-
-        manager.setTranslationInterval(8.0f) // Espaciado entre las tarjetas
-        manager.setScaleInterval(0.95f) // Escalado de las tarjetas al fondo
-        manager.setSwipeThreshold(0.3f) // Sensibilidad del swipe
-        manager.setMaxDegree(20.0f) // Grado máximo de inclinación
-        manager.setDirections(Direction.HORIZONTAL) // Swipe horizontal únicamente
-        manager.setCanScrollHorizontal(true) // Habilitar scroll horizontal
-        manager.setCanScrollVertical(false) // Deshabilitar scroll vertical
-
         val adapter = MusicsAdapter(requireContext(), musicsList, { _ -> }, { _ -> })
+
+        val manager = CardStackLayoutManager(context, adapter)
+
+        manager.setStackFrom(StackFrom.None)
+        manager.setVisibleCount(3)
+        manager.setTranslationInterval(8.0f)
+        manager.setScaleInterval(0.95f)
+        manager.setSwipeThreshold(0.3f)
+        manager.setMaxDegree(20.0f)
+        manager.setDirections(Direction.HORIZONTAL)
+        manager.setCanScrollHorizontal(true)
+        manager.setCanScrollVertical(false)
 
         // Asignar el manager y el adapter al CardStackView
         cardStackMusicinas.layoutManager = manager
         cardStackMusicinas.adapter = adapter
+
     }
 
     override fun onCreateView(
@@ -70,7 +67,6 @@ class FIrstFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
-        // Configurar el CardStackView después de inflar el diseño
         setCardView(view)
 
         return view
