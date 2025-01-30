@@ -12,7 +12,7 @@ class NavigationBar : AppCompatActivity() {
 
     private val navMenu = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
-        when (item.itemId){
+        when (item.itemId) {
             R.id.itemFragment1 -> {
                 supportFragmentManager.commit {
                     replace<FIrstFragment>(R.id.frame_container)
@@ -21,9 +21,6 @@ class NavigationBar : AppCompatActivity() {
                 }
                 return@OnNavigationItemSelectedListener true
             }
-        }
-
-        when (item.itemId){
             R.id.itemFragment2 -> {
                 supportFragmentManager.commit {
                     replace<SecondFragment>(R.id.frame_container)
@@ -32,9 +29,6 @@ class NavigationBar : AppCompatActivity() {
                 }
                 return@OnNavigationItemSelectedListener true
             }
-        }
-
-        when (item.itemId){
             R.id.itemFragment3 -> {
                 supportFragmentManager.commit {
                     replace<ThirdFragment>(R.id.frame_container)
@@ -43,9 +37,6 @@ class NavigationBar : AppCompatActivity() {
                 }
                 return@OnNavigationItemSelectedListener true
             }
-        }
-
-        when (item.itemId){
             R.id.itemFragment4 -> {
                 supportFragmentManager.commit {
                     replace<FourthFragment>(R.id.frame_container)
@@ -68,11 +59,11 @@ class NavigationBar : AppCompatActivity() {
         navigation = findViewById(R.id.navMenu)
         navigation.setOnNavigationItemSelectedListener(navMenu)
 
+        // Al iniciar, carga el primer fragmento por defecto.
         supportFragmentManager.commit {
             replace<FIrstFragment>(R.id.frame_container)
             setReorderingAllowed(true)
             addToBackStack("replacement")
         }
-
     }
 }
