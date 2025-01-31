@@ -16,8 +16,6 @@
 
         <item name="android:textColorHighlightInverse">@color/orange_light</item>
 
-        <!-- Color de fondo -->
-        <item name="android:windowBackground">@color/white</item> <!-- o otro color -->
     </style>
 
 </resources>
