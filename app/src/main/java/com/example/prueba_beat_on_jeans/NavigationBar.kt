@@ -8,9 +8,13 @@ import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NavigationBar : AppCompatActivity() {
-    lateinit var navigation : BottomNavigationView
+    lateinit var navigation: BottomNavigationView
 
     private val navMenu = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        for (i in 0 until navigation.menu.size()) {
+            val menuItem = navigation.menu.getItem(i)
+            menuItem.icon?.mutate()?.setTint(resources.getColor(R.color.black, theme))
+        }
 
         when (item.itemId) {
             R.id.itemFragment1 -> {
@@ -19,7 +23,6 @@ class NavigationBar : AppCompatActivity() {
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
             R.id.itemFragment2 -> {
                 supportFragmentManager.commit {
@@ -27,7 +30,6 @@ class NavigationBar : AppCompatActivity() {
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
             R.id.itemFragment3 -> {
                 supportFragmentManager.commit {
@@ -35,7 +37,6 @@ class NavigationBar : AppCompatActivity() {
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
             R.id.itemFragment4 -> {
                 supportFragmentManager.commit {
@@ -43,10 +44,12 @@ class NavigationBar : AppCompatActivity() {
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
         }
-        false
+
+        item.icon?.mutate()?.setTint(resources.getColor(R.color.orange_dark, theme))
+
+        return@OnNavigationItemSelectedListener true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +62,8 @@ class NavigationBar : AppCompatActivity() {
         navigation = findViewById(R.id.navMenu)
         navigation.setOnNavigationItemSelectedListener(navMenu)
 
-        // Al iniciar, carga el primer fragmento por defecto.
+        navigation.menu.findItem(R.id.itemFragment1).icon?.mutate()?.setTint(resources.getColor(R.color.orange_dark, theme))
+
         supportFragmentManager.commit {
             replace<FIrstFragment>(R.id.frame_container)
             setReorderingAllowed(true)
