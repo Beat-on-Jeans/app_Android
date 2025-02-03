@@ -2,4 +2,16 @@
     <string name="app_name">Prueba_Beat_on_Jeans</string>
     <string name="hello_blank_fragment">Hola fragmento en blano</string>
     <string name="you_chosed_enought_locals_for_now">Has cribado demasiados locales por ahora</string>
+    <string name="dislike">Dislike</string>
+    <string name="like">like</string>
+    <string name="matches">Matches</string>
+    <string name="buscar">Buscar</string>
+    <string name="imagen_de_usuario">Imagen de usuario</string>
+    <string name="nombre_de_usuario">Nombre de usuario</string>
+    <string name="hours">hours</string>
+    <string name="chat_name">Chat Name</string>
+    <string name="chat_last_message_send_recieved">Chat last message send/recieved</string>
+    <string name="chatimage">ChatImage</string>
+    <string name="notification">Notification</string>
+    <string name="chats">Chats</string>
 </resources>

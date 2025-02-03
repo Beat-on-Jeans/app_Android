@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +37,28 @@ class ThirdFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_third, container, false)
+        val view = inflater.inflate(R.layout.fragment_third, container, false)
+
+        setView(view)
+
+        return view
+    }
+
+    private fun setView(view: View) {
+
+        val rvChats = view.findViewById<RecyclerView>(R.id.RVChats)
+        val adapter = ChatsAdapter(setChats())
+
+        rvChats.adapter = adapter
+        rvChats.layoutManager = GridLayoutManager(context,1)
+    }
+
+    private fun setChats(): List<ChatRV> {
+        return listOf(ChatRV("Hugo","Phasellus diam lorem, pretium sit...","1 hrs",true,R.drawable.hugo),
+            ChatRV("Andrea","Phasellus diam lorem, pretium sit...","2 hrs",false,R.drawable.hugo),
+            ChatRV("Pau","Phasellus diam lorem, pretium sit...","1 hrs",false,R.drawable.hugo),
+            ChatRV("David","Phasellus diam lorem, pretium sit...","1 hrs",true,R.drawable.hugo),
+            ChatRV("Nombre","Phasellus diam lorem, pretium sit...","1 hrs",true,R.drawable.hugo))
     }
 
     companion object {
