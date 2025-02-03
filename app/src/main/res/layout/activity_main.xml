@@ -6,49 +6,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/white"
+    >
 
-    <EditText
-        android:id="@+id/user_editText"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:hint="User"
-        android:layout_marginTop="5dp"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Encuentra a tu persona"
+        android:textSize="60sp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="80dp"
+        android:lineSpacingExtra="5dp"
         >
-    </EditText>
+    </TextView>
 
-    <EditText
-        android:id="@+id/password_editText"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:hint="Password"
-        android:password="true"
-        android:layout_marginTop="5dp"
-        >
-    </EditText>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae nisi faucibus, suscipit elit in, viverra urna."
+            android:layout_marginLeft="50dp"
+            android:justificationMode="inter_word"
+            android:layout_marginRight="115dp"
+            android:textSize="20sp"
+            android:lineSpacingExtra="5dp"
+            >
+        </TextView>
+
+    </FrameLayout>
 
      <Button
          android:id="@+id/login_button"
          android:layout_width="300dp"
-         android:layout_height="50dp"
+         android:layout_height="80dp"
          android:layout_gravity="center"
-         android:text="Log in"
          android:layout_marginTop="5dp"
+         android:layout_marginBottom="120dp"
+         android:text="Continuar"
+         android:textSize="18sp"
          >
      </Button>
 
-    <TextView
-        android:id="@+id/register_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="12sp"
-        android:layout_marginTop="10dp"
-        />
 
 </LinearLayout>
