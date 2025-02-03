@@ -8,54 +8,48 @@ import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NavigationBar : AppCompatActivity() {
-    lateinit var navigation : BottomNavigationView
+    lateinit var navigation: BottomNavigationView
 
     private val navMenu = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        for (i in 0 until navigation.menu.size()) {
+            val menuItem = navigation.menu.getItem(i)
+            menuItem.icon?.mutate()?.setTint(resources.getColor(R.color.black, theme))
+        }
 
-        when (item.itemId){
+        when (item.itemId) {
             R.id.itemFragment1 -> {
                 supportFragmentManager.commit {
                     replace<FIrstFragment>(R.id.frame_container)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
-        }
-
-        when (item.itemId){
             R.id.itemFragment2 -> {
                 supportFragmentManager.commit {
                     replace<SecondFragment>(R.id.frame_container)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
-        }
-
-        when (item.itemId){
             R.id.itemFragment3 -> {
                 supportFragmentManager.commit {
                     replace<ThirdFragment>(R.id.frame_container)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
-        }
-
-        when (item.itemId){
             R.id.itemFragment4 -> {
                 supportFragmentManager.commit {
                     replace<FourthFragment>(R.id.frame_container)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
-                return@OnNavigationItemSelectedListener true
             }
         }
-        false
+
+        item.icon?.mutate()?.setTint(resources.getColor(R.color.orange_dark, theme))
+
+        return@OnNavigationItemSelectedListener true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,11 +62,12 @@ class NavigationBar : AppCompatActivity() {
         navigation = findViewById(R.id.navMenu)
         navigation.setOnNavigationItemSelectedListener(navMenu)
 
+        navigation.menu.findItem(R.id.itemFragment1).icon?.mutate()?.setTint(resources.getColor(R.color.orange_dark, theme))
+
         supportFragmentManager.commit {
             replace<FIrstFragment>(R.id.frame_container)
             setReorderingAllowed(true)
             addToBackStack("replacement")
         }
-
     }
 }

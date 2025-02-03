@@ -5,5 +5,17 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Prueba_Beat_on_Jeans" parent="Base.Theme.Prueba_Beat_on_Jeans" />
+    <style name="Theme.Prueba_Beat_on_Jeans" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Color primario (barra de acciones, botones, etc.) -->
+        <item name="colorPrimary">@color/orange_primary</item>
+        <item name="colorPrimaryVariant">@color/orange_dark</item>
+
+        <!-- Color secundario (switch, checkboxes, etc.) -->
+        <item name="colorSecondary">@color/orange_light</item>
+        <item name="colorSecondaryVariant">@color/orange_dark</item>
+
+        <item name="android:textColorHighlightInverse">@color/orange_light</item>
+
+    </style>
+
 </resources>

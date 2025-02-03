@@ -12,4 +12,9 @@
     <color name="mediumGray">#FFC2C2C2</color>
     <color name="lightOrange">#FFFFF3E2</color>
     <color name="orange">#FFF2681B</color>
+    <color name="color_selected">#FF6200EE</color>
+    <color name="color_unselected">#757575</color>
+    <color name="orange_primary">#FF5722</color>
+    <color name="orange_dark">#E64A19</color>
+    <color name="orange_light">#FFCCBC</color>
 </resources>
