@@ -1,16 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".FIrstFragment">
+    tools:context=".SecondFragment"
+    android:orientation="vertical"
+    android:layout_gravity="center">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <org.osmdroid.views.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@drawable/rounded_layout_map"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+            />
+
+        </FrameLayout>
+</LinearLayout>
+
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="0dp"
+android:layout_weight="1"
+android:orientation="vertical"
+    android:background="@color/white"
+
+android:paddingTop="10dp">
+
+<GridView
+    android:layout_width="match_parent"
+    android:layout_height="150dp" />
+
+<TextView
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Name"
+    android:gravity="center" />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Location"
+    android:gravity="center" />
+
+<TextView
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Description Description Description Description Description"
+    android:gravity="center" />
+
+<FrameLayout
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/btnShowLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="25sp"
-        android:text="Fragment 2"/>
-
+        android:text="Contact"
+        android:layout_gravity="center" />
 </FrameLayout>
+</LinearLayout>
+    </LinearLayout>

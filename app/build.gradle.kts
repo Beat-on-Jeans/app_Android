@@ -37,6 +37,8 @@ android {
 
 dependencies {
 
+    implementation(libs.osmdroid.android)
+    implementation(libs.play.services.location.v2101)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -46,6 +48,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.github.yuyakaido:CardStackView:v2.3.4")
-    implementation("org.osmdroid:osmdroid-android:6.1.14")
+    implementation(libs.cardstackview)
 }
