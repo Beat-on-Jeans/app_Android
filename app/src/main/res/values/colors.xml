@@ -14,7 +14,6 @@
     <color name="orange">#FFF2681B</color>
     <color name="color_selected">#FF6200EE</color>
     <color name="color_unselected">#757575</color>
-    <color name="orange_primary">#FF5722</color>
-    <color name="orange_dark">#E64A19</color>
-    <color name="orange_light">#FFCCBC</color>
+    <color name="orange_dark">#F2681B</color>
+    <color name="orange_light">#F4D7C6</color>
 </resources>
