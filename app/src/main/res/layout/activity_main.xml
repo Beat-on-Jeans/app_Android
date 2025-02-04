@@ -19,6 +19,8 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="80dp"
         android:lineSpacingExtra="5dp"
+        android:fontFamily="@font/figtree_bold"
+        android:textStyle="bold"
         >
     </TextView>
 
@@ -32,11 +34,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="65dp"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae nisi faucibus, suscipit elit in, viverra urna."
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="60dp"
             android:justificationMode="inter_word"
             android:layout_marginRight="115dp"
             android:textSize="20sp"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="2dp"
+            android:fontFamily="@font/poppins_regular"
             >
         </TextView>
 
