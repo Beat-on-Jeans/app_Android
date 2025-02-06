@@ -7,7 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ChatsAdapter(private val chatList: List<ChatRV>) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
+class ChatsAdapter(private val chatList: List<ChatRV>,
+                   private val onChatClick: (ChatRV) -> Unit) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
@@ -38,6 +39,10 @@ class ChatsAdapter(private val chatList: List<ChatRV>) : RecyclerView.Adapter<Ch
                 notificationIcon.visibility = View.VISIBLE
             } else {
                 notificationIcon.visibility = View.INVISIBLE
+            }
+
+            itemView.setOnClickListener{
+                onChatClick(chat)
             }
         }
     }

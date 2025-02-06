@@ -29,6 +29,7 @@
         <activity android:name=".MusicosActivity"/>
         <activity android:name=".NavigationBar"/>
         <activity android:name=".RegisterActivity"/>
+        <activity android:name=".ChatActivity"/>
         <activity android:name=".LogInActivity"/>
     </application>
 

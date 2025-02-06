@@ -14,4 +14,12 @@
     <string name="chatimage">ChatImage</string>
     <string name="notification">Notification</string>
     <string name="chats">Chats</string>
+    <string name="empieze_a_escribir_aqu">Empieze a escribir aquí...</string>
+    <string name="sendimg">SendImg</string>
+    <string name="chat_name_img">Chat Name</string>
+    <string name="name">Name</string>
+    <string name="genders">Genders</string>
+    <string name="description">Description</string>
+    <string name="events">Events</string>
+    <string name="tag">tag</string>
 </resources>

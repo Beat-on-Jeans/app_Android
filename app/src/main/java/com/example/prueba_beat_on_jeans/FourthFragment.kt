@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +37,32 @@ class FourthFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fourth, container, false)
+        val view = inflater.inflate(R.layout.fragment_fourth, container, false)
+        setAccount(view);
+        return view
+
+    }
+
+    private fun setAccount(view: View) {
+        val rcAcImgBac = view.findViewById<RecyclerView>(R.id.RVImgsAccount)
+        val txtAcName = view.findViewById<TextView>(R.id.TxtAccountName)
+        val rvAcTags = view.findViewById<RecyclerView>(R.id.RVTagsAccount)
+        val txtAcDesc = view.findViewById<TextView>(R.id.TxtAccountDescription)
+        val rvAcEven = view.findViewById<RecyclerView>(R.id.RVEvents)
+
+        val adapterImgs = ImgAcountAdapter(R.drawable.trumpet_man_img,R.drawable.trumpet_img)
+        rcAcImgBac.adapter = adapterImgs
+        rcAcImgBac.layoutManager = LinearLayoutManager(context)
+
+        txtAcName.text = "Peggie"
+
+        val adapterTags = TagsAcountAdapter(setBetaStats())
+        rvAcTags.adapter = adapterTags
+        rvAcTags.layoutManager = GridLayoutManager(context,4)
+
+        txtAcDesc.text = "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
+
+
     }
 
     companion object {
@@ -55,5 +83,17 @@ class FourthFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun setBetaStats(): List<Tag> {
+        return listOf(Tag("Clásica"),
+                      Tag("Blues"),
+                      Tag("R&B"),
+                      Tag("Metal"),
+                      Tag("Rock"),
+                      Tag("Harcore"),
+                      Tag("Pop"),
+                      Tag("Electro Swing")
+            )
     }
 }

@@ -3,14 +3,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".FIrstFragment">
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:background="@color/white"
+    tools:context=".FIrstFragment"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="25sp"
-        android:text="Fragment 4"/>
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RVImgsAccount"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:minHeight="450dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"
+                android:orientation="vertical"
+                >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="5dp"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:id="@+id/TxtAccountName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_txt_account"
+                    android:layout_marginVertical="5dp"
+                    android:textAlignment="textStart"
+                    android:hint="@string/name"
+                    android:minHeight="50dp"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:padding="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:hint="@string/genders"
+                    android:layout_gravity="start"
+                    android:textSize="16sp"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RVTagsAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/rounded_txt_account"
+                    android:minHeight="60dp"
+                    android:padding="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    android:layout_marginVertical="5dp"
+                    android:layout_gravity="start"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:id="@+id/TxtAccountDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_txt_account"
+                    android:hint="@string/description"
+                    android:layout_marginVertical="5dp"
+                    android:textAlignment="textStart"
+                    android:minHeight="80dp"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:hint="@string/events"
+                    android:layout_gravity="start"
+                    android:textSize="16sp"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RVEvents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="160dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:layout_gravity="top"
+        >
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_buttons_search"
+            android:src="@drawable/option_indicator"
+            android:layout_gravity="end"
+
+            />
+    </FrameLayout>
 </FrameLayout>

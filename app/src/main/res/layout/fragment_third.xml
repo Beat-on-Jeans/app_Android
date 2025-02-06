@@ -10,10 +10,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            >
 
         </LinearLayout>
         <LinearLayout
@@ -30,8 +33,9 @@
                 android:text="@string/matches"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RVMaches"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginHorizontal="25dp"/>
 
         </LinearLayout>
