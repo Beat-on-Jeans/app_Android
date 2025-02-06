@@ -1,5 +1,7 @@
 package com.example.prueba_beat_on_jeans
 
+
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ThirdFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class ThirdFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -45,15 +49,31 @@ class ThirdFragment : Fragment() {
     }
 
     private fun setView(view: View) {
+        setChats(view)
+        setImages(view)
 
+    }
+
+    private fun setChats(view: View) {
         val rvChats = view.findViewById<RecyclerView>(R.id.RVChats)
-        val adapter = ChatsAdapter(setChats())
+        val adapter = ChatsAdapter(setUsers()){ chat ->
+            val intent = Intent(context,ChatActivity::class.java)
+            intent.putExtra(ChatActivity.ChatInfo.CHATINFO,chat)
+            startActivity(intent)
+        }
 
         rvChats.adapter = adapter
         rvChats.layoutManager = GridLayoutManager(context,1)
     }
 
-    private fun setChats(): List<ChatRV> {
+    private fun setImages(view: View) {
+        val rvChats = view.findViewById<RecyclerView>(R.id.RVMaches)
+        val adapter = ImgChatsAdapter(setUsers())
+        rvChats.adapter = adapter
+        rvChats.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun setUsers(): List<ChatRV> {
         return listOf(ChatRV("Hugo","Phasellus diam lorem, pretium sit...","1 hrs",true,R.drawable.hugo),
             ChatRV("Andrea","Phasellus diam lorem, pretium sit...","2 hrs",false,R.drawable.hugo),
             ChatRV("Pau","Phasellus diam lorem, pretium sit...","1 hrs",false,R.drawable.hugo),

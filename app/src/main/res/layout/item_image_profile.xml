@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/imageViewLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_img_profile_background"
+        android:src="@drawable/trumpet_img"
+        android:layout_gravity="top"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewSmall"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:background="@drawable/rounded_img_profile"
+        android:src="@drawable/trumpet_man_img"
+        android:layout_gravity="center|start"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="150dp"
+        />
+</FrameLayout>
