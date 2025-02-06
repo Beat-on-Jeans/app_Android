@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".FIrstFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".FIrstFragment"
+    android:orientation="vertical">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/you_chosed_enought_locals_for_now"
-    android:layout_gravity="center"/>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_weight="0.5"
+        >
+
+    </FrameLayout>
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="0.5"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/gray"
+    android:elevation="16dp"
+    app:cardElevation="8dp">
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/you_chosed_enought_locals_for_now"
+        android:layout_gravity="center"/>
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/CVMusicians"
@@ -18,4 +37,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         />
-</FrameLayout>
+
+</androidx.cardview.widget.CardView>
+</LinearLayout>
