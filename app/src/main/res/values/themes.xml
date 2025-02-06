@@ -7,14 +7,18 @@
 
     <style name="Theme.Prueba_Beat_on_Jeans" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Color primario (barra de acciones, botones, etc.) -->
-        <item name="colorPrimary">@color/orange_primary</item>
+        <item name="colorPrimary">@color/orange_dark</item>
         <item name="colorPrimaryVariant">@color/orange_dark</item>
 
+        <item name="android:textColor">@color/black</item>
+
         <!-- Color secundario (switch, checkboxes, etc.) -->
-        <item name="colorSecondary">@color/orange_light</item>
+        <item name="colorSecondary">@color/orange_dark</item>
         <item name="colorSecondaryVariant">@color/orange_dark</item>
 
-        <item name="android:textColorHighlightInverse">@color/orange_light</item>
+        <item name="android:textStyle"></item>
+
+        <item name="android:textColorHighlightInverse">@color/orange_dark</item>
 
     </style>
 
