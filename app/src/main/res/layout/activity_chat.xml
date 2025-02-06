@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:background="@drawable/rounded_buttons_search"
-                android:src="@drawable/arrow_back" />
+                android:src="@drawable/ic_arrow_back" />
 
             <ImageView
                 android:id="@+id/ImgChater"
@@ -51,7 +51,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_buttons_search"
-            android:src="@drawable/option_indicator"
+            android:src="@drawable/ic_option_indicator"
             android:layout_gravity="end"
             />
     </FrameLayout>
