@@ -10,14 +10,8 @@
     <color name="gray">#90C2C2C2</color>
     <color name="purple">#FF4C2882</color>
     <color name="mediumGray">#FFC2C2C2</color>
-    <color name="orange">#FFF2681B</color>
     <color name="color_selected">#FF6200EE</color>
-    <color name="color_unselected">#FF757575</color>
-    <color name="orange_primary">#FFFF5722</color>
-    <color name="orange_dark">#FFE64A19</color>
-    <color name="orange_light">#FFFFCCBC</color>
-    <color name="orange_light_2">#FFFFF3E2</color>
-    <color name="orange_dark_2">#FF443A34</color>
-    <color name="gray_light">#FFF6F5F8</color>
-    <color name="turquoise">#2EC4B6</color>
+    <color name="color_unselected">#757575</color>
+    <color name="orange_dark">#F2681B</color>
+    <color name="orange_light">#F4D7C6</color>
 </resources>

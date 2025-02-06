@@ -6,49 +6,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:gravity="center">
-
-    <EditText
-        android:id="@+id/user_editText"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:hint="User"
-        android:layout_marginTop="5dp"
-        >
-    </EditText>
-
-    <EditText
-        android:id="@+id/password_editText"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:hint="Password"
-        android:password="true"
-        android:layout_marginTop="5dp"
-        >
-    </EditText>
-
-     <Button
-         android:id="@+id/login_button"
-         android:layout_width="300dp"
-         android:layout_height="50dp"
-         android:layout_gravity="center"
-         android:text="Register"
-         android:layout_marginTop="5dp"
-         >
-     </Button>
-
-    <TextView
-        android:id="@+id/register_text"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log in"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="12sp"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_weight="0.35"
+        >
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            >
+        </ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona tu rol"
+            android:layout_marginBottom="100dp"
+            android:fontFamily="@font/poppins_medium"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center|bottom"
+            >
+        </TextView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25">
+
+        <Button
+            android:id="@+id/musician_button"
+            android:layout_width="306dp"
+            android:layout_height="66dp"
+            android:text="Musico"
+            android:layout_gravity="center|top"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="14sp"
+            />
+
+        <Button
+            android:id="@+id/local_button"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center|top"
+            android:text="Local"
+            android:textColor="@color/white"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/poppins_bold"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:backgroundTint="@color/turquoise"
+            >
+        </Button>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        >
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2">
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="306dp"
+            android:layout_height="66dp"
+            android:text="Continuar"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="14sp"
+            />
+
+    </FrameLayout>
 
 </LinearLayout>
