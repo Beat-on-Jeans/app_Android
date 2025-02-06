@@ -22,4 +22,13 @@
     <string name="description">Description</string>
     <string name="events">Events</string>
     <string name="tag">tag</string>
+    <string name="featured_musicians">Featured Musicians</string>
+    <string name="settings">Settings</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="location">location</string>
+    <string name="email">Email</string>
+    <string name="user_name_local_name">User Name / Local Name</string>
+    <string name="save">Save</string>
+    <string name="languaje">Languaje</string>
 </resources>

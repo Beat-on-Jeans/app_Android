@@ -18,7 +18,6 @@
     <color name="orange_light">#FFFFCCBC</color>
     <color name="orange_light_2">#FFFFF3E2</color>
     <color name="orange_dark_2">#FF443A34</color>
-    <color name="color_unselected">#757575</color>
-    <color name="orange_dark">#F2681B</color>
-    <color name="orange_light">#F4D7C6</color>
+    <color name="gray_light">#FFF6F5F8</color>
+
 </resources>

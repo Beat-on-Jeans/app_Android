@@ -38,7 +38,7 @@ class FourthFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_fourth, container, false)
-        setAccount(view);
+        setAccount(view)
         return view
 
     }
