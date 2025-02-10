@@ -13,5 +13,10 @@
     <color name="color_selected">#FF6200EE</color>
     <color name="color_unselected">#757575</color>
     <color name="orange_dark">#F2681B</color>
+    <color name="orange_dark_2">#F2681B</color>
+    <color name="orange">#F2681B</color>
     <color name="orange_light">#F4D7C6</color>
+    <color name="orange_light_2">#F4D7C6</color>
+    <color name="turquoise">#2EC4B6</color>
+    <color name="gray_light">#90C2C2C2</color>
 </resources>
