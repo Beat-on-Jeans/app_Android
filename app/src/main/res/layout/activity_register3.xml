@@ -11,7 +11,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.35"
+        android:layout_weight="0.25"
         >
 
         <ImageButton
@@ -28,12 +28,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona tu rol"
-            android:layout_marginBottom="100dp"
+            android:text="Crea tu contraseña"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/poppins_medium"
             android:textSize="18sp"
             android:textColor="@color/black"
-            android:layout_gravity="center|bottom"
+            android:layout_gravity="bottom|center"
             >
         </TextView>
 
@@ -42,30 +42,55 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25">
+        android:layout_weight="0.5">
 
-        <Button
-            android:id="@+id/musician_button"
+        <EditText
+            android:id="@+id/password1_text"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:text="Musico"
             android:layout_gravity="center|top"
             android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/rounded_edittext_register"
             android:textSize="14sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vuelve a escribir la contraseña"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="60dp"
+            >
+        </TextView>
+
+
+        <EditText
+            android:id="@+id/password2_text"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/rounded_edittext_register"
+            android:textSize="14sp"
+            android:gravity="center"
             />
 
         <Button
-            android:id="@+id/local_button"
+            android:id="@+id/continue_button"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_gravity="center|top"
-            android:text="Local"
+            android:layout_gravity="center|bottom"
+            android:text="Continuar"
             android:textColor="@color/white"
             android:layout_marginTop="80dp"
             android:fontFamily="@font/poppins_bold"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:backgroundTint="@color/turquoise"
+            android:backgroundTint="@color/orange"
             >
         </Button>
 
@@ -81,17 +106,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2">
-
-        <Button
-            android:id="@+id/continue_button"
-            android:layout_width="306dp"
-            android:layout_height="66dp"
-            android:text="Continuar"
-            android:layout_gravity="center"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="14sp"
-            />
+        android:layout_weight="0.3">
 
     </FrameLayout>
 
