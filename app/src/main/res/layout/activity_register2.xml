@@ -11,7 +11,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.35"
+        android:layout_weight="0.39"
         >
 
         <ImageButton
@@ -54,35 +54,39 @@
             android:textSize="14sp"
             android:gravity="center"
             />
-
-        <Button
-            android:id="@+id/continue_button"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center|top"
-            android:text="Continuar"
-            android:textColor="@color/white"
-            android:layout_marginTop="80dp"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:backgroundTint="@color/orange"
-            >
-        </Button>
-
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
+        android:layout_weight="0.4"
         >
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.3">
+        android:layout_weight="0.22">
+
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="19dp"
+            android:src="@drawable/second_register_navbar"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            >
+        </ImageView>
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="306dp"
+            android:layout_height="66dp"
+            android:text="Continuar"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="14sp"
+            />
 
     </FrameLayout>
 
