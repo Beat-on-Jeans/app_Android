@@ -31,7 +31,7 @@
             android:text="Crea tu contraseña"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/poppins_medium"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_gravity="bottom|center"
             >
@@ -54,6 +54,7 @@
             android:textSize="14sp"
             android:gravity="center"
             android:layout_marginTop="50dp"
+            android:password="true"
             />
 
         <TextView
@@ -62,7 +63,7 @@
             android:text="Vuelve a escribir la contraseña"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_medium"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_marginTop="20dp"
             >
@@ -79,6 +80,7 @@
             android:textSize="14sp"
             android:gravity="center"
             android:layout_marginBottom="20dp"
+            android:password="true"
             />
 
     </FrameLayout>
@@ -97,9 +99,9 @@
 
 
         <ImageView
-            android:layout_width="200dp"
+            android:layout_width="96dp"
             android:layout_height="25dp"
-            android:src="@drawable/first_register_navbar"
+            android:src="@drawable/third_register_navbar"
             android:layout_gravity="center"
             android:layout_marginBottom="50dp"
             >
