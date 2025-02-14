@@ -57,7 +57,7 @@
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/RVMessages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
@@ -72,7 +72,7 @@
 
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editTextMessage"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -83,13 +83,13 @@
             />
 
         <ImageButton
-            android:id="@+id/sendButton"
+            android:id="@+id/BtnSendMsg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_btn_send"
             android:contentDescription="@string/sendimg"
             android:padding="10dp"
-
+            android:src="@drawable/ic_round_send_24"
             />
     </LinearLayout>
 </LinearLayout>

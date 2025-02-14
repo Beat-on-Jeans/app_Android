@@ -1,10 +1,12 @@
 package com.example.prueba_beat_on_jeans
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,6 +64,12 @@ class FourthFragment : Fragment() {
 
         txtAcDesc.text = "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
 
+        val btnSetting = view.findViewById<ImageButton>(R.id.BtnSettings)
+
+        btnSetting.setOnClickListener{
+            val intent = Intent(context,SettingsActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
