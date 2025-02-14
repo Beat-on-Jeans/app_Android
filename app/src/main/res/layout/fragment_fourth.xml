@@ -121,6 +121,7 @@
         >
 
         <ImageButton
+            android:id="@+id/BtnSettings"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_buttons_search"
