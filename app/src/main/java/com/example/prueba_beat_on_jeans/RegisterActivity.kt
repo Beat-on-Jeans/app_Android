@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RegisterActivity : AppCompatActivity() {
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,22 +24,34 @@ class RegisterActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        val button: Button = findViewById(R.id.login_button)
-        val editTextUser: EditText = findViewById(R.id.user_editText)
-        val editTextPassword: EditText = findViewById(R.id.password_editText)
-        val registerText: TextView = findViewById(R.id.register_text)
+        val buttonMusician: Button = findViewById(R.id.musician_button)
+        val buttonLocal: Button = findViewById(R.id.local_button)
+        val buttonContinue: Button = findViewById(R.id.continue_button)
+        val imagebuttonBack: ImageButton = findViewById(R.id.back_imageButton)
 
-        button.setOnClickListener {
-            if (editTextUser.text.toString() == "admin" && editTextPassword.text.toString() == "1234"){
-                val intent = Intent(this, LogInActivity::class.java)
-                Toast.makeText(this, "User created correctly", Toast.LENGTH_SHORT).show()
-                startActivity(intent)
+        var rol = false
+        var rolselected = false
+
+        buttonMusician.setOnClickListener{
+            rolselected = true
+            rol = false
+        }
+
+        buttonLocal.setOnClickListener{
+            rolselected = true
+            rol = true
+        }
+
+        buttonContinue.setOnClickListener {
+            if(rolselected == false){
+                Toast.makeText(this, "Selecciona un rol", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "User or password incorrect", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, RegisterActivity2::class.java)
+                startActivity(intent)
             }
         }
 
-        registerText.setOnClickListener {
+        imagebuttonBack.setOnClickListener{
             val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
         }

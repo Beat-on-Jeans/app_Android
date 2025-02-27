@@ -11,8 +11,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.35"
+        android:layout_weight="0.25"
         >
+
 
         <ImageButton
             android:id="@+id/back_imageButton"
@@ -28,8 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona tu rol"
-            android:layout_marginBottom="100dp"
+            android:text="Añade unas imagenes y videos"
             android:fontFamily="@font/poppins_medium"
             android:textSize="16sp"
             android:textColor="@color/black"
@@ -40,53 +40,35 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/recycler_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25">
-
-        <Button
-            android:id="@+id/musician_button"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:text="Musico"
-            android:layout_gravity="center|top"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="14sp"
-            />
-
-        <Button
-            android:id="@+id/local_button"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center|top"
-            android:text="Local"
-            android:textColor="@color/white"
-            android:layout_marginTop="80dp"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:backgroundTint="@color/turquoise"
-            >
-        </Button>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
+        android:layout_height="600dp"
+        android:layout_weight="0"
+        android:clickable="true"
+        android:focusable="true"
         >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/images_grid"
+            android:layout_width="350dp"
+            android:layout_height="550dp"
+            android:layout_gravity="center"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2">
+        android:layout_weight="0.9">
+
 
         <ImageView
             android:layout_width="200dp"
-            android:layout_height="25dp"
-            android:src="@drawable/first_register_navbar"
+            android:layout_height="20dp"
+            android:src="@drawable/fifth_register_nav_bar"
             android:layout_gravity="center"
             android:layout_marginBottom="50dp"
             >
