@@ -22,4 +22,7 @@
     <color name="gray_light">#80F6F5F8</color>
     <color name="orange_light_4">#FFBF69</color>
     <color name="light_gray">#F5F5F5</color>
+    <color name="color_unselected">#FF757575</color>
+    <color name="orange_primary">#FFFF5722</color>
+    <color name="gray_light">#FFF6F5F8</color>
 </resources>

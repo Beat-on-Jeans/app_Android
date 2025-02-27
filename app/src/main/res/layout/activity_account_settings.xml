@@ -14,6 +14,7 @@
         >
 
         <ImageButton
+            android:id="@+id/BtnReturn"
             android:layout_width="50dp"
             android:layout_height="46dp"
             android:layout_gravity="start|center"
@@ -176,13 +177,16 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_marginHorizontal="5dp"
                 android:src="@drawable/catalonian"
+
                 />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_marginHorizontal="5dp"
                 android:src="@drawable/spanish"
                 />
@@ -190,6 +194,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_marginHorizontal="5dp"
                 android:src="@drawable/english"
                 />
