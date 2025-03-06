@@ -11,7 +11,6 @@
     <color name="purple">#FF4C2882</color>
     <color name="mediumGray">#FFC2C2C2</color>
     <color name="color_selected">#FF6200EE</color>
-    <color name="color_unselected">#757575</color>
     <color name="orange_dark">#F2681B</color>
     <color name="orange_dark_2">#F2681B</color>
     <color name="orange">#F2681B</color>
@@ -23,4 +22,3 @@
     <color name="orange_light_4">#FFBF69</color>
     <color name="light_gray">#F5F5F5</color>
     <color name="orange_primary">#FFFF5722</color>
-</resources>
