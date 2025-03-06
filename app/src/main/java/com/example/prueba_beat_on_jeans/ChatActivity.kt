@@ -47,7 +47,7 @@ class ChatActivity : AppCompatActivity()
         rvMessages.layoutManager = LinearLayoutManager(this)
 
         btnSend.setOnClickListener{
-            if(edTxtMessage.text.isNotEmpty() and edTxtMessage.text.isNotBlank() ){
+            if((edTxtMessage.text.isNotEmpty() and edTxtMessage.text.isNotBlank()) or (edTxtMessage.text.length > 500)){
                 var message = Message(edTxtMessage.text.toString(),2)
                 messagesList.add(message)
                 adapter.notifyDataSetChanged()
