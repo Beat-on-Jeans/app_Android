@@ -29,26 +29,34 @@ class RegisterActivity : AppCompatActivity() {
         val buttonContinue: Button = findViewById(R.id.continue_button)
         val imagebuttonBack: ImageButton = findViewById(R.id.back_imageButton)
 
+        buttonContinue.isEnabled = false
+        buttonContinue.alpha = 0.5f
+
         var rol = false
-        var rolselected = false
 
         buttonMusician.setOnClickListener{
-            rolselected = true
             rol = false
+            buttonContinue.isEnabled = true
+            buttonContinue.alpha = 1f
+            buttonMusician.isEnabled = false
+            buttonMusician.alpha = 0.8f
+            buttonLocal.isEnabled = true
+            buttonLocal.alpha = 1f
         }
 
         buttonLocal.setOnClickListener{
-            rolselected = true
             rol = true
+            buttonContinue.isEnabled = true
+            buttonContinue.alpha = 1f
+            buttonLocal.isEnabled = false
+            buttonLocal.alpha = 0.2f
+            buttonMusician.isEnabled = true
+            buttonMusician.alpha = 1f
         }
 
         buttonContinue.setOnClickListener {
-            if(rolselected == false){
-                Toast.makeText(this, "Selecciona un rol", Toast.LENGTH_SHORT).show()
-            } else {
-                val intent = Intent(this, RegisterActivity2::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, RegisterActivity2::class.java)
+            startActivity(intent)
         }
 
         imagebuttonBack.setOnClickListener{

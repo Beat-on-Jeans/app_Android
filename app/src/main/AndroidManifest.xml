@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_dark"
         android:supportsRtl="true"
         android:theme="@style/Theme.Prueba_Beat_on_Jeans"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".RegisterActivity5"
