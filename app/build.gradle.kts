@@ -44,6 +44,11 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.jetbrains.kotlinx.coroutines.android)
+    implementation(libs.logging.interceptor)
+    implementation(libs.converter.gson)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -51,4 +56,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.cardstackview)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+
+
 }
