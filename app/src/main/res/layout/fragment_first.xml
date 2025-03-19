@@ -62,7 +62,7 @@
     android:layout_height="match_parent"
     android:layout_weight="0.5"
     app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="@color/gray"
+    app:cardBackgroundColor="@color/white"
     android:elevation="16dp"
     app:cardElevation="8dp">
     >
@@ -74,6 +74,7 @@
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/CVMusicians"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
