@@ -2,6 +2,8 @@ package com.example.prueba_beat_on_jeans
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.http.HttpException
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,11 +11,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class LogInActivity : AppCompatActivity() {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,28 +53,32 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
-    // Method to verify if user exists with matching username and password
-    private fun verifyUser(username: String, password: String) {
+    private fun verifyUser(email: String, password: String) {
         lifecycleScope.launch {
             try {
-                // Fetch users from API
                 val users = RetrofitClient.instance.getUsers()
-
-                // Find if a user exists with the entered username and password
-                val validUser = users.find { it.email == username && it.password == password }
-
+                val validUser = users.find { user ->
+                    user.correo == email && user.contrasena == password
+                }
                 if (validUser != null) {
-                    // If valid user, navigate to HomeActivity
-                    val intent = Intent(this@LogInActivity, FIrstFragment::class.java)
+                    val intent = Intent(this@LogInActivity, NavigationBar::class.java)
                     startActivity(intent)
-                    finish() // Close current activity to avoid returning to login screen
+
+
                 } else {
-                    // If no match found, show error message
-                    Toast.makeText(this@LogInActivity, "Incorrect username or password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@LogInActivity,
+                        "Usuario o contraseña incorrectos",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
-                Log.e("API_ERROR", "Error connecting to the API", e)
-                Toast.makeText(this@LogInActivity, "Error connecting to the API", Toast.LENGTH_SHORT).show()
+                Log.e("API_ERROR", "Error: ${e.message}", e)
+                Toast.makeText(
+                    this@LogInActivity,
+                    "Error al conectar con el servidor",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

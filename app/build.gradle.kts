@@ -56,7 +56,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.cardstackview)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
-
-
+    implementation(libs.kotlinx.coroutines.android.v160)
+    implementation(libs.okhttp)
 }
