@@ -26,16 +26,7 @@
             >
         </ImageButton>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Añade unas imagenes y videos"
-            android:fontFamily="@font/poppins_medium"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_gravity="center|bottom"
-            >
-        </TextView>
+
 
     </FrameLayout>
 
@@ -47,16 +38,53 @@
         android:clickable="true"
         android:focusable="true"
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Añade una imagen"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="20dp"
+            >
+        </TextView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/images_grid"
-            android:layout_width="350dp"
-            android:layout_height="550dp"
-            android:layout_gravity="center"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="80dp"
             android:textSize="14sp"
             android:gravity="center"
             android:clickable="true"
             android:focusable="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crea un nombre de usuario"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            >
+        </TextView>
+
+        <EditText
+            android:id="@+id/name_text"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="170dp"
+            android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/rounded_edittext_register"
+            android:textSize="14sp"
+            android:gravity="center"
+            />
+
     </FrameLayout>
 
     <FrameLayout

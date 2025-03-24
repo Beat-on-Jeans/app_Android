@@ -36,13 +36,13 @@ class LogInActivity : AppCompatActivity() {
 
         // Login button click listener
         loginButton.setOnClickListener {
-            val username = editTextUsername.text.toString()
+            val email = editTextUsername.text.toString()
             val password = editTextPassword.text.toString()
 
             // Check if username and password fields are not empty
-            if (username.isNotEmpty() && password.isNotEmpty()) {
+            if (email.isNotEmpty() && password.isNotEmpty()) {
                 // Call method to verify the user
-                verifyUser(username, password)
+                verifyUser(email, password)
             } else {
                 Toast.makeText(this, "Please enter your username and password", Toast.LENGTH_SHORT).show()
             }
@@ -67,7 +67,7 @@ class LogInActivity : AppCompatActivity() {
             try {
                 val users = RetrofitClient.instance.getUsers()
                 val validUser = users.find { user ->
-                    user.correo == email && user.contrasena == password
+                    user.correo == email && user.contrasena == password && (user.rolId == 1 || user.rolId == 2)
                 }
                 if (validUser != null) {
                     MainActivity.UserSession.clearSession(this@LogInActivity)

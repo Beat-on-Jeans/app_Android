@@ -1,5 +1,4 @@
 package com.example.prueba_beat_on_jeans
-import okhttp3.Response
 import retrofit2.http.GET
 import retrofit2.http.*
 
@@ -22,5 +21,13 @@ interface ApiService {
 
     @POST("Api/Mensajes")
     suspend fun insertNewMessage(@Body message: Message)
+
+    @Multipart
+    @POST("api/upload")
+    fun uploadImage(
+        @Part image: MultipartBody.Part
+    ): Call<ResponseBody>
+
+
 }
 
