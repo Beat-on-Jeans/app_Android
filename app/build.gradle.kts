@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    implementation(libs.module.jackson.module.kotlin)
     implementation(libs.squareup.picasso)
     implementation(libs.osmdroid.android)
     implementation(libs.play.services.location.v2101)

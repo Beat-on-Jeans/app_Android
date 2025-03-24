@@ -16,6 +16,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RegisterActivity : AppCompatActivity() {
 
+    private lateinit var userTemp: UserTemp
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,8 @@ class RegisterActivity : AppCompatActivity() {
 
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+
+        userTemp = intent.getParcelableExtra("USER_TEMP") ?: UserTemp()
 
         val buttonMusician: Button = findViewById(R.id.musician_button)
         val buttonLocal: Button = findViewById(R.id.local_button)
@@ -32,10 +36,10 @@ class RegisterActivity : AppCompatActivity() {
         buttonContinue.isEnabled = false
         buttonContinue.alpha = 0.5f
 
-        var rol = false
+        var rol = 0
 
         buttonMusician.setOnClickListener{
-            rol = false
+            rol = 1
             buttonContinue.isEnabled = true
             buttonContinue.alpha = 1f
             buttonMusician.isEnabled = false
@@ -45,7 +49,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         buttonLocal.setOnClickListener{
-            rol = true
+            rol = 2
             buttonContinue.isEnabled = true
             buttonContinue.alpha = 1f
             buttonLocal.isEnabled = false
@@ -55,7 +59,9 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         buttonContinue.setOnClickListener {
+            userTemp.rolId = rol
             val intent = Intent(this, RegisterActivity2::class.java)
+            intent.putExtra("USER_TEMP", userTemp)
             startActivity(intent)
         }
 
