@@ -67,8 +67,8 @@
                     android:layout_margin="10dp"
                     android:src="@drawable/bad_finger"
                     android:scaleType="centerInside"
-                    android:background="@drawable/rounded_button_dislike"
-                    app:tint="@color/turquoise"
+                    android:background="@drawable/rounded_button_like"
+                    app:tint="@color/orange_dark"
                     android:layout_gravity="right"
                     />
 
@@ -98,23 +98,14 @@
                     android:layout_margin="10dp"
                     android:src="@drawable/good_finger"
                     android:scaleType="centerInside"
-                    android:background="@drawable/rounded_button_like"
-                    app:tint="@color/orange_dark"
+                    android:background="@drawable/rounded_button_dislike"
+                    app:tint="@color/turquoise"
                     android:layout_gravity="left"
                     />
             </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/backColor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/metalickBlack"
-        android:alpha="0.0"
-        >
-    </FrameLayout>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -133,5 +124,12 @@
             android:layout_height="100dp"
             android:src="@drawable/ic_bad_finger"
             />
+
+        <FrameLayout
+            android:id="@+id/backColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.0"
+            android:background="@color/metalickBlack"></FrameLayout>
     </FrameLayout>
 </FrameLayout>

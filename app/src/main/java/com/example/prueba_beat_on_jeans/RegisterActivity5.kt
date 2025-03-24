@@ -14,9 +14,9 @@ import androidx.activity.enableEdgeToEdge
 
 class RegisterActivity5 : AppCompatActivity() {
 
-    private val PICK_IMAGES_REQUEST_CODE = 1
+    private val PICK_IMAGE_REQUEST_CODE = 1  // Cambié el nombre de la constante
 
-    private val imageList = MutableList<Uri?>(12) { null }
+    private val imageList = MutableList<Uri?>(1) { null }
 
     private lateinit var galleryAdapter: GalleryAdapter
 
@@ -32,11 +32,10 @@ class RegisterActivity5 : AppCompatActivity() {
         val imageButtonBack: ImageButton = findViewById(R.id.back_imageButton)
 
         galleryAdapter = GalleryAdapter(imageList) { position ->
-            Toast.makeText(this, "Item $position clickeado", Toast.LENGTH_SHORT).show()
             openGallery()
         }
 
-        recyclerViewImages.layoutManager = GridLayoutManager(this, 3) // 3 columnas en el grid
+        recyclerViewImages.layoutManager = GridLayoutManager(this, 1)
         recyclerViewImages.adapter = galleryAdapter
 
         buttonContinue.setOnClickListener {
@@ -51,36 +50,31 @@ class RegisterActivity5 : AppCompatActivity() {
     }
 
     private fun openGallery() {
+        // Abre la galería permitiendo seleccionar solo una imagen
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             type = "image/*"
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)  // Sólo una imagen
         }
         startActivityForResult(
-            Intent.createChooser(intent, "Selecciona imágenes"),
-            PICK_IMAGES_REQUEST_CODE
+            Intent.createChooser(intent, "Selecciona una imagen"),
+            PICK_IMAGE_REQUEST_CODE
         )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val newList = mutableListOf<Uri?>()
 
             data?.let {
-                if (it.clipData != null) {
-                    val count = it.clipData!!.itemCount
-                    for (i in 0 until count) {
-                        if (newList.size < 12) {
-                            val imageUri = it.clipData!!.getItemAt(i).uri
-                            newList.add(imageUri)
-                        }
-                    }
-                } else if (it.data != null) {
+                if (it.data != null) {
+                    // Agrega solo una imagen seleccionada
                     newList.add(it.data!!)
                 }
             }
 
-            while (newList.size < 12) {
+            // Si no se selecciona ninguna imagen, asigna un valor null
+            while (newList.size < 1) {
                 newList.add(null)
             }
 
