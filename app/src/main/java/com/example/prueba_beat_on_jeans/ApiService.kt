@@ -4,7 +4,7 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("Api/UsuarioMobils")
+    @GET("Api/Usuarios")
     suspend fun getUsers(): List<User>
 
 }
