@@ -45,7 +45,7 @@ class MessageAdapter(val context: Context,
 
         val currentMessage = messageList[position]
 
-        return if(currentMessage.senderId == 1){
+        return if(currentMessage.emisorID == 1){
             ITEM_SENT
         }else{
             ITEM_RECEIVE

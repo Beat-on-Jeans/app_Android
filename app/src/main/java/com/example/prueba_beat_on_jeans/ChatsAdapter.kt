@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ChatsAdapter(private val chatList: List<ChatRV>,
-                   private val onChatClick: (ChatRV) -> Unit) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
+class ChatsAdapter(private val chatList: MutableList<Chat>,
+                   private val onChatClick: (Chat) -> Unit) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
@@ -29,17 +29,11 @@ class ChatsAdapter(private val chatList: List<ChatRV>,
         private val txtHours: TextView = itemView.findViewById(R.id.TxtHours)
         private val notificationIcon: ImageView = itemView.findViewById(R.id.Notification)
 
-        fun bind(chat: ChatRV) {
-            imgChat.setImageResource(chat.chatImg)
-            txtChatName.text = chat.chatName
-            txtLastMessage.hint = chat.lastMessage
-            txtHours.hint = chat.hours
-
-            if (chat.notification) {
-                notificationIcon.visibility = View.VISIBLE
-            } else {
-                notificationIcon.visibility = View.INVISIBLE
-            }
+        fun bind(chat: Chat) {
+            //imgChat.setImageResource(chat.chatImg)
+            //txtChatName.text = chat.chatName
+            txtLastMessage.hint = chat.messagesList[chat.messagesList.size-1].toString()
+            //txtHours.hint = chat.hours
 
             itemView.setOnClickListener{
                 onChatClick(chat)
