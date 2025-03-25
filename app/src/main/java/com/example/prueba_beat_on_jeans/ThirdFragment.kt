@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,16 +38,26 @@ class ThirdFragment : Fragment() {
         }
     }
 
+    private lateinit var tempUser: User
+    private var chatList = mutableListOf<Chat>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_third, container, false)
-
+        getChats()
         setView(view)
 
         return view
+    }
+
+    private fun getChats() {
+        lifecycleScope.launch {
+            var chats = RetrofitClient.instance.getLocalChats(1)
+            chatList = chats
+        }
     }
 
     private fun setView(view: View) {
@@ -56,7 +68,7 @@ class ThirdFragment : Fragment() {
 
     private fun setChats(view: View) {
         val rvChats = view.findViewById<RecyclerView>(R.id.RVChats)
-        val adapter = ChatsAdapter(setUsers()){ chat ->
+        val adapter = ChatsAdapter(chatList){ chat ->
             val intent = Intent(context,ChatActivity::class.java)
             intent.putExtra(ChatActivity.ChatInfo.CHATINFO,chat)
             startActivity(intent)
