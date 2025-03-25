@@ -12,17 +12,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import kotlin.reflect.jvm.internal.impl.renderer.ClassifierNamePolicy.SHORT
 
 class RegisterActivity2 : AppCompatActivity() {
-    private lateinit var userTemp: UserTemp
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register2)
 
-        userTemp = intent.getParcelableExtra("USER_TEMP") ?: UserTemp()
+
+        Toast.makeText(this, MainActivity.UserSession.rolId.toString(), Toast.LENGTH_SHORT).show()
 
         val editTextMail: EditText = findViewById(R.id.mail_text)
         val buttonContinue: Button = findViewById(R.id.continue_button)
@@ -38,7 +37,6 @@ class RegisterActivity2 : AppCompatActivity() {
 
         imagebuttonBack.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
-            intent.putExtra("USER_TEMP", userTemp)
             startActivity(intent)
         }
     }
@@ -56,9 +54,8 @@ class RegisterActivity2 : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    userTemp.correo = email
+                    MainActivity.UserSession.email = email
                     val intent = Intent(this@RegisterActivity2, RegisterActivity3::class.java)
-                    intent.putExtra("USER_TEMP", userTemp)
                     startActivity(intent)
                 }
             } catch (e: Exception) {

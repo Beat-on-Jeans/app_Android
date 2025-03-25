@@ -1,16 +1,28 @@
 package com.example.prueba_beat_on_jeans
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,68 +30,152 @@ import java.io.File
 import java.util.UUID
 
 class RegisterActivity5 : AppCompatActivity() {
-    private lateinit var userTemp: UserTemp
+    private val PICK_IMAGE_REQUEST_CODE = 1
+    private val imageList = MutableList<Uri?>(1) { null }
+    private lateinit var galleryAdapter: GalleryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_register5)
 
-        // Llama a la función para subir la imagen
-        val imageUri = Uri.parse("ruta/a/tu/imagen.jpg") // Ejemplo de URI
-        uploadImage(imageUri)
+        val recyclerViewImages: RecyclerView = findViewById(R.id.images_grid)
+        val buttonContinue: Button = findViewById(R.id.continue_button)
+        val imageButtonBack: ImageButton = findViewById(R.id.back_imageButton)
+        val nameText: TextView = findViewById(R.id.name_text)
+
+        var itemCount = recyclerViewImages.adapter?.itemCount ?: 0
+
+        galleryAdapter = GalleryAdapter(imageList) { position ->
+            openGallery()
+            itemCount = 1
+        }
+
+        recyclerViewImages.layoutManager = GridLayoutManager(this, 1)
+        recyclerViewImages.adapter = galleryAdapter
+
+        buttonContinue.setOnClickListener {
+            if(nameText.text.toString() != "" && itemCount != 0){
+                MainActivity.UserSession.username = nameText.text.toString()
+                uploadImageToServer(imageList[0])
+                uploadUser()
+                val intent = Intent(this, LogInActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+
+        imageButtonBack.setOnClickListener {
+            val intent = Intent(this, RegisterActivity4::class.java)
+            startActivity(intent)
+        }
     }
 
-    private fun uploadImage(imageUri: Uri) {
-        val file = File(getRealPathFromURI(imageUri))
+    private fun uploadUser() {
 
-        // Obtener el tipo MIME de la imagen
-        val mimeType = contentResolver.getType(imageUri) ?: "image/*"  // Default a "image/*" si no se puede obtener el MIME
+    }
 
-        // Obtener la extensión del archivo
-        val extension = getFileExtension(mimeType)
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+        }
+        startActivityForResult(
+            Intent.createChooser(intent, "Selecciona una imagen"),
+            PICK_IMAGE_REQUEST_CODE
+        )
+    }
 
-        // Generar un nombre único para el archivo
-        val uniqueFileName = UUID.randomUUID().toString() + ".$extension"
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val newList = mutableListOf<Uri?>()
 
-        // Convertir la URI a un archivo y crear la solicitud para subir
-        val requestBody = file.asRequestBody(mimeType.toMediaTypeOrNull())  // Crear el requestBody con el tipo MIME
-        val body = MultipartBody.Part.createFormData("file", uniqueFileName, requestBody)
+            data?.let {
+                if (it.data != null) {
+                    newList.add(it.data!!)
+                }
+            }
 
-        val apiService = RetrofitClient.instance  // Usamos la instancia correcta
-        val call = apiService.uploadImage(body)
+            while (newList.size < 1) {
+                newList.add(null)
+            }
 
-        call.enqueue(object : Callback<ResponseBody> {
+            imageList.clear()
+            imageList.addAll(newList)
+            galleryAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun uploadImageToServer(imageUri: Uri?) {
+        if (imageUri == null) {
+            Toast.makeText(this, "No hay imagen seleccionada", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val file = getFileFromUri(this, imageUri)
+        if (file == null || !file.exists()) {
+            Toast.makeText(this, "Error al obtener el archivo", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Detectar el tipo de archivo automáticamente
+        val mimeType = contentResolver.getType(imageUri) ?: "image/*"
+        val requestFile = file.asRequestBody(mimeType.toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+        RetrofitClient.instance.uploadImage(body).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@RegisterActivity5, "Imagen subida exitosamente", Toast.LENGTH_SHORT).show()
+                    response.body()?.string()?.let { responseBody ->
+                        try {
+                            val jsonObject = JSONObject(responseBody)
+                            val imageUrl = jsonObject.optString("url", "")
+
+                            if (imageUrl.isNotEmpty()) {
+                                MainActivity.UserSession.urlImg = imageUrl
+                                Log.e("URL", MainActivity.UserSession.urlImg.toString())
+                                Toast.makeText(applicationContext, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(applicationContext, "No se recibió URL de la imagen", Toast.LENGTH_SHORT).show()
+                            }
+                        } catch (e: JSONException) {
+                            Log.e("UPLOAD_ERROR", "Error al parsear JSON: ${e.message}")
+                            Toast.makeText(applicationContext, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
-                    Toast.makeText(this@RegisterActivity5, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+                    val errorBody = response.errorBody()?.string() ?: "Error desconocido"
+                    Log.e("UPLOAD_ERROR", "Error en respuesta: ${response.code()} - $errorBody")
+                    Toast.makeText(applicationContext, "Error al subir imagen: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(this@RegisterActivity5, "Error de conexión: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("UPLOAD_ERROR", "Fallo en la conexión: ${t.message}")
+                Toast.makeText(applicationContext, "Fallo en la conexión: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
     }
 
-    private fun getFileExtension(mimeType: String?): String {
-        return when (mimeType) {
-            "image/jpeg", "image/jpg" -> "jpg"
-            "image/png" -> "png"
-            "image/gif" -> "gif"
-            "image/bmp" -> "bmp"
-            else -> "jpg"  // Si no es una imagen compatible, se usa jpg como predeterminado
-        }
-    }
+    private fun getFileFromUri(context: Context, uri: Uri): File? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+            val extension = when (context.contentResolver.getType(uri)) {
+                "image/jpeg" -> ".jpg"
+                "image/png" -> ".png"
+                "image/gif" -> ".gif"
+                else -> ".jpg"
+            }
 
-    private fun getRealPathFromURI(uri: Uri): String {
-        // Esta función debe retornar la ruta real del archivo a partir de la URI
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        cursor?.moveToFirst()
-        val idx = cursor?.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-        val filePath = cursor?.getString(idx ?: 0)
-        cursor?.close()
-        return filePath ?: ""
+            val tempFile = File.createTempFile("temp_image", extension, context.cacheDir)
+            tempFile.outputStream().use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
+            tempFile
+        } catch (e: Exception) {
+            Log.e("UPLOAD_ERROR", "Error al obtener archivo: ${e.message}")
+            null
+        }
     }
 }

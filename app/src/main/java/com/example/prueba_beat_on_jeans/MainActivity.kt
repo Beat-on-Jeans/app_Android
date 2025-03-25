@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -60,16 +61,18 @@ class MainActivity : AppCompatActivity() {
         var username: String? = null
         var email: String? = null
         var password: String? = null
+        var location: String? = null
         var rolId: Int? = null
-        var urlImg: Int? = null
+        var urlImg: String? = null
         var isLoggedIn: Boolean = false
 
         fun setUserData(context: Context, id: String, username: String, email: String,
-                        password: String, rolId: Int, urlImg: Int) {
+                        password: String, location: String, rolId: Int, urlImg: String) {
             this.id = id
             this.username = username
             this.email = email
             this.password = password
+            this.location = location
             this.rolId = rolId
             this.urlImg = urlImg
             this.isLoggedIn = true
@@ -80,8 +83,9 @@ class MainActivity : AppCompatActivity() {
                 putString("username", username)
                 putString("email", email)
                 putString("password", password)
+                putString("location", location)
                 putInt("rolId", rolId)
-                putInt("urlImg", urlImg)
+                putString("urlImg", urlImg)
                 putBoolean("isLoggedIn", true)
                 apply()
             }

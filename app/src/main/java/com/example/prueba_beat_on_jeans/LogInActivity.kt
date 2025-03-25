@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.prueba_beat_on_jeans.MainActivity.UserSession
 import kotlinx.coroutines.launch
 import java.io.IOException
 
