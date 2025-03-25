@@ -18,7 +18,6 @@ class RegisterActivity4 : AppCompatActivity() {
     private lateinit var postalCodesMap: HashMap<String, String>
     private lateinit var editTextLocation: EditText
     private lateinit var cityText: TextView
-    private lateinit var userTemp: UserTemp
 
     // Data class is not necessary for this case, we will handle the map directly
     // data class PostalCodeData(val code: String, val municipality: String)
@@ -29,7 +28,6 @@ class RegisterActivity4 : AppCompatActivity() {
         setContentView(R.layout.activity_register4)
 
         // Receive the userTemp object from the previous activity
-        userTemp = intent.getParcelableExtra("USER_TEMP") ?: UserTemp()
 
         // Initialize UI components
         val editTextLocation: EditText = findViewById(R.id.location_edit_text)
@@ -42,7 +40,7 @@ class RegisterActivity4 : AppCompatActivity() {
         postalCodesMap = loadPostalCodes()
 
         // Set text depending on user role
-        when (userTemp.rolId) {
+        when (MainActivity.UserSession.rolId) {
             1 -> {
                 locationText.text = "Añade tu código postal"
 
@@ -67,9 +65,8 @@ class RegisterActivity4 : AppCompatActivity() {
                     if (cityText.text == "...") {
                         Toast.makeText(this, "Escribe el código postal", Toast.LENGTH_SHORT).show()
                     } else {
-                        userTemp.ubicacion = cityText.text.toString()
+                        MainActivity.UserSession.location = cityText.text.toString()
                         val intent = Intent(this, RegisterActivity5::class.java)
-                        intent.putExtra("USER_TEMP", userTemp)
                         startActivity(intent)
                     }
                 }
@@ -77,13 +74,22 @@ class RegisterActivity4 : AppCompatActivity() {
             }
             2 -> {
                 cityText.text = ""
+
+                buttonContinue.setOnClickListener {
+                    if (editTextLocation.text.toString() == "" || editTextLocation.text.toString().length < 5) {
+                        Toast.makeText(this, "Escribe la dirección del local", Toast.LENGTH_SHORT).show()
+                    } else {
+                        MainActivity.UserSession.location = editTextLocation.text.toString()
+                        val intent = Intent(this, RegisterActivity5::class.java)
+                        startActivity(intent)
+                    }
+                }
             }
         }
         
         // Back button click event
         imagebuttonBack.setOnClickListener {
             val intent = Intent(this, RegisterActivity3::class.java)
-            intent.putExtra("USER_TEMP", userTemp)
             startActivity(intent)
         }
     }
