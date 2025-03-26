@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class ChatRV(
+    val chatID: Int,
     val chatName: String,
     val lastMessage: String,
     val hours: String,
@@ -12,6 +13,7 @@ class ChatRV(
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -20,6 +22,7 @@ class ChatRV(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(chatID)
         parcel.writeString(chatName)
         parcel.writeString(lastMessage)
         parcel.writeString(hours)

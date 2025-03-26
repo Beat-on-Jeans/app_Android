@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     object UserSession {
-        var id: String? = null
+        var id: Int? = null
         var username: String? = null
         var email: String? = null
         var password: String? = null
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         var urlImg: Int? = null
         var isLoggedIn: Boolean = false
 
-        fun setUserData(context: Context, id: String, username: String, email: String,
+        fun setUserData(context: Context, id: Int, username: String, email: String,
                         password: String, rolId: Int, urlImg: Int) {
             this.id = id
             this.username = username
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
             val sharedPref = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
             with(sharedPref.edit()) {
-                putString("id", id)
+                putInt("id", id)
                 putString("username", username)
                 putString("email", email)
                 putString("password", password)
@@ -89,16 +89,22 @@ class MainActivity : AppCompatActivity() {
 
         fun loadUserData(context: Context) {
             val sharedPref = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-            id = sharedPref.getString("userId", null)
+            id = sharedPref.getInt("userId", 0)
             username = sharedPref.getString("username", null)
             email = sharedPref.getString("email", null)
+            password = sharedPref.getString("password", null)
+            rolId = sharedPref.getInt("rolId", 0)
+            urlImg = sharedPref.getInt("urlImg", 0)
             isLoggedIn = sharedPref.getBoolean("isLoggedIn", false)
         }
 
         fun clearSession(context: Context) {
-            id = null
+            id = 0
             username = null
             email = null
+            password = null
+            rolId = 0
+            urlImg = 0
             isLoggedIn = false
 
             val sharedPref = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
