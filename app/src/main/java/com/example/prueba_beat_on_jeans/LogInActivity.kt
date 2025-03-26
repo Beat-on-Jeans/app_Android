@@ -27,6 +27,8 @@ class LogInActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
+        //comproveUser()
+
         val loginButton: Button = findViewById(R.id.login_button)
         val editTextUsername: EditText = findViewById(R.id.user_editText)
         val editTextPassword: EditText = findViewById(R.id.password_editText)
@@ -53,6 +55,13 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    private fun comproveUser() {
+        if(MainActivity.UserSession.isLoggedIn){
+            val intent = Intent(this@LogInActivity, NavigationBar::class.java)
+            startActivity(intent)
+        }
+    }
+
     private fun verifyUser(email: String, password: String) {
         lifecycleScope.launch {
             try {
@@ -61,10 +70,11 @@ class LogInActivity : AppCompatActivity() {
                     user.correo == email && user.contrasena == password
                 }
                 if (validUser != null) {
+                    MainActivity.UserSession.clearSession(this@LogInActivity)
+                    MainActivity.UserSession.setUserData(this@LogInActivity,
+                        validUser.id,validUser.nombre,validUser.correo,validUser.contrasena,validUser.rolId,R.drawable.hugo)
                     val intent = Intent(this@LogInActivity, NavigationBar::class.java)
                     startActivity(intent)
-
-
                 } else {
                     Toast.makeText(
                         this@LogInActivity,

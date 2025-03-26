@@ -1,4 +1,5 @@
 package com.example.prueba_beat_on_jeans
+import okhttp3.Response
 import retrofit2.http.GET
 import retrofit2.http.*
 
@@ -10,7 +11,16 @@ interface ApiService {
     @GET("Api/Usuarios/{id}")
     suspend fun getUser(@Path("id") id: Int): User
 
-    @GET("api/Chats/Local/{userID}")
+    @GET("Api/Chats/{chatID}")
+    suspend fun getChat(@Path("chatID") chatID: Int): Chat
+
+    @GET("Api/Chats/Local/{userID}")
     suspend fun getLocalChats(@Path("userID") userID: Int): MutableList<Chat>
+
+    @GET("Api/Chats/Musician/{userID}")
+    suspend fun getMusicianChats(@Path("userID") userID: Int): MutableList<Chat>
+
+    @POST("Api/Mensajes")
+    suspend fun insertNewMessage(@Body message: Message)
 }
 
