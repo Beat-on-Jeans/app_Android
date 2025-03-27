@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.prueba_beat_on_jeans.MainActivity.UserSession
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -28,7 +27,7 @@ class LogInActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        comproveUser()
+        //comproveUser()
 
         val loginButton: Button = findViewById(R.id.login_button)
         val editTextUsername: EditText = findViewById(R.id.user_editText)
@@ -37,13 +36,13 @@ class LogInActivity : AppCompatActivity() {
 
         // Login button click listener
         loginButton.setOnClickListener {
-            val email = editTextUsername.text.toString()
+            val username = editTextUsername.text.toString()
             val password = editTextPassword.text.toString()
 
             // Check if username and password fields are not empty
-            if (email.isNotEmpty() && password.isNotEmpty()) {
+            if (username.isNotEmpty() && password.isNotEmpty()) {
                 // Call method to verify the user
-                verifyUser(email, password)
+                verifyUser(username, password)
             } else {
                 Toast.makeText(this, "Please enter your username and password", Toast.LENGTH_SHORT).show()
             }
@@ -68,12 +67,12 @@ class LogInActivity : AppCompatActivity() {
             try {
                 val users = RetrofitClient.instance.getUsers()
                 val validUser = users.find { user ->
-                    user.correo == email && user.contrasena == password && (user.rolId == 1 || user.rolId == 2)
+                    user.correo == email && user.contrasena == password
                 }
                 if (validUser != null) {
                     MainActivity.UserSession.clearSession(this@LogInActivity)
-                    MainActivity.UserSession.setUserData(this@LogInActivity,
-                        validUser.id,validUser.nombre,validUser.correo,validUser.contrasena,validUser.rolId,R.drawable.hugo)
+                    MainActivity.UserSession.userLogin(this@LogInActivity,
+                        validUser.id,validUser.rolId, validUser.correo,validUser.contrasena)
                     val intent = Intent(this@LogInActivity, NavigationBar::class.java)
                     startActivity(intent)
                 } else {

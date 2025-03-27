@@ -11,8 +11,8 @@ class MessageAdapter(val context: Context,
                      val messageList: List<Message>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        val ITEM_RECEIVE = 1
-        val ITEM_SENT = 2
+    val ITEM_RECEIVE = 1
+    val ITEM_SENT = 2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -31,21 +31,18 @@ class MessageAdapter(val context: Context,
         val currentMessage = messageList[position]
 
         if(holder.javaClass == SentViewHolder::class.java){
-
             val viewHolder = holder as SentViewHolder
-            holder.sentMessage.text = currentMessage.message
+            holder.sentMessage.text = currentMessage.Mensaje
         }else{
-
             val viewHolder = holder as ReceiveViewHolder
-            holder.receieveMessage.text = currentMessage.message
+            holder.receieveMessage.text = currentMessage.Mensaje
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-
         val currentMessage = messageList[position]
 
-        return if(currentMessage.emisorID == 1){
+        return if(currentMessage.Emisor_ID == MainActivity.UserSession.id){
             ITEM_SENT
         }else{
             ITEM_RECEIVE

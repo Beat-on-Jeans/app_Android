@@ -4,27 +4,35 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Message(
-    var id:Int,
-    var chat_ID: Int,
-    var emisorID: Int,
-    var hora: Int,
-    var message: String
-    ) : Parcelable {
+    var ID: Int?,
+    var Chat_ID: Int,
+    var Emisor_ID: Int,
+    var Hora: String,
+    var Mensaje: String
+) : Parcelable {
+
+
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
-        parcel.readInt(),
+        parcel.readString().toString(),
         parcel.readString().toString()
     )
 
+
+    // Segundo constructor (sin ID)
+    constructor(Chat_ID: Int, Emisor_ID: Int, Hora: String, Mensaje: String) :
+            this(null, Chat_ID, Emisor_ID, Hora, Mensaje) // Llama al constructor principal pasando null como ID
+
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeInt(chat_ID)
-        parcel.writeInt(emisorID)
-        parcel.writeInt(hora)
-        parcel.writeString(message)
+        ID?.let { parcel.writeInt(it) }
+        parcel.writeInt(Chat_ID)
+        parcel.writeInt(Emisor_ID)
+        parcel.writeString(Hora)
+        parcel.writeString(Mensaje)
     }
 
     override fun describeContents(): Int {
