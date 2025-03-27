@@ -3,16 +3,15 @@ package com.example.prueba_beat_on_jeans
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,8 +38,8 @@ class ThirdFragment : Fragment() {
         }
     }
 
+    private lateinit var tempUser: User
     private var chatList = mutableListOf<Chat>()
-    private var chatRVList = mutableListOf<ChatRV>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,76 +47,28 @@ class ThirdFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_third, container, false)
-        when (MainActivity.UserSession.rolId){
-            1 -> getMusicChats(view)
-            2 -> getLocalChats(view)
-        }
+        getChats()
+        setView(view)
 
         return view
     }
 
-    private fun getLocalChats(view: View) {
+    private fun getChats() {
         lifecycleScope.launch {
-            try {
-                val chats = RetrofitClient.instance.getMusicianChats(MainActivity.UserSession.id!!)
-                if (chats.size != 0) {
-                    chatList = chats
-                    chatList.forEach { chat ->
-                        val user = RetrofitClient.instance.getUser(chat.Local_ID)
-                        val newChat = ChatRV(
-                            chat.ID, user.nombre, chat.Mensajes[chat.Mensajes.size - 1].Mensaje,
-                            chat.Mensajes[chat.Mensajes.size - 1].Hora, false, R.drawable.hugo
-                        )
-                        chatRVList.add(newChat)
-                    }
-                    setChats(view)
-                    setImages(view)
-                } else {
-                    setEmptyView(view)
-                }
-            } catch (e: Exception) {
-                Log.e("API_ERROR", "Error: ${e.message}", e)
-            }
+            var chats = RetrofitClient.instance.getLocalChats(1)
+            chatList = chats
         }
     }
 
-    private fun getMusicChats(view: View) {
-        lifecycleScope.launch {
-            try {
-                val chats = RetrofitClient.instance.getLocalChats(MainActivity.UserSession.id!!)
-                if(chats.size != 0){
-                    chatList = chats
-                    chatList.forEach{ chat ->
-                        val user = RetrofitClient.instance.getUser(chat.Musico_ID)
-                        val newChat = ChatRV(chat.ID,user.nombre,chat.Mensajes[chat.Mensajes.size-1].Mensaje,
-                            chat.Mensajes[chat.Mensajes.size-1].Hora,false,R.drawable.hugo)
-                        chatRVList.add(newChat)
-                    }
-                    setChats(view)
-                    setImages(view)
-                }else{
-                    setEmptyView(view)
-                }
-            }catch (e: Exception) {
-                Log.e("API_ERROR", "Error: ${e.message}", e)
-                Toast.makeText(
-                    context,
-                    "Error al conectar con el servidor",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-            }
-        }
-    }
-
-    private fun setEmptyView(view: View) {
+    private fun setView(view: View) {
+        setChats(view)
+        setImages(view)
 
     }
-
 
     private fun setChats(view: View) {
         val rvChats = view.findViewById<RecyclerView>(R.id.RVChats)
-        val adapter = ChatsAdapter(chatRVList){ chat ->
+        val adapter = ChatsAdapter(chatList){ chat ->
             val intent = Intent(context,ChatActivity::class.java)
             intent.putExtra(ChatActivity.ChatInfo.CHATINFO,chat)
             startActivity(intent)
@@ -129,9 +80,17 @@ class ThirdFragment : Fragment() {
 
     private fun setImages(view: View) {
         val rvChats = view.findViewById<RecyclerView>(R.id.RVMaches)
-        val adapter = ImgChatsAdapter(chatRVList)
+        val adapter = ImgChatsAdapter(setUsers())
         rvChats.adapter = adapter
         rvChats.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun setUsers(): List<ChatRV> {
+        return listOf(ChatRV("Hugo","Phasellus diam lorem, pretium sit...","1 hrs",true,R.drawable.hugo),
+            ChatRV("Andrea","Phasellus diam lorem, pretium sit...","2 hrs",false,R.drawable.hugo),
+            ChatRV("Pau","Phasellus diam lorem, pretium sit...","1 hrs",false,R.drawable.hugo),
+            ChatRV("David","Phasellus diam lorem, pretium sit...","1 hrs",true,R.drawable.hugo),
+            ChatRV("Nombre","Phasellus diam lorem, pretium sit...","1 hrs",true,R.drawable.hugo))
     }
 
     companion object {

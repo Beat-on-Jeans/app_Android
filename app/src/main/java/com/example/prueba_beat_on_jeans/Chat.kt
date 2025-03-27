@@ -4,17 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Chat(
-    var locales: String?,
-    var musicos: String?,
-    var Mensajes: MutableList<Message>,
-    var ID: Int,
-    var Musico_ID: Int,
-    var Local_ID: Int
+    var messagesList: MutableList<Message>,
+    var id: Int,
+    var musico_ID: Int,
+    var local_ID: Int
     ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
-        parcel.readString().toString(),
         mutableListOf<Message>().apply {
             parcel.readTypedList(this, Message.CREATOR)
         },
@@ -24,12 +20,10 @@ class Chat(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(locales)
-        parcel.writeString(musicos)
-        parcel.writeTypedList(Mensajes)
-        parcel.writeInt(ID)
-        parcel.writeInt(Musico_ID)
-        parcel.writeInt(Local_ID)
+        parcel.writeTypedList(messagesList)
+        parcel.writeInt(id)
+        parcel.writeInt(musico_ID)
+        parcel.writeInt(local_ID)
     }
 
     override fun describeContents(): Int {

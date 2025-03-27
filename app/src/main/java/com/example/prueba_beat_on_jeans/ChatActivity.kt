@@ -1,101 +1,93 @@
 package com.example.prueba_beat_on_jeans
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class ChatActivity : AppCompatActivity() {
-    private lateinit var chat: ChatRV
-    private var chatStats = Chat(null,null, mutableListOf(),0,0,0)
-    private var userChat = User(0,0,null.toString(), null.toString(),null.toString())
+    private var messagesList = mutableListOf<Message>()
+    private lateinit var chat: Chat
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        obtainStats()
-        val imgChater = findViewById<ImageButton>(R.id.BtnBack)
+        /*    setView()
+            val imgChater = findViewById<ImageButton>(R.id.BtnBack)
 
-        imgChater.setOnClickListener {
-            finish()
+            imgChater.setOnClickListener {
+                finish()
+            }
+
+            getUser()*/
+    }
+/*
+    private fun getUser() {
+        when (){
+
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun obtainStats(){
-        chat = obtainIntent()
-        obtainChat()
+
+    private fun getUserLocal() {
+        lifecycleScope.launch {
+            RetrofitClient.instance.getUser(chat.local_ID)
+
+        }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getUserMusico() {
+        lifecycleScope.launch {
+            RetrofitClient.instance.getUser(chat.musico_ID)
+
+        }
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun setView() {
-
-        val currentDateTime = LocalDateTime.now()
-        // Formatear la fecha en el formato deseado
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS")
-        val formattedDate = currentDateTime.format(formatter)
+        chat = obtainIntent()
 
         val txtNameChat = findViewById<TextView>(R.id.TxtNameChat)
         val imgChater = findViewById<ImageView>(R.id.ImgChater)
-
         val rvMessages = findViewById<RecyclerView>(R.id.RVMessages)
         val btnSend = findViewById<ImageButton>(R.id.BtnSendMsg)
         val edTxtMessage = findViewById<EditText>(R.id.editTextMessage)
 
-        txtNameChat.text = userChat.nombre
+
+        txtNameChat.text = chat.chatName
         imgChater.setImageResource(chat.chatImg)
 
-        val adapter = MessageAdapter(this, chatStats.Mensajes)
+
+        val adapter = MessageAdapter(
+            this,
+            getMessages()
+        )
         rvMessages.adapter = adapter
         rvMessages.layoutManager = LinearLayoutManager(this)
 
         btnSend.setOnClickListener {
             if ((edTxtMessage.text.isNotEmpty() and edTxtMessage.text.isNotBlank()) or (edTxtMessage.text.length > 500)) {
-
-                val message = Message(chatStats.ID,
-                    MainActivity.UserSession.id!!,formattedDate ,edTxtMessage.text.toString())
-                chatStats.Mensajes.add(message)
+                var message = Message(1, edTxtMessage.text.toString(), 2)
+                messagesList.add(message)
                 adapter.notifyDataSetChanged()
-                lifecycleScope.launch {
-                    RetrofitClient.instance.insertNewMessage(message)
-                }
                 edTxtMessage.text.clear()
             }
         }
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun obtainChat() {
-        lifecycleScope.launch {
-            val currentChat = RetrofitClient.instance.getChat(chat.chatID)
-            when (MainActivity.UserSession.rolId){
-                1 -> userChat = RetrofitClient.instance.getUser(currentChat.Local_ID)
-                2 -> userChat = RetrofitClient.instance.getUser(currentChat.Musico_ID)
-            }
-            chatStats = currentChat
-            setView()
-        }
-    }
-
-    private fun obtainIntent(): ChatRV {
+    private fun obtainIntent(): Chat {
         val intent = intent
-        val chat = intent.getParcelableExtra<ChatRV>(ChatInfo.CHATINFO) as ChatRV
+        val chat = intent.getParcelableExtra<ChatRV>(ChatInfo.CHATINFO) as Chat
         return chat
     }
-
+*/
 
     object ChatInfo {
         const val CHATINFO = "CHATINFO"
