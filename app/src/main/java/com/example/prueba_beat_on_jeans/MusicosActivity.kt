@@ -61,42 +61,42 @@ class MusicosActivity : AppCompatActivity() {
     private fun setBetaUsers(): List<Music> {
         return mutableListOf(Music("Peggie,23","300ft from you",
             "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-            , mutableListOf(Tag("Jazz"),Tag("Blues"))
+            , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
             , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),
             Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human),Music("Peggie,23","300ft from you",
                 "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag("Jazz"),Tag("Blues"))
+                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
                 , R.drawable.human)
         )
     }

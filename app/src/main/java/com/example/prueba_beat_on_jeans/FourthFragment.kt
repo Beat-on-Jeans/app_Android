@@ -56,7 +56,7 @@ class FourthFragment : Fragment() {
         rcAcImgBac.adapter = adapterImgs
         rcAcImgBac.layoutManager = LinearLayoutManager(context)
 
-        txtAcName.text = "Peggie"
+        txtAcName.text = MainActivity.UserSession.username
 
         val adapterTags = TagsAcountAdapter(setBetaStats())
         rvAcTags.adapter = adapterTags
@@ -94,14 +94,14 @@ class FourthFragment : Fragment() {
     }
 
     private fun setBetaStats(): List<Tag> {
-        return listOf(Tag("Clásica"),
-                      Tag("Blues"),
-                      Tag("R&B"),
-                      Tag("Metal"),
-                      Tag("Rock"),
-                      Tag("Harcore"),
-                      Tag("Pop"),
-                      Tag("Electro Swing")
+        return listOf(Tag(1,"Clásica"),
+                      Tag(2,"Blues"),
+                      Tag(3,"R&B"),
+                      Tag(4,"Metal"),
+                      Tag(5,"Rock"),
+                      Tag(6,"Harcore"),
+                      Tag(7,"Pop"),
+                      Tag(8,"Electro Swing")
             )
     }
 }
