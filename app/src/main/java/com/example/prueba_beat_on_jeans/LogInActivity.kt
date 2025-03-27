@@ -27,7 +27,7 @@ class LogInActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        //comproveUser()
+        comproveUser()
 
         val loginButton: Button = findViewById(R.id.login_button)
         val editTextUsername: EditText = findViewById(R.id.user_editText)
