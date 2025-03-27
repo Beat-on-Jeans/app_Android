@@ -15,8 +15,6 @@ import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RegisterActivity : AppCompatActivity() {
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -32,10 +30,10 @@ class RegisterActivity : AppCompatActivity() {
         buttonContinue.isEnabled = false
         buttonContinue.alpha = 0.5f
 
-        var rol = false
+        var rol = 0
 
         buttonMusician.setOnClickListener{
-            rol = false
+            rol = 1
             buttonContinue.isEnabled = true
             buttonContinue.alpha = 1f
             buttonMusician.isEnabled = false
@@ -45,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         buttonLocal.setOnClickListener{
-            rol = true
+            rol = 2
             buttonContinue.isEnabled = true
             buttonContinue.alpha = 1f
             buttonLocal.isEnabled = false
@@ -55,6 +53,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         buttonContinue.setOnClickListener {
+            MainActivity.UserSession.rolId = rol
             val intent = Intent(this, RegisterActivity2::class.java)
             startActivity(intent)
         }

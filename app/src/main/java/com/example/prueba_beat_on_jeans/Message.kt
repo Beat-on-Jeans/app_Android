@@ -9,7 +9,7 @@ class Message(
     var Emisor_ID: Int,
     var Hora: String,
     var Mensaje: String
-    ) : Parcelable {
+) : Parcelable {
 
 
 

@@ -27,7 +27,7 @@ class LogInActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        comproveUser()
+        //comproveUser()
 
         val loginButton: Button = findViewById(R.id.login_button)
         val editTextUsername: EditText = findViewById(R.id.user_editText)
@@ -71,8 +71,8 @@ class LogInActivity : AppCompatActivity() {
                 }
                 if (validUser != null) {
                     MainActivity.UserSession.clearSession(this@LogInActivity)
-                    MainActivity.UserSession.setUserData(this@LogInActivity,
-                        validUser.id,validUser.nombre,validUser.correo,validUser.contrasena,validUser.rolId,R.drawable.hugo)
+                    MainActivity.UserSession.userLogin(this@LogInActivity,
+                        validUser.id,validUser.rolId, validUser.correo,validUser.contrasena)
                     val intent = Intent(this@LogInActivity, NavigationBar::class.java)
                     startActivity(intent)
                 } else {

@@ -10,7 +10,7 @@ class Chat(
     var ID: Int,
     var Musico_ID: Int,
     var Local_ID: Int
-    ) : Parcelable {
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),

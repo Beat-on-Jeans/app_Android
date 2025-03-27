@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 class ChatActivity : AppCompatActivity() {
     private lateinit var chat: ChatRV
     private var chatStats = Chat(null,null, mutableListOf(),0,0,0)
-    private var userChat = User(0,0,null.toString(), null.toString(),null.toString())
+    private var userChat = User(0,null.toString(),null.toString(), null.toString(),null.toString(), 0)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,4 +101,3 @@ class ChatActivity : AppCompatActivity() {
         const val CHATINFO = "CHATINFO"
     }
 }
-
