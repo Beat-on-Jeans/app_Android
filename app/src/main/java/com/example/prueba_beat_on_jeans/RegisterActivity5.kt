@@ -29,6 +29,7 @@ import retrofit2.Response
 import java.io.File
 import java.util.UUID
 
+
 class RegisterActivity5 : AppCompatActivity() {
     private val PICK_IMAGE_REQUEST_CODE = 1
     private val imageList = MutableList<Uri?>(1) { null }
