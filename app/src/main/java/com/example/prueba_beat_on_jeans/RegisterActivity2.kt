@@ -3,21 +3,25 @@ package com.example.prueba_beat_on_jeans
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import kotlin.reflect.jvm.internal.impl.renderer.ClassifierNamePolicy.SHORT
 
 class RegisterActivity2 : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register2)
+
+
+        Toast.makeText(this, MainActivity.UserSession.rolId.toString(), Toast.LENGTH_SHORT).show()
 
         val editTextMail: EditText = findViewById(R.id.mail_text)
         val buttonContinue: Button = findViewById(R.id.continue_button)
@@ -27,14 +31,41 @@ class RegisterActivity2 : AppCompatActivity() {
             if(editTextMail.text.isEmpty()){
                 Toast.makeText(this, "Escribe tu correo", Toast.LENGTH_SHORT).show()
             } else {
-                val intent = Intent(this, RegisterActivity3::class.java)
-                startActivity(intent)
+                verifyUser(editTextMail.text.toString())
             }
         }
 
         imagebuttonBack.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun verifyUser(email: String) {
+        lifecycleScope.launch {
+            try {
+                val users = RetrofitClient.instance.getUsers()
+                val userFound = users.find { user -> user.correo == email }
+
+                if (userFound != null) {
+                    Toast.makeText(
+                        this@RegisterActivity2,
+                        "Este correo ya se está usando en otra cuenta",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    MainActivity.UserSession.email = email
+                    val intent = Intent(this@RegisterActivity2, RegisterActivity3::class.java)
+                    startActivity(intent)
+                }
+            } catch (e: Exception) {
+                Log.e("API_ERROR", "Error: ${e.message}", e)
+                Toast.makeText(
+                    this@RegisterActivity2,
+                    "Error al conectar con el servidor",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

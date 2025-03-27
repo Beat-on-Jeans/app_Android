@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
         val button: Button = findViewById(R.id.login_button)
+
 
         UserSession.loadUserData(this)
 
@@ -56,32 +58,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     object UserSession {
-        var id: Int? = null
+        var id: String? = null
         var username: String? = null
         var email: String? = null
         var password: String? = null
+        var location: String? = null
         var rolId: Int? = null
-        var urlImg: Int? = null
+        var urlImg: String? = null
         var isLoggedIn: Boolean = false
 
-        fun setUserData(context: Context, id: Int, username: String, email: String,
-                        password: String, rolId: Int, urlImg: Int) {
+        fun setUserData(context: Context, id: String, username: String, email: String,
+                        password: String, location: String, rolId: Int, urlImg: String) {
             this.id = id
             this.username = username
             this.email = email
             this.password = password
+            this.location = location
             this.rolId = rolId
             this.urlImg = urlImg
             this.isLoggedIn = true
 
             val sharedPref = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
             with(sharedPref.edit()) {
-                putInt("id", id)
+                putString("id", id)
                 putString("username", username)
                 putString("email", email)
                 putString("password", password)
+                putString("location", location)
                 putInt("rolId", rolId)
-                putInt("urlImg", urlImg)
+                putString("urlImg", urlImg)
                 putBoolean("isLoggedIn", true)
                 apply()
             }
@@ -89,22 +94,16 @@ class MainActivity : AppCompatActivity() {
 
         fun loadUserData(context: Context) {
             val sharedPref = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-            id = sharedPref.getInt("userId", 0)
+            id = sharedPref.getString("userId", null)
             username = sharedPref.getString("username", null)
             email = sharedPref.getString("email", null)
-            password = sharedPref.getString("password", null)
-            rolId = sharedPref.getInt("rolId", 0)
-            urlImg = sharedPref.getInt("urlImg", 0)
             isLoggedIn = sharedPref.getBoolean("isLoggedIn", false)
         }
 
         fun clearSession(context: Context) {
-            id = 0
+            id = null
             username = null
             email = null
-            password = null
-            rolId = 0
-            urlImg = 0
             isLoggedIn = false
 
             val sharedPref = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)

@@ -31,18 +31,21 @@ class MessageAdapter(val context: Context,
         val currentMessage = messageList[position]
 
         if(holder.javaClass == SentViewHolder::class.java){
+
             val viewHolder = holder as SentViewHolder
-            holder.sentMessage.text = currentMessage.Mensaje
+            holder.sentMessage.text = currentMessage.message
         }else{
+
             val viewHolder = holder as ReceiveViewHolder
-            holder.receieveMessage.text = currentMessage.Mensaje
+            holder.receieveMessage.text = currentMessage.message
         }
     }
 
     override fun getItemViewType(position: Int): Int {
+
         val currentMessage = messageList[position]
 
-        return if(currentMessage.Emisor_ID == MainActivity.UserSession.id){
+        return if(currentMessage.emisorID == 1){
             ITEM_SENT
         }else{
             ITEM_RECEIVE
