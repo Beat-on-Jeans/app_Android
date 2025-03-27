@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         val button: Button = findViewById(R.id.login_button)
 
+
         UserSession.loadUserData(this)
 
         val savedValue = getBooleanFromPreferences(this, "my_boolean_key")
