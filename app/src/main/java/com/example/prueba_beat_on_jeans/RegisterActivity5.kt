@@ -76,8 +76,6 @@ class RegisterActivity5 : AppCompatActivity() {
     }
 
     private fun uploadUser() {
-
-
         lifecycleScope.launch {
             delay(6000)
             val user = User(
@@ -119,7 +117,6 @@ class RegisterActivity5 : AppCompatActivity() {
                     ).show()
                 }
             })
-
         }
     }
 
