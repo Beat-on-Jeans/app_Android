@@ -13,8 +13,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -73,7 +76,48 @@ class RegisterActivity5 : AppCompatActivity() {
     }
 
     private fun uploadUser() {
+        lifecycleScope.launch {
+            delay(6000)
+            val user = User(
+                0,
+                MainActivity.UserSession.username.toString(),
+                MainActivity.UserSession.email.toString(),
+                MainActivity.UserSession.password.toString(),
+                MainActivity.UserSession.rolId,
+                MainActivity.UserSession.urlImg.toString(),
+                MainActivity.UserSession.location.toString()
+            )
+            RetrofitClient.instance.registerUser(user).enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            applicationContext,
+                            "Usuario registrado con éxito",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Error en el servidor: ${response.message()}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
 
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    // Si la solicitud falló (problema de red, etc.), muestra el error
+                    Log.e("Upload user", "Error: ${t.message}")
+                    Toast.makeText(
+                        applicationContext,
+                        "Error de conexión: ${t.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        }
     }
 
     private fun openGallery() {
@@ -136,7 +180,6 @@ class RegisterActivity5 : AppCompatActivity() {
                             if (imageUrl.isNotEmpty()) {
                                 MainActivity.UserSession.urlImg = imageUrl
                                 Log.e("URL", MainActivity.UserSession.urlImg.toString())
-                                Toast.makeText(applicationContext, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
                             } else {
                                 Toast.makeText(applicationContext, "No se recibió URL de la imagen", Toast.LENGTH_SHORT).show()
                             }
