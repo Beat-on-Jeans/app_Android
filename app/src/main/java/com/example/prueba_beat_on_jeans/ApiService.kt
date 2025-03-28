@@ -37,5 +37,8 @@ interface ApiService {
 
     @POST("api/User")
     fun registerUser(@Body user: User): Call<ResponseBody>
+
+    @POST("api/User/Login")
+    fun loginUser(@Body user: User): Call<User>
 }
 

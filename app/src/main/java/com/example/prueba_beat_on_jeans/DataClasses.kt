@@ -16,13 +16,8 @@ data class User(
     @SerializedName("Ubicacion") val ubicacion: String
 )
 
-data class Address(
-    private val codi_via: String,
-    private val codi_carrer_ine: String,
-    private val tipus_via: String,
-    val shortName: String,
-    private val officialName: String,
-    val minNumber: Int?,
-    val maxNumber: Int?
+data class UserLogin(
+    val correo: String,
+    val contrasena: String
 )
 
