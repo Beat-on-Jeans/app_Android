@@ -2,13 +2,14 @@ package com.example.prueba_beat_on_jeans
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
 class Message(
-    var ID: Int?,
-    var Chat_ID: Int,
-    var Emisor_ID: Int,
-    var Hora: String,
-    var Mensaje: String
+    @SerializedName("ID") var id: Int?,
+    @SerializedName("Chat_ID") var chat_ID: Int,
+    @SerializedName("Emisor_ID") var emisor_ID: Int,
+    @SerializedName("Hora") var hora: String,
+    @SerializedName("Mensaje") var mensaje: String
 ) : Parcelable {
 
 
@@ -28,11 +29,11 @@ class Message(
 
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        ID?.let { parcel.writeInt(it) }
-        parcel.writeInt(Chat_ID)
-        parcel.writeInt(Emisor_ID)
-        parcel.writeString(Hora)
-        parcel.writeString(Mensaje)
+        id?.let { parcel.writeInt(it) }
+        parcel.writeInt(chat_ID)
+        parcel.writeInt(emisor_ID)
+        parcel.writeString(hora)
+        parcel.writeString(mensaje)
     }
 
     override fun describeContents(): Int {
