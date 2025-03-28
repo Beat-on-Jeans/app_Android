@@ -12,12 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ChatActivity : AppCompatActivity() {
+
     private lateinit var chat: ChatRV
+    private var job: Job? = null
     private var chatStats = Chat(null,null, mutableListOf(),0,0,0)
     private var userChat = User(0,null.toString(),null.toString(), null.toString(),null.toString(), 0)
 
@@ -31,7 +36,23 @@ class ChatActivity : AppCompatActivity() {
         imgChater.setOnClickListener {
             finish()
         }
+        iniciarLlamadas()
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun iniciarLlamadas() {
+        job = lifecycleScope.launch {
+            while (isActive) { // Repite mientras esté activo
+                obtainStats()
+                delay(10_000) // Espera 10 segundos
+            }
+        }
+    }
+
+    fun detenerLlamadas() {
+        job?.cancel() // Cancela la repetición
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun obtainStats(){
         chat = obtainIntent()
@@ -41,7 +62,7 @@ class ChatActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("NotifyDataSetChanged")
     private fun setView() {
-
+        val adapter = MessageAdapter(this, chatStats.Mensajes)
         val currentDateTime = LocalDateTime.now()
         // Formatear la fecha en el formato deseado
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS")
@@ -57,7 +78,7 @@ class ChatActivity : AppCompatActivity() {
         txtNameChat.text = userChat.nombre
         imgChater.setImageResource(chat.chatImg)
 
-        val adapter = MessageAdapter(this, chatStats.Mensajes)
+        adapter.notifyDataSetChanged()
         rvMessages.adapter = adapter
         rvMessages.layoutManager = LinearLayoutManager(this)
 
@@ -82,8 +103,8 @@ class ChatActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val currentChat = RetrofitClient.instance.getChat(chat.chatID)
             when (MainActivity.UserSession.rolId){
-                1 -> userChat = RetrofitClient.instance.getUser(currentChat.Local_ID)
-                2 -> userChat = RetrofitClient.instance.getUser(currentChat.Musico_ID)
+                1 -> userChat = RetrofitClient.instance.getUser(currentChat.Musico_ID)
+                2 -> userChat = RetrofitClient.instance.getUser(currentChat.Local_ID)
             }
             chatStats = currentChat
             setView()
@@ -95,7 +116,6 @@ class ChatActivity : AppCompatActivity() {
         val chat = intent.getParcelableExtra<ChatRV>(ChatInfo.CHATINFO) as ChatRV
         return chat
     }
-
 
     object ChatInfo {
         const val CHATINFO = "CHATINFO"

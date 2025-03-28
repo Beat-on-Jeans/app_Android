@@ -20,11 +20,8 @@ interface ApiService {
     @GET("Api/Chats/{chatID}")
     suspend fun getChat(@Path("chatID") chatID: Int): Chat
 
-    @GET("Api/Chats/Local/{userID}")
-    suspend fun getLocalChats(@Path("userID") userID: Int): MutableList<Chat>
-
-    @GET("Api/Chats/Musician/{userID}")
-    suspend fun getMusicianChats(@Path("userID") userID: Int): MutableList<Chat>
+    @GET("Api/ChatsUser/{userID}")
+    suspend fun getChats(@Path("userID") userID: Int): MutableList<Chat>
 
     @POST("Api/Mensajes")
     suspend fun insertNewMessage(@Body message: Message)
