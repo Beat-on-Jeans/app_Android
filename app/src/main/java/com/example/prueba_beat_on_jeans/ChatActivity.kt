@@ -62,7 +62,7 @@ class ChatActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("NotifyDataSetChanged")
     private fun setView() {
-        val adapter = MessageAdapter(this, chatStats.Mensajes)
+
         val currentDateTime = LocalDateTime.now()
         // Formatear la fecha en el formato deseado
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS")
@@ -78,6 +78,7 @@ class ChatActivity : AppCompatActivity() {
         txtNameChat.text = userChat.nombre
         imgChater.setImageResource(chat.chatImg)
 
+        val adapter = MessageAdapter(this, chatStats.mensajes)
         adapter.notifyDataSetChanged()
         rvMessages.adapter = adapter
         rvMessages.layoutManager = LinearLayoutManager(this)
@@ -85,9 +86,9 @@ class ChatActivity : AppCompatActivity() {
         btnSend.setOnClickListener {
             if ((edTxtMessage.text.isNotEmpty() and edTxtMessage.text.isNotBlank()) or (edTxtMessage.text.length > 500)) {
 
-                val message = Message(chatStats.ID,
+                val message = Message(chatStats.id,
                     MainActivity.UserSession.id!!,formattedDate ,edTxtMessage.text.toString())
-                chatStats.Mensajes.add(message)
+                chatStats.mensajes.add(message)
                 adapter.notifyDataSetChanged()
                 lifecycleScope.launch {
                     RetrofitClient.instance.insertNewMessage(message)
@@ -103,8 +104,8 @@ class ChatActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val currentChat = RetrofitClient.instance.getChat(chat.chatID)
             when (MainActivity.UserSession.rolId){
-                1 -> userChat = RetrofitClient.instance.getUser(currentChat.Musico_ID)
-                2 -> userChat = RetrofitClient.instance.getUser(currentChat.Local_ID)
+                1 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
+                2 -> userChat = RetrofitClient.instance.getUser(currentChat.local_ID)
             }
             chatStats = currentChat
             setView()

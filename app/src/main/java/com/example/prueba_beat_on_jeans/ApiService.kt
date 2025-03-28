@@ -17,7 +17,7 @@ interface ApiService {
     @GET("Api/Usuarios/{id}")
     suspend fun getUser(@Path("id") id: Int): User
 
-    @GET("Api/Chats/{chatID}")
+    @GET("Api/Chat/{chatID}")
     suspend fun getChat(@Path("chatID") chatID: Int): Chat
 
     @GET("Api/ChatsUser/{userID}")

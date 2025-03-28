@@ -2,14 +2,15 @@ package com.example.prueba_beat_on_jeans
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
 class Chat(
-    var locales: String?,
-    var musicos: String?,
-    var Mensajes: MutableList<Message>,
-    var ID: Int,
-    var Musico_ID: Int,
-    var Local_ID: Int
+    @SerializedName("UsuarioMobil") var locales: String?,
+    @SerializedName("UsuarioMobil1") var musicos: String?,
+    @SerializedName("Mensajes") var mensajes: MutableList<Message>,
+    @SerializedName("ID") var id: Int,
+    @SerializedName("UsuarioMobil_Musico_ID") var musico_ID: Int,
+    @SerializedName("UsuarioMobil_Local_ID") var local_ID: Int
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -26,10 +27,10 @@ class Chat(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(locales)
         parcel.writeString(musicos)
-        parcel.writeTypedList(Mensajes)
-        parcel.writeInt(ID)
-        parcel.writeInt(Musico_ID)
-        parcel.writeInt(Local_ID)
+        parcel.writeTypedList(mensajes)
+        parcel.writeInt(id)
+        parcel.writeInt(musico_ID)
+        parcel.writeInt(local_ID)
     }
 
     override fun describeContents(): Int {

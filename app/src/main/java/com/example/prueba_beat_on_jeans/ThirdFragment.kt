@@ -58,17 +58,42 @@ class ThirdFragment : Fragment() {
                 val chats = RetrofitClient.instance.getChats(MainActivity.UserSession.id!!)
                 if(chats.size != 0){
                     chatList = chats
-                    chatList.forEach{ chat ->
-                        val user = RetrofitClient.instance.getUser(chat.Musico_ID)
-                        val newChat = ChatRV(chat.ID,user.nombre,chat.Mensajes[chat.Mensajes.size-1].Mensaje,
-                            chat.Mensajes[chat.Mensajes.size-1].Hora,false,R.drawable.hugo)
-                        chatRVList.add(newChat)
+                    when(MainActivity.UserSession.rolId!!){
+                        1 ->{
+                            chatList.forEach{ chat ->
+                                val user = RetrofitClient.instance.getUser(chat.musico_ID)
+                                if(chat.mensajes.size != 0){
+                                    val newChat = ChatRV(chat.id,user.nombre,chat.mensajes.last().mensaje,
+                                        chat.mensajes.last().hora,false,R.drawable.hugo)
+                                    chatRVList.add(newChat)
+                                }else{
+                                    val newChat = ChatRV(chat.id,user.nombre,"",
+                                        "",false,R.drawable.hugo)
+                                    chatRVList.add(newChat)
+                                }
+                            }
+                        }
+                        2 ->{
+                            chatList.forEach{ chat ->
+                                val user = RetrofitClient.instance.getUser(chat.local_ID)
+                                if(chat.mensajes.size != 0){
+                                    val newChat = ChatRV(chat.id,user.nombre,chat.mensajes.last().mensaje,
+                                        chat.mensajes[chat.mensajes.size-1].hora,false,R.drawable.hugo)
+                                    chatRVList.add(newChat)
+                                }else{
+                                    val newChat = ChatRV(chat.id,user.nombre,"",
+                                        "",false,R.drawable.hugo)
+                                    chatRVList.add(newChat)
+                                }
+                            }
+                        }
                     }
                     setChats(view)
                     setImages(view)
                 }else{
                     setEmptyView(view)
                 }
+
             }catch (e: Exception) {
                 Log.e("API_ERROR", "Error: ${e.message}", e)
                 Toast.makeText(
