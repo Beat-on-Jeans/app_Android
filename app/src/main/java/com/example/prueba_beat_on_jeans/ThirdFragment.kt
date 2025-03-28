@@ -48,43 +48,14 @@ class ThirdFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_third, container, false)
-        when (MainActivity.UserSession.rolId){
-            1 -> getMusicChats(view)
-            2 -> getLocalChats(view)
-        }
-
+        getChats(view)
         return view
     }
 
-    private fun getLocalChats(view: View) {
+    private fun getChats(view: View) {
         lifecycleScope.launch {
             try {
-                val chats = RetrofitClient.instance.getMusicianChats(MainActivity.UserSession.id!!)
-                if (chats.size != 0) {
-                    chatList = chats
-                    chatList.forEach { chat ->
-                        val user = RetrofitClient.instance.getUser(chat.Local_ID)
-                        val newChat = ChatRV(
-                            chat.ID, user.nombre, chat.Mensajes[chat.Mensajes.size - 1].Mensaje,
-                            chat.Mensajes[chat.Mensajes.size - 1].Hora, false, R.drawable.hugo
-                        )
-                        chatRVList.add(newChat)
-                    }
-                    setChats(view)
-                    setImages(view)
-                } else {
-                    setEmptyView(view)
-                }
-            } catch (e: Exception) {
-                Log.e("API_ERROR", "Error: ${e.message}", e)
-            }
-        }
-    }
-
-    private fun getMusicChats(view: View) {
-        lifecycleScope.launch {
-            try {
-                val chats = RetrofitClient.instance.getLocalChats(MainActivity.UserSession.id!!)
+                val chats = RetrofitClient.instance.getChats(MainActivity.UserSession.id!!)
                 if(chats.size != 0){
                     chatList = chats
                     chatList.forEach{ chat ->

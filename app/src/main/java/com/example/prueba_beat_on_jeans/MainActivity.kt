@@ -111,13 +111,10 @@ class MainActivity : AppCompatActivity() {
         fun loadUserData(context: Context) {
             val sharedPref = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
             id = sharedPref.getInt("id", 0)
-            username = sharedPref.getString("username", null)
             email = sharedPref.getString("email", null)
             password = sharedPref.getString("password", null)
             rolId = sharedPref.getInt("rolId", 0)
-            location = sharedPref.getString("location", null)
-            urlImg = sharedPref.getString("urlImg", null)
-            isLoggedIn = sharedPref.getBoolean("isLoggedIn", false)
+
         }
 
         fun clearSession(context: Context) {
