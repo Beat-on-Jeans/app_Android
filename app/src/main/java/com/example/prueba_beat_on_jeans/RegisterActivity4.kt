@@ -56,7 +56,6 @@ class RegisterActivity4 : AppCompatActivity() {
                             cityText.text = "..."
                         }
                     }
-
                     override fun afterTextChanged(s: Editable?) {}
                 })
 

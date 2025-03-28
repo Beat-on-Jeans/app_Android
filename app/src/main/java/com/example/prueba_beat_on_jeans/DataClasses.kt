@@ -7,6 +7,7 @@ data class User(
     @SerializedName("Nombre") val nombre: String,
     @SerializedName("Correo") val correo: String,
     @SerializedName("Contrasena") val contrasena: String,
-    @SerializedName("Ubicacion") val location: String,
-    @SerializedName("ROL_ID") val rolId: Int,
+    @SerializedName("ROL_ID") val rolId: Int?,
+    @SerializedName("Url_imagen") val imagen: String,
+    @SerializedName("Ubicacion") val ubicacion: String
 )

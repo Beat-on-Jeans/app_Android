@@ -71,8 +71,10 @@ class LogInActivity : AppCompatActivity() {
                 }
                 if (validUser != null) {
                     MainActivity.UserSession.clearSession(this@LogInActivity)
-                    MainActivity.UserSession.userLogin(this@LogInActivity,
-                        validUser.id,validUser.rolId, validUser.correo,validUser.contrasena)
+                    validUser.rolId?.let {
+                        MainActivity.UserSession.userLogin(this@LogInActivity,
+                            validUser.id, it, validUser.correo,validUser.contrasena)
+                    }
                     val intent = Intent(this@LogInActivity, NavigationBar::class.java)
                     startActivity(intent)
                 } else {
