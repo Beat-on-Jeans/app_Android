@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -17,6 +19,7 @@ import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import kotlinx.coroutines.launch
+import coil.load
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,7 +113,16 @@ class FIrstFragment : Fragment() {
             2 -> setMusiciansMatches(view)
         }
         setCardView(view)
+        var pfp: ImageView = view.findViewById(R.id.profile_picture)
+        val notification_button: ImageView = view.findViewById(R.id.notification)
 
+        val imageUrl = MainActivity.UserSession.urlImg
+
+        pfp.load(imageUrl) {
+            crossfade(true)
+        }
+
+        setCardView(view)
         return view
     }
 
