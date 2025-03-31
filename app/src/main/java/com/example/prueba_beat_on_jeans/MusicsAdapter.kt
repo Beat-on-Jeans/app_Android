@@ -19,16 +19,15 @@ import com.yuyakaido.android.cardstackview.Direction
 
 class MusicsAdapter(
     private val context: Context?,
-    private val musicList: List<Music>,
-    private val onLikeClick: (Music) -> Unit,
-    private val onTalkClick: (Music) -> Unit
+    private val matchesList: List<Matches>,
+    private val onLikeClick: (Matches) -> Unit,
+    private val onTalkClick: (Matches) -> Unit
 ) : RecyclerView.Adapter<MusicsAdapter.MusicViewHolder>(), CardStackListener {
 
     private var currentViewHolder: MusicViewHolder? = null
 
     inner class MusicViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.TxtName)
-        val distanceTextView: TextView = view.findViewById(R.id.TxtDistance)
         val descriptionTextView: TextView = view.findViewById(R.id.TxtDescription)
         val imageMusicians: FrameLayout = view.findViewById(R.id.RVImgBackGround)
         val rvTag: RecyclerView = view.findViewById(R.id.RVTags)
@@ -46,11 +45,10 @@ class MusicsAdapter(
     }
 
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
-        val music = musicList[position]
+        val music = matchesList[position]
         holder.nameTextView.text = music.name
-        holder.distanceTextView.text = music.distance
         holder.descriptionTextView.text = music.description
-        holder.imageMusicians.setBackgroundResource(music.img)
+        holder.imageMusicians.setBackgroundResource(R.drawable.human)
 
         val adapter = TagsAdapter(music.arrayTags)
         holder.rvTag.adapter = adapter
@@ -68,7 +66,7 @@ class MusicsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return musicList.size
+        return matchesList.size
     }
 
     @SuppressLint("CutPasteId")

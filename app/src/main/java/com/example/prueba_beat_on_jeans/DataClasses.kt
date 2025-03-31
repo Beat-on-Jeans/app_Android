@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
+import java.io.Serializable
 
 data class User(
     @SerializedName("ID") val id: Int,
@@ -21,3 +22,8 @@ data class UserLogin(
     val contrasena: String
 )
 
+data class Matches(
+              @SerializedName("Nombre") val name: String,
+              @SerializedName("Descripcion") val description: String,
+              @SerializedName("Generos") val arrayTags: MutableList<String>,
+              @SerializedName("Url_Imagen") val img: String): Serializable

@@ -1,10 +1,14 @@
 package com.example.prueba_beat_on_jeans
 
 import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -14,6 +18,7 @@ import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
+import kotlinx.coroutines.launch
 import coil.load
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,6 +32,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class FIrstFragment : Fragment() {
+
+    private var matchesList = mutableListOf<Matches>()
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,11 +48,9 @@ class FIrstFragment : Fragment() {
     }
 
     private fun setCardView(view: View) {
-        val musicsList = setBetaUsers()
-
         val cardStackMusicinas = view.findViewById<CardStackView>(R.id.CVMusicians)
 
-        val adapter = MusicsAdapter(requireContext(), musicsList, {
+        val adapter = MusicsAdapter(requireContext(), matchesList, {
             val setting = SwipeAnimationSetting.Builder()
                 .setDirection(Direction.Right)
                 .setDuration(Duration.Normal.duration)
@@ -102,6 +108,11 @@ class FIrstFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
+        when(MainActivity.UserSession.rolId){
+            1 -> setLocalMatches(view)
+            2 -> setMusiciansMatches(view)
+        }
+        setCardView(view)
         var pfp: ImageView = view.findViewById(R.id.profile_picture)
         val notification_button: ImageView = view.findViewById(R.id.notification)
 
@@ -113,6 +124,38 @@ class FIrstFragment : Fragment() {
 
         setCardView(view)
         return view
+    }
+
+    private fun setMusiciansMatches(view: View) {
+        lifecycleScope.launch {
+            try {
+                matchesList = RetrofitClient.instance.getMusicMatches(MainActivity.UserSession.location!!)
+                setCardView(view)
+            }catch (e: Exception) {
+                Log.e("API_ERROR", "Error: ${e.message}", e)
+                Toast.makeText(
+                    context,
+                    "Error al conectar con el servidor",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun setLocalMatches(view: View) {
+        lifecycleScope.launch {
+            try {
+                matchesList = RetrofitClient.instance.getLocalMatches(MainActivity.UserSession.location!!)
+                setCardView(view)
+            }catch (e: Exception) {
+                Log.e("API_ERROR", "Error: ${e.message}", e)
+                Toast.makeText(
+                    context,
+                    "Error al conectar con el servidor",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     companion object {
@@ -133,48 +176,5 @@ class FIrstFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
-
-    private fun setBetaUsers(): List<Music> {
-        return mutableListOf(Music("Peggie,23","300ft from you",
-            "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-            , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-            , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human)
-        )
     }
 }

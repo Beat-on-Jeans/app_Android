@@ -37,5 +37,17 @@ interface ApiService {
 
     @POST("api/User/Login")
     fun loginUser(@Body user: User): Call<User>
+
+    @POST("api/Usuarios")
+    fun createUser(@Body user: User): Call<User>
+
+    @GET("Api/MusicGenders/{userID}")
+    suspend fun getMusicGenders(@Path("userID") userID: Int): MutableList<Tag>
+
+    @GET("api/Usuarios/Matches_Music/{Ubicacion}")
+    suspend fun getMusicMatches(@Path("Ubicacion") Ubicacion: String): MutableList<Matches>
+
+    @GET("api/Usuarios/Matches_Locales/{Ubicacion}")
+    suspend fun getLocalMatches(@Path("Ubicacion") Ubicacion: String): MutableList<Matches>
 }
 
