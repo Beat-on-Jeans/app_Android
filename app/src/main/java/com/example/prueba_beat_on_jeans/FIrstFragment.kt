@@ -1,12 +1,12 @@
 package com.example.prueba_beat_on_jeans
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.LinearInterpolator
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -14,6 +14,7 @@ import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
+import coil.load
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,8 +102,16 @@ class FIrstFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
-        setCardView(view)
+        var pfp: ImageView = view.findViewById(R.id.profile_picture)
+        val notification_button: ImageView = view.findViewById(R.id.notification)
 
+        val imageUrl = MainActivity.UserSession.urlImg
+
+        pfp.load(imageUrl) {
+            crossfade(true)
+        }
+
+        setCardView(view)
         return view
     }
 
