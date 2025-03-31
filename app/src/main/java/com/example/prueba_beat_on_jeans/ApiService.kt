@@ -38,6 +38,11 @@ interface ApiService {
     @POST("api/User/Login")
     fun loginUser(@Body user: User): Call<User>
 
+    @GET("api/Usuarios/Musicos")
+    fun getMusicos(): Call<List<UserRecieved>>
+
+    @GET("api/Usuarios/Locales")
+    fun getLocales(): Call<List<UserRecieved>>
     @POST("api/Usuarios")
     fun createUser(@Body user: User): Call<User>
 
@@ -49,5 +54,6 @@ interface ApiService {
 
     @GET("api/Usuarios/Matches_Locales/{Ubicacion}")
     suspend fun getLocalMatches(@Path("Ubicacion") Ubicacion: String): MutableList<Matches>
+
 }
 
