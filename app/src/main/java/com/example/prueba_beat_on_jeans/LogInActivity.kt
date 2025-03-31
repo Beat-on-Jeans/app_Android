@@ -15,6 +15,10 @@ import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 
 class LogInActivity : AppCompatActivity() {
@@ -55,41 +59,41 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
-    private fun comproveUser() {
-        if(MainActivity.UserSession.isLoggedIn){
-            val intent = Intent(this@LogInActivity, NavigationBar::class.java)
-            startActivity(intent)
-        }
-    }
-
     private fun verifyUser(email: String, password: String) {
         lifecycleScope.launch {
-            try {
-                val users = RetrofitClient.instance.getUsers()
-                val validUser = users.find { user ->
-                    user.correo == email && user.contrasena == password
-                }
-                if (validUser != null) {
-                    MainActivity.UserSession.clearSession(this@LogInActivity)
-                    MainActivity.UserSession.userLogin(this@LogInActivity,
-                        validUser.id,validUser.rolId, validUser.correo,validUser.contrasena)
-                    val intent = Intent(this@LogInActivity, NavigationBar::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(
-                        this@LogInActivity,
-                        "Usuario o contraseña incorrectos",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                Log.e("API_ERROR", "Error: ${e.message}", e)
-                Toast.makeText(
-                    this@LogInActivity,
-                    "Error al conectar con el servidor",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val user = User(
+                    0,
+                    "",
+                    email,
+                    password,
+                    0,
+                    "",
+                    ""
+                )
+                RetrofitClient.instance.loginUser(user).enqueue(object : Callback<User> {
+                    override fun onResponse(call: Call<User>, response: Response<User>) {
+                        if (response.isSuccessful) {
+                            val userRecibido = response.body()
+                            if (userRecibido != null) {
+                                MainActivity.UserSession.urlImg = userRecibido.imagen
+                                MainActivity.UserSession.email = userRecibido.correo
+                                MainActivity.UserSession.password = userRecibido.contrasena
+                                MainActivity.UserSession.username = userRecibido.nombre
+                                MainActivity.UserSession.location = userRecibido.ubicacion
+                                MainActivity.UserSession.id = userRecibido.id
+                                MainActivity.UserSession.rolId = userRecibido.rolId
+                                MainActivity.UserSession.isLoggedIn = true
+                                val intent = Intent(this@LogInActivity, NavigationBar::class.java)
+                                startActivity(intent)
+                            }
+                        } else {
+                            Toast.makeText(applicationContext, "Correo o contraseña incorrectos.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    override fun onFailure(call: Call<User>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Error de conexión: ${t.message}", Toast.LENGTH_LONG).show()
+                    }
+                })
             }
         }
     }
-}

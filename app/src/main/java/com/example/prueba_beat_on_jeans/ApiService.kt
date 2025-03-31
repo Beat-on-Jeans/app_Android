@@ -32,7 +32,10 @@ interface ApiService {
         @Part image: MultipartBody.Part,
     ): Call<ResponseBody>
 
-    @POST("api/Usuarios")
-    fun createUser(@Body user: User): Call<User>
+    @POST("api/User")
+    fun registerUser(@Body user: User): Call<ResponseBody>
+
+    @POST("api/User/Login")
+    fun loginUser(@Body user: User): Call<User>
 }
 

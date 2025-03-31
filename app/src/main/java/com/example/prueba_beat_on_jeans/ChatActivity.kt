@@ -24,7 +24,11 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var chat: ChatRV
     private var job: Job? = null
     private var chatStats = Chat(null,null, mutableListOf(),0,0,0)
-    private var userChat = User(0,null.toString(),null.toString(), null.toString(),null.toString(), 0)
+    private var userChat = User(
+        0, null.toString(), null.toString(), null.toString(), 0,
+        imagen = TODO(),
+        ubicacion = TODO()
+    )
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
