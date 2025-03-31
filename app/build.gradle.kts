@@ -59,4 +59,6 @@ dependencies {
     implementation(libs.cardstackview)
     implementation(libs.kotlinx.coroutines.android.v160)
     implementation(libs.okhttp)
+    implementation(libs.picasso.v28)
+    implementation("io.coil-kt:coil:2.0.0")
 }

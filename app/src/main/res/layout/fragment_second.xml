@@ -38,51 +38,98 @@
         </FrameLayout>
 </LinearLayout>
 
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
+</FrameLayout>
 <LinearLayout
-android:layout_width="match_parent"
-android:layout_height="0dp"
-android:layout_weight="0.9"
-android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.9"
+    android:orientation="vertical"
     android:background="@color/white"
 
-android:paddingTop="10dp">
-
-<GridView
+    android:paddingTop="10dp">
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="150dp" />
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <ImageView
+        android:layout_width="260dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="top"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            />
+
+    </LinearLayout>
+</LinearLayout>
+
 
 <TextView
+    android:id="@+id/text_name"
     android:layout_marginTop="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Name"
+    android:text="BUSCA ALGÚN LOCAL EN TU AREA"
     android:gravity="center" />
 
 <TextView
+    android:id="@+id/text_location"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Location"
     android:gravity="center" />
 
 <TextView
+    android:id="@+id/text_description"
     android:layout_marginTop="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Description Description Description Description Description"
     android:gravity="center" />
 
 <FrameLayout
     android:layout_marginTop="10dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/text_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact"
+        android:visibility="invisible"
+        android:layout_gravity="center|top" />
 
     <Button
         android:id="@+id/btnShowLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contact"
-        android:layout_gravity="center" />
+        android:text="Ver mi ubicación"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        />
 </FrameLayout>
 </LinearLayout>
     </LinearLayout>
