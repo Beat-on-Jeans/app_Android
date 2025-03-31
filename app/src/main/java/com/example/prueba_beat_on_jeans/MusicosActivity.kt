@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
+import kotlinx.coroutines.launch
 
 
 class MusicosActivity : AppCompatActivity() {
@@ -19,14 +21,14 @@ class MusicosActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        setCardView()
-
         val btnBack = findViewById<ImageButton>(R.id.ImgBtnBack)
 
         btnBack.setOnClickListener{
             finish()
         }
     }
+
+
 
     private fun setCardView() {
 
@@ -58,46 +60,7 @@ class MusicosActivity : AppCompatActivity() {
         cardStackMusicinas.adapter = adapter
     }
 
-    private fun setBetaUsers(): List<Music> {
-        return mutableListOf(Music("Peggie,23","300ft from you",
-            "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-            , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-            , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),
-            Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human),Music("Peggie,23","300ft from you",
-                "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
-                , mutableListOf(Tag(1,"Jazz"),Tag(2,"Blues"))
-                , R.drawable.human)
-        )
+    private fun setBetaUsers(): List<Matches> {
+        return listOf()
     }
 }

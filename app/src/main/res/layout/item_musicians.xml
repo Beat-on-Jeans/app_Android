@@ -22,14 +22,6 @@
             android:textColor="@color/white"
             android:textSize="35dp" />
 
-        <TextView
-            android:id="@+id/TxtDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Distancia"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVTags"
             android:layout_width="match_parent"

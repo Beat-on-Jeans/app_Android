@@ -31,7 +31,7 @@ class LogInActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        //comproveUser()
+        comproveUser()
 
         val loginButton: Button = findViewById(R.id.login_button)
         val editTextUsername: EditText = findViewById(R.id.user_editText)
@@ -55,6 +55,13 @@ class LogInActivity : AppCompatActivity() {
         // Register Text click listener to open RegisterActivity
         registerText.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun comproveUser() {
+        if(MainActivity.UserSession.isLoggedIn){
+            val intent = Intent(this, NavigationBar::class.java)
             startActivity(intent)
         }
     }

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TagsAdapter(private val tags: List<Tag>) : RecyclerView.Adapter<TagsAdapter.TagViewHolder>() {
+class TagsAdapter(private val tags: MutableList<String>) : RecyclerView.Adapter<TagsAdapter.TagViewHolder>() {
 
     // ViewHolder class for the RecyclerView
     class TagViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -22,7 +22,7 @@ class TagsAdapter(private val tags: List<Tag>) : RecyclerView.Adapter<TagsAdapte
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         // Bind the data to the views
         val tag = tags[position]
-        holder.txtTag.text = tag.tagName
+        holder.txtTag.text = tag
     }
 
     override fun getItemCount(): Int {
