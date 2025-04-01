@@ -23,19 +23,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activities.RegisterActivity5"
+            android:name=".RegisterActivity5"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterActivity4"
+            android:name=".RegisterActivity4"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterActivity3"
+            android:name=".RegisterActivity3"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterActivity2"
+            android:name=".RegisterActivity2"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,12 +43,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MusicosActivity" />
-        <activity android:name=".classes.NavigationBar" />
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.ChatActivity" />
-        <activity android:name=".activities.LogInActivity" />
-        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".NavigationBar" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".LogInActivity" />
+        <activity android:name=".SettingsActivity" />
     </application>
 
 </manifest>

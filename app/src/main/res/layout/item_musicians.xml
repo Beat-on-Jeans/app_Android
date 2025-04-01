@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/RVImgBackGround"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/mediumGray">
+    android:background="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/RVImgBackGround"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
