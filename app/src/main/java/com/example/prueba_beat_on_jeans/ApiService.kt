@@ -49,9 +49,15 @@ interface ApiService {
     @GET("Api/MusicGenders/{userID}")
     suspend fun getMusicGenders(@Path("userID") userID: Int): MutableList<Tag>
 
-    @GET("api/Usuarios/Matches_Music/{Ubicacion}")
-    suspend fun getMusicMatches(@Path("Ubicacion") Ubicacion: String): MutableList<Matches>
+    @GET("api/Usuarios/Matches/{Ubicacion}/{userID}")
+    suspend fun getMusicMatches(@Path("Ubicacion") Ubicacion: String, @Path("userID") userID: Int): MutableList<Matches>
 
+    @POST("api/Matches_Music/{Local_ID}/{Musico_ID}")
+    fun createNewMusicMatch(@Path("Local_ID") local_id: Int, @Path("Musico_ID") musico_id: Int): Call<ResponseBody>
+
+    @POST("api/Matches_Local/{Local_ID}/{Musico_ID}")
+    fun createNewLocalMatch(@Path("Local_ID") local_id: Int, @Path("Musico_ID") musico_id: Int): Call<ResponseBody>
+  
     @GET("api/Usuarios/Matches_Locales/{Ubicacion}")
     suspend fun getLocalMatches(@Path("Ubicacion") Ubicacion: String): MutableList<Matches>
 

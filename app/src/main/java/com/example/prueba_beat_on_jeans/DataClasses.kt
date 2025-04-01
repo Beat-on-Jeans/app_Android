@@ -33,6 +33,7 @@ data class UserLogin(
 )
 
 data class Matches(
+              @SerializedName("ID") val id: Int,
               @SerializedName("Nombre") val name: String,
               @SerializedName("Descripcion") val description: String,
               @SerializedName("Generos") val arrayTags: MutableList<String>,
