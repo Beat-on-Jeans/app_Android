@@ -17,6 +17,16 @@ data class User(
     @SerializedName("Ubicacion") val ubicacion: String
 )
 
+data class UserRecieved(
+    @SerializedName("Contrasena") val contrasena: String?,
+    @SerializedName("Correo") val correo: String?,
+    @SerializedName("ID") val id: Int,
+    @SerializedName("Nombre") val nombre: String,
+    @SerializedName("ROL_ID") val rolId: Int?,
+    @SerializedName("Ubicacion") val ubicacion: String?,
+    @SerializedName("Url_Imagen") val imagen: String,
+)
+
 data class UserLogin(
     val correo: String,
     val contrasena: String

@@ -9,7 +9,7 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
