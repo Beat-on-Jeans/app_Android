@@ -25,19 +25,16 @@ class ImgAcountAdapter(private val pfp: String,
     }
 
     override fun onBindViewHolder(holder: ImgAcountViewHolder, position: Int) {
-        holder.imgLarge.setImageResource(imgAcountBackground)
-
-        holder.imgLarge.load(imgAcountBackground) {
-            crossfade(true)
-            transformations(RoundedCornersTransformation(16f))
-        }
+        holder.imgLarge.setBackgroundResource(R.drawable.rounded_img_profile_background);
+        holder.imgLarge.setImageResource(imgAcountBackground);
+        holder.imgLarge.setClipToOutline(true);
 
         holder.imgSmall.load(pfp) {
             crossfade(true)
             transformations(RoundedCornersTransformation(12f))
         }
 
-        holder.imgLarge.scaleType = ImageView.ScaleType.FIT_XY
+        holder.imgLarge.scaleType = ImageView.ScaleType.CENTER_CROP
         holder.imgSmall.scaleType = ImageView.ScaleType.FIT_XY
     }
 
