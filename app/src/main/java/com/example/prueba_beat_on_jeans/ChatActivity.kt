@@ -25,10 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private var job: Job? = null
     private var chatStats = Chat(null,null, mutableListOf(),0,0,0)
     private var userChat = User(
-        0, null.toString(), null.toString(), null.toString(), 0,
-        imagen = TODO(),
-        ubicacion = TODO()
-    )
+        0, null.toString(), null.toString(), null.toString(), 0, null.toString(), toString())
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,8 +105,8 @@ class ChatActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val currentChat = RetrofitClient.instance.getChat(chat.chatID)
             when (MainActivity.UserSession.rolId){
-                1 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
-                2 -> userChat = RetrofitClient.instance.getUser(currentChat.local_ID)
+                1 -> userChat = RetrofitClient.instance.getUser(currentChat.local_ID)
+                2 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
             }
             chatStats = currentChat
             setView()

@@ -55,13 +55,17 @@ class ThirdFragment : Fragment() {
     private fun getChats(view: View) {
         lifecycleScope.launch {
             try {
-                val chats = RetrofitClient.instance.getChats(MainActivity.UserSession.id!!)
+                val chats = if(MainActivity.UserSession.rolId == 1){
+                    RetrofitClient.instance.getMusicChats(MainActivity.UserSession.id!!)
+                }else{
+                    RetrofitClient.instance.getLocalChats(MainActivity.UserSession.id!!)
+                }
                 if(chats.size != 0){
                     chatList = chats
                     when(MainActivity.UserSession.rolId!!){
                         1 ->{
                             chatList.forEach{ chat ->
-                                val user = RetrofitClient.instance.getUser(chat.musico_ID)
+                                val user = RetrofitClient.instance.getUser(chat.local_ID)
                                 if(chat.mensajes.size != 0){
                                     val newChat = ChatRV(chat.id,user.nombre,chat.mensajes.last().mensaje,
                                         chat.mensajes.last().hora,false,R.drawable.hugo)
@@ -75,7 +79,7 @@ class ThirdFragment : Fragment() {
                         }
                         2 ->{
                             chatList.forEach{ chat ->
-                                val user = RetrofitClient.instance.getUser(chat.local_ID)
+                                val user = RetrofitClient.instance.getUser(chat.musico_ID)
                                 if(chat.mensajes.size != 0){
                                     val newChat = ChatRV(chat.id,user.nombre,chat.mensajes.last().mensaje,
                                         chat.mensajes[chat.mensajes.size-1].hora,false,R.drawable.hugo)

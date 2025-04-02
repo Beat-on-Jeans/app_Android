@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import android.widget.ImageView
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -56,7 +57,7 @@ class FIrstFragment : Fragment() {
         val adapter = MusicsAdapter(requireContext(), matchesList, { userLiked ->
                 lifecycleScope.launch {
                     if (MainActivity.UserSession.rolId == 1){
-                       val call =  RetrofitClient.instance.createNewMusicMatch(userLiked.id,MainActivity.UserSession.id!!)
+                       val call =  RetrofitClient.instance.createNewMatch(userLiked.id,MainActivity.UserSession.id!!)
                         call.enqueue(object : Callback<ResponseBody> {
                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                    if (response.isSuccessful) {
@@ -72,7 +73,7 @@ class FIrstFragment : Fragment() {
                            })
                     }
                     else {
-                        val call = RetrofitClient.instance.createNewLocalMatch(MainActivity.UserSession.id!!,userLiked.id)
+                        val call = RetrofitClient.instance.createNewMatch(MainActivity.UserSession.id!!,userLiked.id)
                         call.enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                 if (response.isSuccessful) {
