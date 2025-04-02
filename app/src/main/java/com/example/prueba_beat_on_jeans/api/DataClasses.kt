@@ -13,8 +13,6 @@ data class User(
     @SerializedName("Ubicacion") val ubicacion: String
 )
 
-<<<<<<<< HEAD:app/src/main/java/com/example/prueba_beat_on_jeans/DataClasses.kt
-========
 data class UserRecieved(
     @SerializedName("Contrasena") val contrasena: String?,
     @SerializedName("Correo") val correo: String?,
@@ -35,7 +33,6 @@ data class UserRecievedWithDescription(
     @SerializedName("Url_Imagen") val imagen: String,
 )
 
->>>>>>>> 5798744 (cosas chulas):app/src/main/java/com/example/prueba_beat_on_jeans/api/DataClasses.kt
 data class UserLogin(
     val correo: String,
     val contrasena: String

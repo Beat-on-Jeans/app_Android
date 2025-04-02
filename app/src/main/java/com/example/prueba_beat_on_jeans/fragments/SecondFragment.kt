@@ -113,7 +113,7 @@ class SecondFragment : Fragment() {
 
         mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
         mapView.setMultiTouchControls(true)
-        mapView.controller.setZoom(20) // Ajustar el nivel de zoom
+        mapView.controller.setZoom(15) // Ajustar el nivel de zoom
         val barcelonaGeoPoint = GeoPoint(41.3784, 2.1925) // Coordenadas de Barcelona
         mapView.controller.setCenter(barcelonaGeoPoint)
 
@@ -362,7 +362,7 @@ class SecondFragment : Fragment() {
         mapView.setMultiTouchControls(true)
 
         val mapController = mapView.controller
-        mapController.setZoom(20)
+        mapController.setZoom(15)
 
         for (local in locals!!) {
             val address = local.ubicacion ?: continue
@@ -437,7 +437,7 @@ class SecondFragment : Fragment() {
                 // Mostrar la ubicación en el mapa
                 val geoPoint = GeoPoint(lat, lon)
                 mapView.controller.setCenter(geoPoint)
-                mapView.controller.setZoom(18)
+                mapView.controller.setZoom(15)
 
                 locationManager.removeUpdates(this)
             }

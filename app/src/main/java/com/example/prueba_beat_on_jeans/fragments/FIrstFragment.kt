@@ -24,6 +24,10 @@ import com.example.prueba_beat_on_jeans.activities.MainActivity
 import com.example.prueba_beat_on_jeans.adapters.MusicsAdapter
 import com.example.prueba_beat_on_jeans.api.Matches
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,24 +58,44 @@ class FIrstFragment : Fragment() {
     private fun setCardView(view: View) {
         val cardStackMusicinas = view.findViewById<CardStackView>(R.id.CVMusicians)
 
-        val adapter = MusicsAdapter(requireContext(), matchesList, {
-            val setting = SwipeAnimationSetting.Builder()
-                .setDirection(Direction.Right)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(AccelerateInterpolator())
-                .build()
+        val adapter = MusicsAdapter(requireContext(), matchesList, { userLiked ->
+            lifecycleScope.launch {
+                if (MainActivity.UserSession.rolId == 1){
+                    val call =  RetrofitClient.instance.createNewMatch(userLiked.id,MainActivity.UserSession.id!!)
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                Log.d("API_RESPONSE", "Match creado correctamente")
+                            } else {
+                                Log.e("API_ERROR", "Error en la respuesta: ${response.errorBody()?.string()}")
+                            }
+                        }
 
-            cardStackMusicinas.swipe().apply { setting }
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Log.e("API_ERROR", "Fallo en la petición: ${t.message}")
+                        }
+                    })
+                }
+                else {
+                    val call = RetrofitClient.instance.createNewMatch(MainActivity.UserSession.id!!,userLiked.id)
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                Log.d("API_RESPONSE", "Match creado correctamente")
+                            } else {
+                                Log.e("API_ERROR", "Error en la respuesta: ${response.errorBody()?.string()}")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Log.e("API_ERROR", "Fallo en la petición: ${t.message}")
+                        }
+                    })
+                }
             }
-  
-        ) {
-            val setting = SwipeAnimationSetting.Builder()
-                .setDirection(Direction.Left)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(AccelerateInterpolator())
-                .build()
+        }
 
-            cardStackMusicinas.swipe().apply { setting }
+        ) {
         }
 
         val manager = CardStackLayoutManager(requireContext(), object : CardStackListener {
@@ -133,7 +157,7 @@ class FIrstFragment : Fragment() {
     private fun setMusiciansMatches(view: View) {
         lifecycleScope.launch {
             try {
-                matchesList = RetrofitClient.instance.getMusicMatches(MainActivity.UserSession.location!!)
+                matchesList = RetrofitClient.instance.getMusicMatches(MainActivity.UserSession.location!!,MainActivity.UserSession.id!!)
                 setCardView(view)
             }catch (e: Exception) {
                 Log.e("API_ERROR", "Error: ${e.message}", e)
@@ -149,7 +173,7 @@ class FIrstFragment : Fragment() {
     private fun setLocalMatches(view: View) {
         lifecycleScope.launch {
             try {
-                matchesList = RetrofitClient.instance.getLocalMatches(MainActivity.UserSession.location!!)
+                matchesList = RetrofitClient.instance.getLocalMatches(MainActivity.UserSession.location!!,MainActivity.UserSession.id!!)
                 setCardView(view)
             }catch (e: Exception) {
                 Log.e("API_ERROR", "Error: ${e.message}", e)
