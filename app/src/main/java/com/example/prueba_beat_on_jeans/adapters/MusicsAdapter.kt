@@ -1,4 +1,4 @@
-package com.example.prueba_beat_on_jeans
+package com.example.prueba_beat_on_jeans.adapters
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -12,7 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.example.prueba_beat_on_jeans.api.Matches
+import com.example.prueba_beat_on_jeans.R
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -30,7 +31,7 @@ class MusicsAdapter(
     inner class MusicViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.TxtName)
         val descriptionTextView: TextView = view.findViewById(R.id.TxtDescription)
-        val imageMusicians: ImageView = view.findViewById(R.id.RVImgBackGround)
+        val imageMusicians: FrameLayout = view.findViewById(R.id.RVImgBackGround)
         val rvTag: RecyclerView = view.findViewById(R.id.RVTags)
         val likeButton: ImageButton = view.findViewById(R.id.BtnHeart)
         val talkButton: ImageButton = view.findViewById(R.id.BtnTalk)
@@ -49,9 +50,7 @@ class MusicsAdapter(
         val music = matchesList[position]
         holder.nameTextView.text = music.name
         holder.descriptionTextView.text = music.description
-        holder.imageMusicians.load(music.img) {
-            crossfade(true)
-        }
+        holder.imageMusicians.setBackgroundResource(R.drawable.human)
 
         val adapter = TagsAdapter(music.arrayTags)
         holder.rvTag.adapter = adapter
@@ -104,16 +103,6 @@ class MusicsAdapter(
             holder.leftOverlay.visibility = View.INVISIBLE
             holder.rightOverlay.visibility = View.INVISIBLE
             holder.backColor.alpha = 0.0f
-        }
-        if (direction == Direction.Right) {
-            val layoutManager = (context as? Activity)?.findViewById<CardStackView>(R.id.CVMusicians)?.layoutManager
-            if (layoutManager is CardStackLayoutManager) {
-                val topPosition = layoutManager.topPosition - 1 // Se resta 1 porque la carta ya se movió
-                if (topPosition in matchesList.indices) {
-                    val userLiked = matchesList[topPosition]
-                    onLikeClick(userLiked) // Llamamos a la acción de "Like"
-                }
-            }
         }
     }
 
