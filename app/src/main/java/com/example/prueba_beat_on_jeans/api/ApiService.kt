@@ -61,15 +61,23 @@ interface ApiService {
 
     @PUT("api/GenerosUsuarios/ActualizarGeneros/{usuarioId}")
     suspend fun actualizarGenerosUsuario(
-        @Path("usuarioId") usuarioId: Int,  // Parámetro en la URL
-        @Body generosIds: List<Int>  // El cuerpo de la solicitud contiene los géneros
-    ): Response<Map<String, Any>>  // El tipo de la respuesta es un mapa genéric
+        @Path("usuarioId") usuarioId: Int,
+        @Body generosIds: List<Int>
+    ): Response<ResponseBody>
 
     @GET("api/GenerosUsuarios/ObtenerGeneros/{usuarioId}")
     suspend fun obtenerGenerosUsuario(
         @Path("usuarioId") usuarioId: Int
     ): Response<List<MusicalGender>>
 
+    @PUT("api/UsuarioMobils/{id}/descripcion")
+    suspend fun actualizarDescripcionUsuario(
+        @Path("id") id: Int,
+        @Body descripcion: String
+    ): Response<Unit>
+
+    @GET("api/UsuarioMobils/{id}/Descripcion")
+    suspend fun getDescripcionUsuario(@Path("id") userId: Int): Response<String>
 
     @GET("api/Usuarios/Matches_Music/{Ubicacion}/{userID}")
     suspend fun getMusicMatches(@Path("Ubicacion") Ubicacion: String, @Path("userID") userID: Int): MutableList<Matches>
