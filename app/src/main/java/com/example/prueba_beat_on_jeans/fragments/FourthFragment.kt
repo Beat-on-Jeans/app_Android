@@ -2,12 +2,15 @@ package com.example.prueba_beat_on_jeans.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,67 +20,85 @@ import com.example.prueba_beat_on_jeans.classes.Tag
 import com.example.prueba_beat_on_jeans.adapters.TagsAcountAdapter
 import com.example.prueba_beat_on_jeans.activities.MainActivity
 import com.example.prueba_beat_on_jeans.adapters.ImgAcountAdapter
+import com.example.prueba_beat_on_jeans.api.RetrofitClient
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 class FourthFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_fourth, container, false)
-        setAccount(view)
+        val rvAcTags = view.findViewById<RecyclerView>(R.id.RVTagsAccount)
+        setAccount(view, rvAcTags)
         return view
-
     }
 
-    private fun setAccount(view: View) {
+    private fun setAccount(view: View, rvAcTags: RecyclerView) {
         val rcAcImgBac = view.findViewById<RecyclerView>(R.id.RVImgsAccount)
         val txtAcName = view.findViewById<TextView>(R.id.TxtAccountName)
-        val rvAcTags = view.findViewById<RecyclerView>(R.id.RVTagsAccount)
         val txtAcDesc = view.findViewById<TextView>(R.id.TxtAccountDescription)
-        val rvAcEven = view.findViewById<RecyclerView>(R.id.RVEvents)
 
-        val adapterImgs = ImgAcountAdapter(MainActivity.UserSession.urlImg.toString(),
+        rvAcTags.setOnClickListener{
+            Log.e("Hoal", "aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        }
+
+        val adapterImgs = ImgAcountAdapter(
+            MainActivity.UserSession.urlImg.toString(),
             R.drawable.background
         )
         rcAcImgBac.adapter = adapterImgs
         rcAcImgBac.layoutManager = LinearLayoutManager(context)
 
-
-
         txtAcName.text = MainActivity.UserSession.username
 
-        val adapterTags = TagsAcountAdapter(setBetaStats())
-        rvAcTags.adapter = adapterTags
-        rvAcTags.layoutManager = GridLayoutManager(context,4)
+        // Aquí, obtendremos los géneros y configuraremos el RecyclerView
+        lifecycleScope.launch {
+            val tags = obtenerGenerosDelUsuario()
+            val adapterTags = TagsAcountAdapter(tags)
+            rvAcTags.adapter = adapterTags
+            rvAcTags.layoutManager = GridLayoutManager(context, 4)
+        }
 
         txtAcDesc.text = "Capturing killer fashion shots by day, rocking out at concerts by night. Up for grabbing coffee and seeing if we vibe?"
 
         val btnSetting = view.findViewById<ImageButton>(R.id.BtnSettings)
-
-        btnSetting.setOnClickListener{
+        btnSetting.setOnClickListener {
             val intent = Intent(context, SettingsActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun setBetaStats(): List<Tag> {
-        return listOf(
-            Tag(1,"Clásica"),
-            Tag(2,"Blues"),
-            Tag(3,"Metal"),
-        )
+    private fun obtenerGenerosSeleccionados(): List<Int> {
+        return listOf(1, 3, 5)
+    }
+
+    // Obtener géneros musicales del usuario desde la API
+    private suspend fun obtenerGenerosDelUsuario(): List<Tag> {
+        val usuarioId = MainActivity.UserSession.id  // Obtén el ID del usuario (ajústalo según tu lógica)
+        val response: Response<List<com.example.prueba_beat_on_jeans.api.MusicalGender>> =
+            RetrofitClient.instance.obtenerGenerosUsuario(usuarioId!!)
+
+        return if (response.isSuccessful) {
+            val generos = response.body()
+            if (generos != null) {
+                generos.map { genero ->
+                    Tag(genero.id, genero.genero)
+                }
+            } else {
+                showToast("No se encontraron géneros musicales.")
+                emptyList()
+            }
+        } else {
+            showToast("Error: ${response.code()} - ${response.message()}")
+            emptyList()
+        }
+    }
+
+    // Función para mostrar los mensajes de error o éxito
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
