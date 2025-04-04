@@ -56,7 +56,6 @@ class ChatActivity : AppCompatActivity() {
             finish()
         }
         iniciarLlamadasMensajes()
-        //iniciarLlamadasEventos()
     }
 
     private fun obtainRV() {
@@ -89,17 +88,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
     }
-/*
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun iniciarLlamadasEventos() {
-        job = lifecycleScope.launch {
-            while (isActive) {
 
-                delay(120_000)
-            }
-        }
-    }
-*/
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("NotifyDataSetChanged")
     private fun setView() {
