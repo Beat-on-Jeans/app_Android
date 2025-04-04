@@ -1,4 +1,5 @@
 package com.example.prueba_beat_on_jeans.api
+
 import com.example.prueba_beat_on_jeans.classes.Chat
 import com.example.prueba_beat_on_jeans.classes.Message
 import com.example.prueba_beat_on_jeans.classes.Tag
@@ -87,5 +88,17 @@ interface ApiService {
 
     @GET("api/Usuarios/Matches_Locales/{Ubicacion}/{userID}")
     suspend fun getLocalMatches(@Path("Ubicacion") Ubicacion: String, @Path("userID") userID: Int): MutableList<Matches>
+
+    @POST("api/Actuacions")
+    suspend fun createNewEvent(@Body newEvent: Event): Call<ResponseBody>
+
+    @GET("api/Actuacions/GetUpcomingNewActuacion/{creatorID}/{userID}")
+    suspend fun getUpcomingNewActuacion(@Path("creatorID") creatorID: Int,@Path("userID") userID: Int): MutableList<Event>
+
+    @PUT("api/Actuacions/CreateEvent/{event}")
+    suspend fun createEvent(@Body event: Event): Event
+
+    @DELETE("api/Actuacions/DeleteEvent/{event}")
+    suspend fun deleteEvent(@Body event: Event): Call<ResponseBody>
 }
 

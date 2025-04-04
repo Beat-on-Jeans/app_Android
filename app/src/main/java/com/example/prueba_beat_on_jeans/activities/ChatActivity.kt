@@ -3,11 +3,16 @@ package com.example.prueba_beat_on_jeans.activities
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.Adapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +24,8 @@ import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.api.User
 import com.example.prueba_beat_on_jeans.adapters.MessageAdapter
+import com.example.prueba_beat_on_jeans.fragments.AcceptEventDialog
+import com.example.prueba_beat_on_jeans.fragments.CreateEventDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -34,37 +41,52 @@ class ChatActivity : AppCompatActivity() {
     private var userChat = User(
         0, null.toString(), null.toString(), null.toString(), 0, null.toString(), toString())
 
+    private lateinit var rvMessages: RecyclerView
+    private lateinit var adapter: MessageAdapter
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         obtainStats()
+        obtainRV()
         val imgChater = findViewById<ImageButton>(R.id.BtnBack)
 
         imgChater.setOnClickListener {
             finish()
         }
-        iniciarLlamadas()
+        iniciarLlamadasMensajes()
+    }
+
+    private fun obtainRV() {
+        rvMessages = findViewById(R.id.RVMessages)
+        adapter = MessageAdapter(this, chatStats.mensajes)
+        rvMessages.adapter = adapter
+        rvMessages.layoutManager = LinearLayoutManager(this)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun iniciarLlamadas() {
-        job = lifecycleScope.launch {
-            while (isActive) { // Repite mientras esté activo
-                obtainStats()
-                delay(10_000) // Espera 10 segundos
+    private fun obtainChat() {
+        lifecycleScope.launch {
+            val currentChat = RetrofitClient.instance.getChat(chat.chatID)
+            when (MainActivity.UserSession.rolId){
+                1 -> userChat = RetrofitClient.instance.getUser(currentChat.local_ID)
+                2 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
             }
+            chatStats = currentChat
+            setView()
         }
     }
 
-    fun detenerLlamadas() {
-        job?.cancel() // Cancela la repetición
-    }
-
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun obtainStats(){
-        chat = obtainIntent()
-        obtainChat()
+    fun iniciarLlamadasMensajes() {
+        job = lifecycleScope.launch {
+            while (isActive) {
+                obtainNewMessagesChat()
+                isNewEvent()
+                delay(10_000)
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -78,18 +100,15 @@ class ChatActivity : AppCompatActivity() {
 
         val txtNameChat = findViewById<TextView>(R.id.TxtNameChat)
         val imgChater = findViewById<ImageView>(R.id.ImgChater)
+        val btnEvent = findViewById<ImageButton>(R.id.btnCreateEvent)
 
-        val rvMessages = findViewById<RecyclerView>(R.id.RVMessages)
         val btnSend = findViewById<ImageButton>(R.id.BtnSendMsg)
         val edTxtMessage = findViewById<EditText>(R.id.editTextMessage)
 
         txtNameChat.text = userChat.nombre
         imgChater.setImageResource(chat.chatImg)
 
-        val adapter = MessageAdapter(this, chatStats.mensajes)
         adapter.notifyDataSetChanged()
-        rvMessages.adapter = adapter
-        rvMessages.layoutManager = LinearLayoutManager(this)
 
         btnSend.setOnClickListener {
             if ((edTxtMessage.text.isNotEmpty() and edTxtMessage.text.isNotBlank()) or (edTxtMessage.text.length > 500)) {
@@ -105,10 +124,60 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+        btnEvent.setOnClickListener{
+            when (MainActivity.UserSession.rolId){
+                1 -> {
+                    val dialog = CreateEventDialog.newInstance(chatStats.local_ID)
+                    dialog.show(supportFragmentManager, "CreateEventDialog")
+                }
+                2 -> {
+                    val dialog = CreateEventDialog.newInstance(chatStats.musico_ID)
+                    dialog.show(supportFragmentManager, "CreateEventDialog")
+                }
+            }
+        }
+    }
+
+    private fun isNewEvent() {
+        lifecycleScope.launch {
+            when (MainActivity.UserSession.rolId){
+                1 ->{
+                    val isNewUpcomingEvent = RetrofitClient.instance.getUpcomingNewActuacion(chatStats.local_ID,MainActivity.UserSession.id!!)
+                    if(isNewUpcomingEvent.size > 0){
+                        isNewUpcomingEvent.forEach{ event ->
+                            val existingDialog = supportFragmentManager.findFragmentByTag("AcceptEventDialog")
+                            if (existingDialog == null) {
+                                val dialog = AcceptEventDialog.newInstance(userChat,event)
+                                dialog.show(supportFragmentManager, "AcceptEventDialog")
+                            }
+                        }
+                    }
+                }
+                2 ->{
+                    val isNewUpcomingEvent = RetrofitClient.instance.getUpcomingNewActuacion(chatStats.musico_ID,MainActivity.UserSession.id!!)
+                    if(isNewUpcomingEvent.size > 0){
+                        isNewUpcomingEvent.forEach{ event ->
+                            val existingDialog = supportFragmentManager.findFragmentByTag("AcceptEventDialog")
+                            if (existingDialog == null) {
+                                val dialog = AcceptEventDialog.newInstance(userChat,event)
+                                dialog.show(supportFragmentManager, "AcceptEventDialog")
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun obtainChat() {
+    private fun obtainStats(){
+        chat = obtainIntent()
+        obtainChat()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun obtainNewMessagesChat() {
         lifecycleScope.launch {
             val currentChat = RetrofitClient.instance.getChat(chat.chatID)
             when (MainActivity.UserSession.rolId){
@@ -116,7 +185,7 @@ class ChatActivity : AppCompatActivity() {
                 2 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
             }
             chatStats = currentChat
-            setView()
+            adapter.notifyDataSetChanged()
         }
     }
 
