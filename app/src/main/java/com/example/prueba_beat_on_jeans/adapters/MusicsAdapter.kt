@@ -3,9 +3,12 @@ package com.example.prueba_beat_on_jeans.adapters
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -19,26 +22,58 @@ import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
+import com.yuyakaido.android.cardstackview.Duration
+import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 
 class MusicsAdapter(
     private val context: Context?,
-    private val matchesList: List<Matches>,
+    private var matchesList: MutableList<Matches>,
     private val onLikeClick: (Matches) -> Unit,
-    private val onTalkClick: (Matches) -> Unit
+    private val onDislikeClick: (Matches) -> Unit
 ) : RecyclerView.Adapter<MusicsAdapter.MusicViewHolder>(), CardStackListener {
 
     private var currentViewHolder: MusicViewHolder? = null
+    private var cardStackView: CardStackView? = null
+
+    fun setCardStackView(stackView: CardStackView) {
+        this.cardStackView = stackView
+    }
 
     inner class MusicViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.TxtName)
         val descriptionTextView: TextView = view.findViewById(R.id.TxtDescription)
         val imageMusicians: ImageView = view.findViewById(R.id.RVImgBackGround)
         val rvTag: RecyclerView = view.findViewById(R.id.RVTags)
-        val likeButton: ImageButton = view.findViewById(R.id.BtnHeart)
-        val talkButton: ImageButton = view.findViewById(R.id.BtnTalk)
+        val likeButton: ImageButton = view.findViewById(R.id.like)
+        val dislikeButton: ImageButton = view.findViewById(R.id.dislike)
         val leftOverlay: ImageView = view.findViewById(R.id.left_overlay)
         val rightOverlay: ImageView = view.findViewById(R.id.right_overlay)
         val backColor: FrameLayout = view.findViewById(R.id.backColor)
+
+        init {
+            likeButton.setOnClickListener {
+                performSwipe(Direction.Right)
+            }
+
+            dislikeButton.setOnClickListener {
+                performSwipe(Direction.Left)
+            }
+        }
+
+        private fun performSwipe(direction: Direction) {
+            cardStackView?.let { stackView ->
+                val manager = stackView.layoutManager as? CardStackLayoutManager
+                manager?.let {
+                    val setting = SwipeAnimationSetting.Builder()
+                        .setDirection(direction)
+                        .setDuration(300)
+                        .setInterpolator(AccelerateInterpolator())
+                        .build()
+                    it.setSwipeAnimationSetting(setting)
+                    stackView.swipe()
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
@@ -57,26 +92,22 @@ class MusicsAdapter(
 
         val adapter = TagsAdapter(music.arrayTags)
         holder.rvTag.adapter = adapter
-        holder.rvTag.layoutManager = GridLayoutManager(context, 8)
-
-        holder.likeButton.setOnClickListener {
-            onLikeClick(music)
-        }
-
-        holder.talkButton.setOnClickListener {
-            onTalkClick(music)
-        }
+        holder.rvTag.layoutManager = GridLayoutManager(context, 4)
 
         currentViewHolder = holder
     }
 
-    override fun getItemCount(): Int {
-        return matchesList.size
+    override fun getItemCount(): Int = matchesList.size
+
+    fun removeTopCard() {
+        if (matchesList.isNotEmpty()) {
+            matchesList.removeAt(0)
+            notifyItemRemoved(0)
+        }
     }
 
-    @SuppressLint("CutPasteId")
     override fun onCardDragging(direction: Direction?, ratio: Float) {
-        getTopViewHolder()?.let { holder ->
+        currentViewHolder?.let { holder ->
             when (direction) {
                 Direction.Left -> {
                     holder.leftOverlay.visibility = View.INVISIBLE
@@ -99,29 +130,33 @@ class MusicsAdapter(
         }
     }
 
-
-
     override fun onCardSwiped(direction: Direction?) {
-        getTopViewHolder()?.let { holder ->
+        currentViewHolder?.let { holder ->
             holder.leftOverlay.visibility = View.INVISIBLE
             holder.rightOverlay.visibility = View.INVISIBLE
             holder.backColor.alpha = 0.0f
         }
-        if (direction == Direction.Right) {
-            val layoutManager = (context as? Activity)?.findViewById<CardStackView>(R.id.CVMusicians)?.layoutManager
-            if (layoutManager is CardStackLayoutManager) {
-                val topPosition = layoutManager.topPosition - 1 // Se resta 1 porque la carta ya se movió
-                if (topPosition in matchesList.indices) {
-                    val userLiked = matchesList[topPosition]
-                    onLikeClick(userLiked) // Llamamos a la acción de "Like"
+
+        direction?.let {
+            if (matchesList.isNotEmpty()) {
+                val currentCard = matchesList[0]
+                when (direction) {
+                    Direction.Right -> {
+                        onLikeClick(currentCard)
+                    }
+                    Direction.Left -> {
+                        onDislikeClick(currentCard)
+                    }
+                    else -> {}
                 }
+                notifyItemRemoved(0)
             }
         }
     }
 
     override fun onCardRewound() {}
     override fun onCardCanceled() {
-        getTopViewHolder()?.let { holder ->
+        currentViewHolder?.let { holder ->
             holder.leftOverlay.visibility = View.INVISIBLE
             holder.rightOverlay.visibility = View.INVISIBLE
             holder.backColor.alpha = 0.0f
@@ -130,14 +165,4 @@ class MusicsAdapter(
 
     override fun onCardAppeared(view: View?, position: Int) {}
     override fun onCardDisappeared(view: View?, position: Int) {}
-
-    private fun getTopViewHolder(): MusicViewHolder? {
-        val layoutManager = (context as? Activity)?.findViewById<CardStackView>(R.id.CVMusicians)?.layoutManager
-        if (layoutManager is CardStackLayoutManager) {
-            val topPosition = layoutManager.topPosition
-            return (context as? Activity)?.findViewById<CardStackView>(R.id.CVMusicians)
-                ?.findViewHolderForAdapterPosition(topPosition) as? MusicViewHolder
-        }
-        return null
-    }
 }

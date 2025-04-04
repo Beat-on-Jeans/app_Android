@@ -46,6 +46,7 @@ import retrofit2.Response
 
 // Para los métodos de Retrofit y la creación del cliente Retrofit
 import org.json.JSONArray
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import java.io.IOException
 import java.net.URLEncoder
 
@@ -92,6 +93,8 @@ class SecondFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_second, container, false)
+        mapView = view.findViewById(R.id.mapView)
+        mapView.visibility = View.VISIBLE
         imageViewMostrar = view.findViewById(R.id.imageViewMostrar)
         location = view.findViewById(R.id.location)
         text_name = view.findViewById(R.id.text_name)
@@ -106,16 +109,18 @@ class SecondFragment : Fragment() {
         musician_text = view.findViewById(R.id.musician_text)
         zone_spinner = view.findViewById(R.id.zone_spinner)
         musician_spinner = view.findViewById(R.id.musician_spinner)
-        mapView = view.findViewById(R.id.mapView)
-        mapView.visibility = View.VISIBLE
         btnShowLocation = view.findViewById(R.id.btnShowLocation)
         btnLocationLayout = view.findViewById(R.id.btnLocationLayout)
 
-        mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
-        mapView.setMultiTouchControls(true)
-        mapView.controller.setZoom(15) // Ajustar el nivel de zoom
-        val barcelonaGeoPoint = GeoPoint(41.3784, 2.1925) // Coordenadas de Barcelona
-        mapView.controller.setCenter(barcelonaGeoPoint)
+        mapView.let {
+            mapView.setTileSource(TileSourceFactory.MAPNIK)
+            mapView.setMultiTouchControls(true)
+            mapView.controller.setZoom(15)
+            val barcelonaGeoPoint = GeoPoint(41.3784, 2.1925)
+            mapView.controller.setCenter(barcelonaGeoPoint)
+        }
+
+        locationManager = requireActivity().getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
 
         when(MainActivity.UserSession.rolId){
             1 -> {
@@ -146,9 +151,7 @@ class SecondFragment : Fragment() {
         // Referencia al MapView
         mapView = view.findViewById(R.id.mapView)
         mapView.setMultiTouchControls(true)
-
         // Configurar el LocationManager
-        locationManager = requireActivity().getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
 
         // Configurar el overlay para mostrar la ubicación
         locationOverlay = MyLocationNewOverlay(mapView)
@@ -455,5 +458,15 @@ class SecondFragment : Fragment() {
                 Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
     }
 }
