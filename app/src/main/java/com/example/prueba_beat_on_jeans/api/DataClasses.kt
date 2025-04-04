@@ -13,16 +13,6 @@ data class User(
     @SerializedName("Ubicacion") val ubicacion: String
 ): Serializable
 
-data class UserRecieved(
-    @SerializedName("Contrasena") val contrasena: String?,
-    @SerializedName("Correo") val correo: String?,
-    @SerializedName("ID") val id: Int,
-    @SerializedName("Nombre") val nombre: String,
-    @SerializedName("ROL_ID") val rolId: Int?,
-    @SerializedName("Ubicacion") val ubicacion: String?,
-    @SerializedName("Url_Imagen") val imagen: String,
-)
-
 data class UserRecievedWithDescription(
     @SerializedName("Contrasena") val contrasena: String?,
     @SerializedName("Nombre") val nombre: String?,
@@ -37,6 +27,56 @@ data class UserLogin(
     val correo: String,
     val contrasena: String
 )
+
+data class ActualizarGenerosRequest(
+    val usuarioId: Int,
+    val generosIds: List<Int>
+)
+
+data class MusicalGender(
+    @SerializedName("ID") val id: Int,
+    @SerializedName("Nombre_Genero") val genero: String,
+)
+
+data class Tag(
+    val id: Int,
+    val genero: String,
+)
+
+data class MusicalGenders(val id: Int, val name: String)
+val allGenders = listOf(
+    MusicalGender(1, "Rock"),
+    MusicalGender(2, "Pop"),
+    MusicalGender(3, "Jazz"),
+    MusicalGender(4, "Hip Hop"),
+    MusicalGender(5, "Clásica"),
+    MusicalGender(6, "Reggaeton"),
+    MusicalGender(7, "Blues"),
+    MusicalGender(8, "Folk"),
+    MusicalGender(9, "Salsa"),
+    MusicalGender(10, "Bachata"),
+    MusicalGender(11, "Reggae"),
+    MusicalGender(12, "Country"),
+    MusicalGender(13, "Indie"),
+    MusicalGender(14, "Punk"),
+    MusicalGender(15, "Disco"),
+    MusicalGender(16, "Heavy Metal"),
+    MusicalGender(17, "Gospel"),
+    MusicalGender(18, "R&B"),
+    MusicalGender(19, "Electronica"),
+    MusicalGender(20, "Techno"),
+    MusicalGender(21, "K-pop"),
+    MusicalGender(22, "Trap"),
+    MusicalGender(23, "Ska"),
+    MusicalGender(24, "Tango"),
+    MusicalGender(25, "Flamenco"),
+    MusicalGender(26, "Soul"),
+    MusicalGender(27, "Psychedelic"),
+    MusicalGender(28, "Metalcore"),
+    MusicalGender(29, "Grunge"),
+    MusicalGender(30, "Glam Rock")
+)
+
 
 data class Matches(
               @SerializedName("ID") val id: Int,

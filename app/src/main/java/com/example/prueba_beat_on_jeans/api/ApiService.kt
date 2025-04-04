@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.*
 import okhttp3.MultipartBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -58,6 +59,26 @@ interface ApiService {
 
     @GET("Api/MusicGenders/{userID}")
     suspend fun getMusicGenders(@Path("userID") userID: Int): MutableList<Tag>
+
+    @PUT("api/GenerosUsuarios/ActualizarGeneros/{usuarioId}")
+    suspend fun actualizarGenerosUsuario(
+        @Path("usuarioId") usuarioId: Int,
+        @Body generosIds: List<Int>
+    ): Response<ResponseBody>
+
+    @GET("api/GenerosUsuarios/ObtenerGeneros/{usuarioId}")
+    suspend fun obtenerGenerosUsuario(
+        @Path("usuarioId") usuarioId: Int
+    ): Response<List<MusicalGender>>
+
+    @PUT("api/UsuarioMobils/{id}/descripcion")
+    suspend fun actualizarDescripcionUsuario(
+        @Path("id") id: Int,
+        @Body descripcion: String
+    ): Response<Unit>
+
+    @GET("api/UsuarioMobils/{id}/Descripcion")
+    suspend fun getDescripcionUsuario(@Path("id") userId: Int): Response<String>
 
     @GET("api/Usuarios/Matches_Music/{Ubicacion}/{userID}")
     suspend fun getMusicMatches(@Path("Ubicacion") Ubicacion: String, @Path("userID") userID: Int): MutableList<Matches>
