@@ -42,14 +42,13 @@ class ChatActivity : AppCompatActivity() {
         0, null.toString(), null.toString(), null.toString(), 0, null.toString(), toString())
 
     private lateinit var rvMessages: RecyclerView
-    private lateinit var adapter: MessageAdapter
+    private var adapter: MessageAdapter? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         obtainStats()
-        obtainRV()
         val imgChater = findViewById<ImageButton>(R.id.BtnBack)
 
         imgChater.setOnClickListener {
@@ -108,7 +107,7 @@ class ChatActivity : AppCompatActivity() {
         txtNameChat.text = userChat.nombre
         imgChater.setImageResource(chat.chatImg)
 
-        adapter.notifyDataSetChanged()
+        obtainRV()
 
         btnSend.setOnClickListener {
             if ((edTxtMessage.text.isNotEmpty() and edTxtMessage.text.isNotBlank()) or (edTxtMessage.text.length > 500)) {
@@ -116,7 +115,7 @@ class ChatActivity : AppCompatActivity() {
                 val message = Message(chatStats.id,
                     MainActivity.UserSession.id!!,formattedDate ,edTxtMessage.text.toString())
                 chatStats.mensajes.add(message)
-                adapter.notifyDataSetChanged()
+                adapter?.notifyDataSetChanged()
                 lifecycleScope.launch {
                     RetrofitClient.instance.insertNewMessage(message)
                 }
@@ -185,7 +184,7 @@ class ChatActivity : AppCompatActivity() {
                 2 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
             }
             chatStats = currentChat
-            adapter.notifyDataSetChanged()
+            adapter?.notifyDataSetChanged()
         }
     }
 
