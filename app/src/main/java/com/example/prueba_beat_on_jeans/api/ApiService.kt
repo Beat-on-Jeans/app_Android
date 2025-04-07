@@ -84,11 +84,20 @@ interface ApiService {
     @GET("api/Usuarios/Matches_Music/{Ubicacion}/{userID}")
     suspend fun getMusicMatches(@Path("Ubicacion") Ubicacion: String, @Path("userID") userID: Int): MutableList<Matches>
 
-    @POST("api/Matches/{Local_ID}/{Musico_ID}")
-    fun createNewMatch(@Path("Local_ID") local_id: Int, @Path("Musico_ID") musico_id: Int): Call<ResponseBody>
+    @POST("api/Matches/{Creador_ID}/{Finalizador_ID}")
+    fun createNewMatch(@Path("Creador_ID") creador_id: Int, @Path("Finalizador_ID") finalizador_id: Int): Call<ResponseBody>
 
     @GET("api/Usuarios/Matches_Locales/{Ubicacion}/{userID}")
     suspend fun getLocalMatches(@Path("Ubicacion") Ubicacion: String, @Path("userID") userID: Int): MutableList<Matches>
+
+    @GET("api/Matches/GetUserMatches/{userId}")
+    fun getUserMatches(@Path("userId") userId: Int): Call<List<Match>>
+
+    @PUT("api/Matches/{Creador_ID}/{Finalizador_ID}")
+    fun updateMatchStatusToDislike(
+        @Path("Creador_ID") creadorId: Int,
+        @Path("Finalizador_ID") finalizadorId: Int
+    ): Call<ResponseBody>
 
     @POST("api/Actuacions")
     suspend fun createNewEvent(@Body newEvent: Event): Call<ResponseBody>

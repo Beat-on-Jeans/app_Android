@@ -14,8 +14,9 @@ data class User(
 ): Serializable
 
 data class UserRecievedWithDescription(
-    @SerializedName("Contrasena") val contrasena: String?,
+    @SerializedName("ID") val id: Int,
     @SerializedName("Nombre") val nombre: String?,
+    @SerializedName("Contrasena") val contrasena: String?,
     @SerializedName("Descripcion") val descripcion: String,
     @SerializedName("ValoracionTotal") val valoracion: Double?,
     @SerializedName("ROL_ID") val rolId: Int?,
@@ -77,6 +78,13 @@ val allGenders = listOf(
     MusicalGender(30, "Glam Rock")
 )
 
+
+data class Match(
+    @SerializedName("ID") val id: Int,
+    @SerializedName("CreadorId") val creador_id: Int,
+    @SerializedName("FinalizadorId") val finalizador_id: Int,
+    @SerializedName("Estado") val estado: Int,
+)
 
 data class Matches(
               @SerializedName("ID") val id: Int,
