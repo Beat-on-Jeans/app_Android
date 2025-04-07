@@ -6,10 +6,12 @@
     android:background="@color/white"
     tools:context=".fragments.FourthFragment"
     >
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,6 +23,7 @@
                 android:layout_height="450dp"
                 android:minHeight="450dp"
                 />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,6 +33,44 @@
                 android:orientation="vertical"
                 >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/rating"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="5dp"
+                    android:textSize="16sp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                <RatingBar
+                    android:id="@+id/RBRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    android:progress="@android:color/holo_orange_dark"
+                    android:progressBackgroundTint="@color/orange_light_2"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    />
+
+                    <TextView
+                        android:id="@+id/TxtRating"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginVertical="5dp"
+                        android:textSize="26sp"
+                        android:gravity="center"
+                        />
+
+                </LinearLayout>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,10 +160,14 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RVEvents"
+                    android:background="@drawable/rounded_txt_account"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="160dp"
+                    android:layout_height="match_parent"
                     />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
             </LinearLayout>
         </LinearLayout>
 
