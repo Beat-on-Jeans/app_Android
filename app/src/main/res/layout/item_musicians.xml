@@ -55,7 +55,7 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/BtnTalk"
+                    android:id="@+id/dislike"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:contentDescription="@string/like"
@@ -86,7 +86,7 @@
                 android:layout_gravity="center">
                 <ImageButton
                     android:layout_weight="0.5"
-                    android:id="@+id/BtnHeart"
+                    android:id="@+id/like"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:contentDescription="@string/dislike"
@@ -114,13 +114,13 @@
             android:id="@+id/left_overlay"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_good_finger"
+            android:src="@drawable/ic_bad_finger"
             />
         <ImageView
             android:id="@+id/right_overlay"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_bad_finger"
+            android:src="@drawable/ic_good_finger"
             />
 
         <FrameLayout

@@ -23,12 +23,22 @@ import okhttp3.Request
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.activities.MainActivity
+import com.example.prueba_beat_on_jeans.api.Match
+import com.example.prueba_beat_on_jeans.api.Matches
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.api.UserRecievedWithDescription
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
+import okhttp3.ResponseBody
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -46,8 +56,12 @@ import retrofit2.Response
 
 // Para los métodos de Retrofit y la creación del cliente Retrofit
 import org.json.JSONArray
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import java.io.IOException
 import java.net.URLEncoder
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 
 class SecondFragment : Fragment() {
@@ -92,6 +106,8 @@ class SecondFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_second, container, false)
+        mapView = view.findViewById(R.id.mapView)
+        mapView.visibility = View.VISIBLE
         imageViewMostrar = view.findViewById(R.id.imageViewMostrar)
         location = view.findViewById(R.id.location)
         text_name = view.findViewById(R.id.text_name)
@@ -106,16 +122,18 @@ class SecondFragment : Fragment() {
         musician_text = view.findViewById(R.id.musician_text)
         zone_spinner = view.findViewById(R.id.zone_spinner)
         musician_spinner = view.findViewById(R.id.musician_spinner)
-        mapView = view.findViewById(R.id.mapView)
-        mapView.visibility = View.VISIBLE
         btnShowLocation = view.findViewById(R.id.btnShowLocation)
         btnLocationLayout = view.findViewById(R.id.btnLocationLayout)
 
-        mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
-        mapView.setMultiTouchControls(true)
-        mapView.controller.setZoom(15) // Ajustar el nivel de zoom
-        val barcelonaGeoPoint = GeoPoint(41.3784, 2.1925) // Coordenadas de Barcelona
-        mapView.controller.setCenter(barcelonaGeoPoint)
+        mapView.let {
+            mapView.setTileSource(TileSourceFactory.MAPNIK)
+            mapView.setMultiTouchControls(true)
+            mapView.controller.setZoom(15)
+            val barcelonaGeoPoint = GeoPoint(41.3784, 2.1925)
+            mapView.controller.setCenter(barcelonaGeoPoint)
+        }
+
+        locationManager = requireActivity().getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
 
         when(MainActivity.UserSession.rolId){
             1 -> {
@@ -146,9 +164,7 @@ class SecondFragment : Fragment() {
         // Referencia al MapView
         mapView = view.findViewById(R.id.mapView)
         mapView.setMultiTouchControls(true)
-
         // Configurar el LocationManager
-        locationManager = requireActivity().getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
 
         // Configurar el overlay para mostrar la ubicación
         locationOverlay = MyLocationNewOverlay(mapView)
@@ -174,69 +190,205 @@ class SecondFragment : Fragment() {
     }
 
     private fun getMusicians() {
-        RetrofitClient.instance.getMusicos().enqueue(object : Callback<List<UserRecievedWithDescription>> {
-            override fun onResponse(call: Call<List<UserRecievedWithDescription>>, response: Response<List<UserRecievedWithDescription>>) {
-                if (response.isSuccessful) {
-                    musiciansList = response.body() ?: listOf()
-                    if (musiciansList.isNotEmpty()) {
-                        Log.e("Musicos", musiciansList.toString())
-
-                        val ubicaciones = mutableSetOf<String>()
-                        for (musician in musiciansList) {
-                            musician.ubicacion?.let { ubicaciones.add(it) }
-                        }
-
-                        activity?.runOnUiThread {
-                            val ubicacionesList = ubicaciones.toList()
-                            val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, ubicacionesList)
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                            zone_spinner.adapter = adapter
-                        }
-
-                        zone_spinner.setSelection(AdapterView.INVALID_POSITION)
+        lifecycleScope.launch {
+            try {
+                // 1. Obtener matches del usuario con timeout personalizado
+                val existingMatches = try {
+                    withTimeout(3_000) { // 15 segundos de timeout
+                        getUserMatchesSuspend(MainActivity.UserSession.id!!)
                     }
-                } else {
-                    Log.e("Error", "Error de conexión")
+                } catch (e: TimeoutCancellationException) {
+                    Log.e("Error", "Timeout al obtener matches")
+                    emptyList() // Continuamos con lista vacía
+                } catch (e: Exception) {
+                    Log.e("Error", "Error al obtener matches: ${e.message}")
+                    emptyList() // Continuamos con lista vacía
+                }
+
+                Log.e("pene", existingMatches.toString())
+
+                // 2. Filtrar IDs a excluir
+                val excludedUserIds = existingMatches
+                    .filter { match ->
+                        // Filtra matches con estado 1 ó 3 O donde el usuario sea el creador
+                        match.estado == 1 || match.estado == 3 || match.creador_id == MainActivity.UserSession.id
+                    }
+                    .flatMap { match ->
+                        // Toma ambos IDs (creador y finalizador) excluyendo al usuario actual
+                        listOf(match.creador_id, match.finalizador_id)
+                            .filterNotNull()
+                            .filter { it != MainActivity.UserSession.id }
+                    }
+                    .toSet()
+
+                // 3. Obtener todos los músicos con timeout personalizado
+                val allMusicians = try {
+                    withTimeout(3_000) { // 15 segundos de timeout
+                        getMusicosSuspend()
+                    }
+                } catch (e: Exception) {
+                    Log.e("Error", "Error al obtener músicos: ${e.message}")
+                    // Mostrar mensaje al usuario
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Error al cargar músicos", Toast.LENGTH_SHORT).show()
+                    }
+                    return@launch
+                }
+
+                // 4. Filtrar músicos
+                val filteredMusicians = allMusicians.filter { musician ->
+                    !excludedUserIds.contains(musician.id)
+                }
+
+                // 5. Actualizar UI
+                withContext(Dispatchers.Main) {
+                    if (filteredMusicians.isEmpty()) {
+                        Toast.makeText(context, "No hay músicos disponibles", Toast.LENGTH_SHORT).show()
+                    }
+                    updateSpinners(filteredMusicians)
+                }
+
+            } catch (e: Exception) {
+                Log.e("Error", "Excepción inesperada: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Error inesperado", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    // Versión mejorada de getMusicosSuspend con manejo de errores
+    private suspend fun getMusicosSuspend(): List<UserRecievedWithDescription> {
+        return try {
+            suspendCoroutine { continuation ->
+                RetrofitClient.instance.getMusicos().enqueue(object : Callback<List<UserRecievedWithDescription>> {
+                    override fun onResponse(
+                        call: Call<List<UserRecievedWithDescription>>,
+                        response: Response<List<UserRecievedWithDescription>>
+                    ) {
+                        if (response.isSuccessful) {
+                            continuation.resume(response.body() ?: listOf())
+                        } else {
+                            continuation.resumeWithException(Exception("Código HTTP ${response.code()}"))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<UserRecievedWithDescription>>, t: Throwable) {
+                        continuation.resumeWithException(t)
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            Log.e("API Error", "Error en getMusicos: ${e.message}")
+            throw e
+        }
+    }
+
+    // Versión mejorada de getUserMatchesSuspend con manejo de errores
+    private suspend fun getUserMatchesSuspend(userId: Int): List<Match> {
+        return try {
+            suspendCoroutine { continuation ->
+                RetrofitClient.instance.getUserMatches(userId).enqueue(object : Callback<List<Match>> {
+                    override fun onResponse(call: Call<List<Match>>, response: Response<List<Match>>) {
+                        if (response.isSuccessful) {
+                            continuation.resume(response.body() ?: listOf())
+                        } else {
+                            continuation.resumeWithException(Exception("Código HTTP ${response.code()}"))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<Match>>, t: Throwable) {
+                        continuation.resumeWithException(t)
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            Log.e("API Error", "Error en getUserMatches: ${e.message}")
+            throw e
+        }
+    }
+
+// Las funciones updateSpinners y updateMusicianSpinner permanecen igual que en la solución anterior
+
+    private fun updateSpinners(musicians: List<UserRecievedWithDescription>) {
+        // Obtener ubicaciones únicas
+        val locations = musicians.mapNotNull { it.ubicacion }.distinct()
+
+        // Configurar spinner de zonas
+        val locationAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            locations
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        zone_spinner.adapter = locationAdapter
+
+        // Configurar listener para el spinner de zonas
+        zone_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                val selectedLocation = parent?.getItemAtPosition(pos) as? String ?: return
+                updateMusicianSpinner(musicians, selectedLocation)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun updateMusicianSpinner(musicians: List<UserRecievedWithDescription>, location: String) {
+        val musiciansInLocation = musicians.filter { it.ubicacion == location }
+        val names = musiciansInLocation.map { it.nombre }
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            names
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        musician_spinner.adapter = adapter
+
+        // Configurar listener para el spinner de músicos
+        musician_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                val selectedName = parent?.getItemAtPosition(pos) as? String ?: return
+                musiciansInLocation.find { it.nombre == selectedName }?.let { musician ->
+                    showMusicianDetails(musician)
                 }
             }
 
-            override fun onFailure(call: Call<List<UserRecievedWithDescription>>, t: Throwable) {
-                Log.e("Error", "Error al cargar los músicos")
-            }
-        })
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
 
+    private fun setupSpinnersListeners(filteredMusicians: List<UserRecievedWithDescription>) {
         zone_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedLocation = parent?.getItemAtPosition(position) as String
+                val selectedLocation = parent?.getItemAtPosition(position) as? String ?: return
 
-                val filteredMusicians = musiciansList.filter { it.ubicacion == selectedLocation }
+                val locationMusicians = filteredMusicians.filter { it.ubicacion == selectedLocation }
+                val musicianNames = locationMusicians.map { it.nombre }
 
-                val musicianNames = filteredMusicians.map { it.nombre }
-                activity?.runOnUiThread {
-                    val musicianAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, musicianNames)
-                    musicianAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    musician_spinner.adapter = musicianAdapter
-                }
+                val musicianAdapter = ArrayAdapter<String>(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    musicianNames
+                )
+                musicianAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                musician_spinner.adapter = musicianAdapter
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Puedes manejar este caso si es necesario, aunque por lo general no se necesita
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         musician_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedMusicianName = parent?.getItemAtPosition(position) as String
-
-                val selectedMusician = musiciansList.find { it.nombre == selectedMusicianName }
-
-                if (selectedMusician != null) {
-                    showMusicianDetails(selectedMusician)
-                }
+                val selectedMusicianName = parent?.getItemAtPosition(position) as? String ?: return
+                val selectedMusician = filteredMusicians.find { it.nombre == selectedMusicianName }
+                selectedMusician?.let { showMusicianDetails(it) }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
@@ -257,7 +409,8 @@ class SecondFragment : Fragment() {
         }
         buttonContact.isVisible = true
         buttonContact.setOnClickListener {
-            Toast.makeText(context, "Contactando con ${selectedMusician.nombre}", Toast.LENGTH_SHORT).show()
+            createMatch(selectedMusician)
+            activity?.findViewById<BottomNavigationView>(R.id.navMenu)?.selectedItemId = R.id.itemFragment3
         }
     }
 
@@ -394,9 +547,9 @@ class SecondFragment : Fragment() {
                                 }
                                 buttonContact.isVisible = true
                                 buttonContact.setOnClickListener {
-                                    Toast.makeText(context, "Contactando con ${local.nombre}", Toast.LENGTH_SHORT).show()
-                                }
+                                    createMatch(local)
 
+                                }
                                 true
                             }
                         }
@@ -417,6 +570,32 @@ class SecondFragment : Fragment() {
                         mapController.setCenter(GeoPoint(latitude, longitude))
                     }
                 }
+            }
+        }
+    }
+
+    private fun createMatch(user: UserRecievedWithDescription) {
+        lifecycleScope.launch {
+            try {
+                val call = RetrofitClient.instance.createNewMatch(
+                    MainActivity.UserSession.id!!,
+                    user.id
+                )
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            Log.d("API_RESPONSE", "Match creado correctamente")
+                        } else {
+                            Log.e("API_ERROR", "Error en la respuesta: ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("API_ERROR", "Fallo en la petición: ${t.message}")
+                    }
+                })
+            } catch (e: Exception) {
+                Log.e("API_ERROR", "Error en la creación del match: ${e.message}")
             }
         }
     }
@@ -456,4 +635,15 @@ class SecondFragment : Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
 }
