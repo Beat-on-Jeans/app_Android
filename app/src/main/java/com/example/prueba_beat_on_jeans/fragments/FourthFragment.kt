@@ -1,5 +1,6 @@
 package com.example.prueba_beat_on_jeans.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -20,11 +22,16 @@ import com.example.prueba_beat_on_jeans.activities.SettingsActivity
 import com.example.prueba_beat_on_jeans.classes.Tag
 import com.example.prueba_beat_on_jeans.adapters.TagsAcountAdapter
 import com.example.prueba_beat_on_jeans.activities.MainActivity
+import com.example.prueba_beat_on_jeans.adapters.EventAdapter
 import com.example.prueba_beat_on_jeans.adapters.ImgAcountAdapter
+import com.example.prueba_beat_on_jeans.api.Event
 import com.example.prueba_beat_on_jeans.api.MusicalGender
+import com.example.prueba_beat_on_jeans.api.Rating
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.classes.ChangeGendersDialog
 import com.example.prueba_beat_on_jeans.classes.EditDescriptionDialog
+import com.example.prueba_beat_on_jeans.classes.EventRV
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -45,15 +52,19 @@ class FourthFragment : Fragment(), ChangeGendersDialog.OnGendersSelectedListener
         val view = inflater.inflate(R.layout.fragment_fourth, container, false)
         val rvAcTags = view.findViewById<RecyclerView>(R.id.RVTagsAccount)
         chargeDescription()
+        getEvents(view)
         setAccount(view, rvAcTags)
         return view
     }
 
+    @SuppressLint("DefaultLocale", "ClickableViewAccessibility")
     private fun setAccount(view: View, rvAcTags: RecyclerView) {
         val rcAcImgBac = view.findViewById<RecyclerView>(R.id.RVImgsAccount)
+        val btnGenders = view.findViewById<Button>(R.id.button_genders)
         val txtAcName = view.findViewById<TextView>(R.id.TxtAccountName)
         val txtAcDesc = view.findViewById<TextView>(R.id.TxtAccountDescription)
-        val button_genders = view.findViewById<Button>(R.id.button_genders)
+        val txtRating = view.findViewById<TextView>(R.id.TxtRating)
+        val rbRating = view.findViewById<RatingBar>(R.id.RBRating)
 
         // Configuración de la imagen de perfil
         val adapterImgs = ImgAcountAdapter(
@@ -87,7 +98,7 @@ class FourthFragment : Fragment(), ChangeGendersDialog.OnGendersSelectedListener
         }
 
         // Botón para cambiar géneros
-        button_genders.setOnClickListener {
+        btnGenders.setOnClickListener {
             lifecycleScope.launch {
                 val selectedIds = obtainSelectedGenders()
                 ChangeGendersDialog(
@@ -97,6 +108,41 @@ class FourthFragment : Fragment(), ChangeGendersDialog.OnGendersSelectedListener
                 ).show(parentFragmentManager, "ChangeGendersDialog")
             }
         }
+
+        lifecycleScope.launch {
+            val rating = obtainUserRating()
+            if(rating != null){
+                txtRating.text = String.format("%.2f",rating)
+                rbRating.rating = rating
+            }
+            rbRating.setOnTouchListener { _, _ -> true }
+        }
+
+        lifecycleScope.launch {
+            val isNewRatting = obtainIsEndEvent()
+            if(isNewRatting != null && isNewRatting.size != 0){
+                val dialog = NewRattingEventDialog.newInstance(isNewRatting[0])
+                dialog.show(parentFragmentManager, "NewRattingEventDialog")
+            }
+        }
+    }
+
+
+    private fun getEvents(view: View){
+        lifecycleScope.launch {
+            val eventList = RetrofitClient.instance.getUserEvent(MainActivity.UserSession.id!!)
+            delay(1000)
+            setEvents(view,eventList)
+
+        }
+    }
+    private fun setEvents(view: View, eventList: MutableList<EventRV>){
+        val rvEvent = view.findViewById<RecyclerView>(R.id.RVEvents)
+        val adaperEvents = EventAdapter(eventList)
+        rvEvent.minimumHeight = (eventList.size * 300)
+        rvEvent.adapter = adaperEvents
+        rvEvent.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false)
+
     }
 
     private fun showEditDescriptionDialog(currentDescription: String) {
@@ -194,5 +240,14 @@ class FourthFragment : Fragment(), ChangeGendersDialog.OnGendersSelectedListener
                 Log.e("API", "Excepción al obtener descripción", e)
             }
         }
+    }
+
+    private suspend fun obtainUserRating(): Float? {
+        return RetrofitClient.instance.obtainUserRating(MainActivity.UserSession.id!!)
+    }
+
+
+    private suspend fun obtainIsEndEvent(): MutableList<Rating>? {
+        return RetrofitClient.instance.obtainIsNewRatting(MainActivity.UserSession.id!!)
     }
 }

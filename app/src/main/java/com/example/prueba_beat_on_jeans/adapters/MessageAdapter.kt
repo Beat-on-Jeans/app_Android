@@ -14,8 +14,8 @@ class MessageAdapter(val context: Context,
                      val messageList: List<Message>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val ITEM_RECEIVE = 1
-    val ITEM_SENT = 2
+    val ITEM_SENT = 1
+    val ITEM_RECEIVE = 2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 

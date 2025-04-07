@@ -1,5 +1,6 @@
 package com.example.prueba_beat_on_jeans.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -69,9 +70,15 @@ class FIrstFragment : Fragment() {
 
         val pfp: ImageButton = view.findViewById(R.id.profile_picture)
         val imageUrl = MainActivity.UserSession.urlImg
+        val notification_button: ImageButton = view.findViewById(R.id.notification)
 
         pfp.load(imageUrl) {
             crossfade(true)
+        }
+
+        notification_button.setOnClickListener{
+            val intent = Intent(context,NotificationActivity::class.java)
+            startActivity(intent)
         }
 
         pfp.setOnClickListener {

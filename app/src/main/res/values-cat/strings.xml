@@ -31,4 +31,5 @@
     <string name="user_name_local_name">User Name / Local Name</string>
     <string name="save">save</string>
     <string name="languaje">Languaje</string>
+    <string name="rating">Rating</string>
 </resources>

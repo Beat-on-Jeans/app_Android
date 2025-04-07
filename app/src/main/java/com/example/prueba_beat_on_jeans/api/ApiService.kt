@@ -1,5 +1,7 @@
 package com.example.prueba_beat_on_jeans.api
+
 import com.example.prueba_beat_on_jeans.classes.Chat
+import com.example.prueba_beat_on_jeans.classes.EventRV
 import com.example.prueba_beat_on_jeans.classes.Message
 import com.example.prueba_beat_on_jeans.classes.Tag
 import okhttp3.ResponseBody
@@ -96,5 +98,32 @@ interface ApiService {
         @Path("Creador_ID") creadorId: Int,
         @Path("Finalizador_ID") finalizadorId: Int
     ): Call<ResponseBody>
+
+    @POST("api/Actuacions")
+    suspend fun createNewEvent(@Body newEvent: Event): Call<ResponseBody>
+
+    @GET("api/Actuacions/GetUpcomingNewActuacion/{creatorID}/{userID}")
+    suspend fun getUpcomingNewActuacion(@Path("creatorID") creatorID: Int,@Path("userID") userID: Int): MutableList<Event>
+
+    @PUT("api/Actuacions/CreateEvent/{event}")
+    suspend fun createEvent(@Body event: Event): Event
+
+    @DELETE("api/Actuacions/DeleteEvent/{event}")
+    suspend fun deleteEvent(@Body event: Event): Call<ResponseBody>
+
+    @GET("api/Actuacions/GetUserActuaciones/{UserID}")
+    suspend fun getUserEvent(@Path("UserID") userId: Int): MutableList<EventRV>
+
+    @GET("api/UsuarioMobils/{UserID}/Valoraciones")
+    suspend fun obtainUserRating(@Path("UserID") userId: Int): Float?
+
+    @GET("api/Valoraciones/isNewRatting/{userID}")
+    suspend fun obtainIsNewRatting(@Path("userID") userId: Int): MutableList<Rating>?
+
+    @PUT("api/Valoracions/{rating}")
+    suspend fun setRatting(@Body rating: Rating): Response<ResponseBody>
+
+    @GET("api/UsuarioMobils/Notificaiones/{userID}")
+    suspend fun getUserLatestNotification(@Path("userID") userId: Int): Notification?
 }
 

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -49,6 +50,7 @@
         <activity android:name=".activities.ChatActivity" />
         <activity android:name=".activities.LogInActivity" />
         <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.NotificationActivity" />
     </application>
 
 </manifest>

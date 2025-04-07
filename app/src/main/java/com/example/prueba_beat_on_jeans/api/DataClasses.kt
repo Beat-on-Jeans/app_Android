@@ -11,7 +11,7 @@ data class User(
     @SerializedName("ROL_ID") val rolId: Int?,
     @SerializedName("Url_Imagen") val imagen: String,
     @SerializedName("Ubicacion") val ubicacion: String
-)
+): Serializable
 
 data class UserRecievedWithDescription(
     @SerializedName("ID") val id: Int,
@@ -92,3 +92,24 @@ data class Matches(
               @SerializedName("Descripcion") val description: String,
               @SerializedName("Generos") val arrayTags: MutableList<String>,
               @SerializedName("Url_Imagen") val img: String): Serializable
+
+
+data class Event(@SerializedName("ID") val id: Int? = null,
+            @SerializedName("Fecha") val date: String,
+            @SerializedName("Creador_ID") val creador_Id: Int,
+            @SerializedName("Finalizador_ID") val finalizador_Id: Int,
+            @SerializedName("Estado") var estado: Int): Serializable {
+    constructor(date: String, creador_Id: Int, finalizador_Id: Int, estado: Int)
+            : this(null,date,creador_Id,finalizador_Id,estado)
+}
+
+data class Rating(@SerializedName("ID") val id: Int?,
+                  @SerializedName("Valor") var rating: Int,
+                  @SerializedName("Valorado_ID") val rated:Int,
+                  @SerializedName("Valorador_ID") val rater:Int): Serializable {
+    constructor(rating: Int, rated: Int, rater: Int)
+    : this(null,rating,rated,rater)
+}
+
+data class Notification(@SerializedName("ID") val id: Int,
+                        @SerializedName("Descripcion") var description: String)
