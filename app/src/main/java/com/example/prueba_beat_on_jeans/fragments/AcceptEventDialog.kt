@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.example.prueba_beat_on_jeans.R
-import com.example.prueba_beat_on_jeans.activities.MainActivity
 import com.example.prueba_beat_on_jeans.api.Event
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.api.User

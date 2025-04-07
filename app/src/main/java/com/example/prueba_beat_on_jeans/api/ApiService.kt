@@ -1,6 +1,7 @@
 package com.example.prueba_beat_on_jeans.api
 
 import com.example.prueba_beat_on_jeans.classes.Chat
+import com.example.prueba_beat_on_jeans.classes.EventRV
 import com.example.prueba_beat_on_jeans.classes.Message
 import com.example.prueba_beat_on_jeans.classes.Tag
 import okhttp3.ResponseBody
@@ -100,5 +101,17 @@ interface ApiService {
 
     @DELETE("api/Actuacions/DeleteEvent/{event}")
     suspend fun deleteEvent(@Body event: Event): Call<ResponseBody>
+
+    @GET("api/Actuacions/GetUserActuaciones/{UserID}")
+    suspend fun getUserEvent(@Path("UserID") userId: Int): MutableList<EventRV>
+
+    @GET("api/UsuarioMobils/{UserID}/Valoraciones")
+    suspend fun obtainUserRating(@Path("UserID") userId: Int): Float?
+
+    @GET("api/Valoraciones/isNewRatting/{userID}")
+    suspend fun obtainIsNewRatting(@Path("userID") userId: Int): MutableList<Rating>?
+
+    @PUT("api/Valoracions/{rating}")
+    suspend fun setRatting(@Body rating: Rating): Response<ResponseBody>
 }
 
