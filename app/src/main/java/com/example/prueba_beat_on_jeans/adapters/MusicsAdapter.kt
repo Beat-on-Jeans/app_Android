@@ -92,7 +92,7 @@ class MusicsAdapter(
 
         val adapter = TagsAdapter(music.arrayTags)
         holder.rvTag.adapter = adapter
-        holder.rvTag.layoutManager = GridLayoutManager(context, 4)
+        holder.rvTag.layoutManager = GridLayoutManager(context, 5)
 
         currentViewHolder = holder
     }

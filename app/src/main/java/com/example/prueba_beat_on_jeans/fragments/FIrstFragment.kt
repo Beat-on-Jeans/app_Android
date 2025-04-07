@@ -33,6 +33,7 @@ import com.example.prueba_beat_on_jeans.api.Matches
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.classes.NavigationBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

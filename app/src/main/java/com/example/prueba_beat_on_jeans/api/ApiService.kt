@@ -88,6 +88,9 @@ interface ApiService {
     @GET("api/Usuarios/Matches_Locales/{Ubicacion}/{userID}")
     suspend fun getLocalMatches(@Path("Ubicacion") Ubicacion: String, @Path("userID") userID: Int): MutableList<Matches>
 
+    @GET("api/Matches/GetUserMatches/{userId}")
+    fun getUserMatches(@Path("userId") userId: Int): Call<List<Match>>
+
     @PUT("api/Matches/{Creador_ID}/{Finalizador_ID}")
     fun updateMatchStatusToDislike(
         @Path("Creador_ID") creadorId: Int,
