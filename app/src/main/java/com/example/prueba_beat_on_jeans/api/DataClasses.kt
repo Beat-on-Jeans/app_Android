@@ -102,3 +102,6 @@ data class Rating(@SerializedName("ID") val id: Int?,
     constructor(rating: Int, rated: Int, rater: Int)
     : this(null,rating,rated,rater)
 }
+
+data class Notification(@SerializedName("ID") val id: Int,
+                        @SerializedName("Descripcion") var description: String)
