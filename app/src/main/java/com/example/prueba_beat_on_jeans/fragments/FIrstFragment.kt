@@ -1,5 +1,6 @@
 package com.example.prueba_beat_on_jeans.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import android.widget.ImageView
@@ -21,6 +23,7 @@ import kotlinx.coroutines.launch
 import coil.load
 import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.activities.MainActivity
+import com.example.prueba_beat_on_jeans.activities.NotificationActivity
 import com.example.prueba_beat_on_jeans.adapters.MusicsAdapter
 import com.example.prueba_beat_on_jeans.api.Matches
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
@@ -28,6 +31,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.reflect.jvm.internal.impl.load.java.structure.JavaClass
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -142,12 +146,17 @@ class FIrstFragment : Fragment() {
         }
         setCardView(view)
         var pfp: ImageView = view.findViewById(R.id.profile_picture)
-        val notification_button: ImageView = view.findViewById(R.id.notification)
+        val notification_button: ImageButton = view.findViewById(R.id.notification)
 
         val imageUrl = MainActivity.UserSession.urlImg
 
         pfp.load(imageUrl) {
             crossfade(true)
+        }
+
+        notification_button.setOnClickListener{
+            val intent = Intent(context,NotificationActivity::class.java)
+            startActivity(intent)
         }
 
         setCardView(view)
