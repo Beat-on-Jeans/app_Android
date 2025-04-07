@@ -32,6 +32,7 @@ import com.example.prueba_beat_on_jeans.api.Match
 import com.example.prueba_beat_on_jeans.api.Matches
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.api.UserRecievedWithDescription
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
@@ -207,12 +208,18 @@ class SecondFragment : Fragment() {
                 Log.e("pene", existingMatches.toString())
 
                 // 2. Filtrar IDs a excluir
-                val excludedUserIds = existingMatches.filter { match ->
-                    match.creador_id == MainActivity.UserSession.id || match.estado == 1 || match.estado == 3
-                }.flatMap { match ->
-                    listOf(match.creador_id, match.finalizador_id)
-                        .filterNot { it == MainActivity.UserSession.id }
-                }.toSet()
+                val excludedUserIds = existingMatches
+                    .filter { match ->
+                        // Filtra matches con estado 1 ó 3 O donde el usuario sea el creador
+                        match.estado == 1 || match.estado == 3 || match.creador_id == MainActivity.UserSession.id
+                    }
+                    .flatMap { match ->
+                        // Toma ambos IDs (creador y finalizador) excluyendo al usuario actual
+                        listOf(match.creador_id, match.finalizador_id)
+                            .filterNotNull()
+                            .filter { it != MainActivity.UserSession.id }
+                    }
+                    .toSet()
 
                 // 3. Obtener todos los músicos con timeout personalizado
                 val allMusicians = try {
@@ -403,6 +410,7 @@ class SecondFragment : Fragment() {
         buttonContact.isVisible = true
         buttonContact.setOnClickListener {
             createMatch(selectedMusician)
+            activity?.findViewById<BottomNavigationView>(R.id.navMenu)?.selectedItemId = R.id.itemFragment3
         }
     }
 
