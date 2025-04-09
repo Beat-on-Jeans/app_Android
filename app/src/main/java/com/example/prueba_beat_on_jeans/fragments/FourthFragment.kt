@@ -118,7 +118,6 @@ class FourthFragment : Fragment(), ChangeGendersDialog.OnGendersSelectedListener
             rbRating.setOnTouchListener { _, _ -> true }
         }
 
-/*
         lifecycleScope.launch {
             val isNewRatting = obtainIsEndEvent()
             if(isNewRatting != null && isNewRatting.size != 0){
@@ -126,8 +125,6 @@ class FourthFragment : Fragment(), ChangeGendersDialog.OnGendersSelectedListener
                 dialog.show(parentFragmentManager, "NewRattingEventDialog")
             }
         }
-
- */
     }
 
 
@@ -250,8 +247,7 @@ class FourthFragment : Fragment(), ChangeGendersDialog.OnGendersSelectedListener
     }
 
 
-
-    private suspend fun obtainIsEndEvent() {
-        //return RetrofitClient.instance.obtainIsNewRatting(MainActivity.UserSession.id!!)
+    private suspend fun obtainIsEndEvent(): MutableList<Rating>? {
+        return RetrofitClient.instance.obtainIsNewRatting(MainActivity.UserSession.id!!)
     }
 }

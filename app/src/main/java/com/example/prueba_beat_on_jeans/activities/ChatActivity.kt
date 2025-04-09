@@ -183,10 +183,13 @@ class ChatActivity : AppCompatActivity() {
                 1 -> userChat = RetrofitClient.instance.getUser(currentChat.local_ID)
                 2 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
             }
-            chatStats = currentChat
-            adapter?.notifyDataSetChanged()
+            val newMessages = chatStats.mensajes
+
+            adapter?.updateChats(newMessages)
         }
     }
+
+
 
     private fun obtainIntent(): ChatRV {
         val intent = intent

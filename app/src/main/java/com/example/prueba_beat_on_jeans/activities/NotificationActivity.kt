@@ -25,16 +25,16 @@ class NotificationActivity:AppCompatActivity() {
         getLatestNotifications()
 
         val btnReturn = findViewById<ImageButton>(R.id.BTNReturn)
-
         btnReturn.setOnClickListener{
             setFileNotifications()
             finish()
         }
-
     }
 
     private fun setFileNotifications() {
-        FileManager.saveNotifications(this, notificationList)
+        if(notificationList.size > 0 && notificationList[0].id!! > 0){
+            FileManager.saveNotifications(this, notificationList)
+        }
     }
 
     private fun getOtherNotifications() {
@@ -48,18 +48,17 @@ class NotificationActivity:AppCompatActivity() {
     private fun getLatestNotifications() {
         lifecycleScope.launch {
             val newNotification = RetrofitClient.instance.getUserLatestNotification(MainActivity.UserSession.id!!)
-            if(newNotification?.description.isNullOrEmpty()){
-                notificationList.add(newNotification!!)
+            if(newNotification != null){
+                notificationList.add(newNotification)
             }
             setNotifications()
         }
-
     }
 
     private fun setNotifications() {
-        if(notificationList.size > 0){
+        if(notificationList.size > 0 && notificationList[0].id!! > 0){
             val rvNotification = findViewById<RecyclerView>(R.id.RVNotifications)
-            adapter = NotificationsApdater(notificationList)
+            adapter = NotificationsApdater(this,notificationList){}
             rvNotification.adapter = adapter
             rvNotification.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         }else{

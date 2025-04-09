@@ -4,6 +4,7 @@ import com.example.prueba_beat_on_jeans.classes.Chat
 import com.example.prueba_beat_on_jeans.classes.EventRV
 import com.example.prueba_beat_on_jeans.classes.Message
 import com.example.prueba_beat_on_jeans.classes.Tag
+import com.google.gson.annotations.SerializedName
 import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.*
