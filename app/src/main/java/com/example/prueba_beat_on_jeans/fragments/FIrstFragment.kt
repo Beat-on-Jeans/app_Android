@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import coil.load
 import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.activities.MainActivity
+import com.example.prueba_beat_on_jeans.activities.NotificationActivity
 import com.example.prueba_beat_on_jeans.adapters.MusicsAdapter
 import com.example.prueba_beat_on_jeans.api.Matches
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
@@ -77,7 +78,7 @@ class FIrstFragment : Fragment() {
         }
 
         notification_button.setOnClickListener{
-            val intent = Intent(context,NotificationActivity::class.java)
+            val intent = Intent(context, NotificationActivity::class.java)
             startActivity(intent)
         }
 

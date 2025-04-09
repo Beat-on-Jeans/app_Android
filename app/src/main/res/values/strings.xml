@@ -32,4 +32,10 @@
     <string name="save">Save</string>
     <string name="languaje">Languaje</string>
     <string name="rating">Rating</string>
+
+    <string name="chat_notification">You have a new message in the chat.</string>
+    <string name="match_Notification">You have a new match.</string>
+    <string name="rating_Notification">You have received a new review.</string>
+    <string name="end_event_Notification">We noticed that an event has ended, how did it go? Rate it!</string>
+    <string name="event_propose_Notification">Someone has proposed a new event to you.</string>
 </resources>

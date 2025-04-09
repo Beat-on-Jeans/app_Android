@@ -111,5 +111,4 @@ data class Rating(@SerializedName("ID") val id: Int?,
     : this(null,rating,rated,rater)
 }
 
-data class Notification(@SerializedName("ID") val id: Int,
-                        @SerializedName("Descripcion") var description: String)
+data class Notification(@SerializedName("Notificacion_ID") val id: Int?)
