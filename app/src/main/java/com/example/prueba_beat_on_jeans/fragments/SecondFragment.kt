@@ -6,6 +6,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -125,6 +126,8 @@ class SecondFragment : Fragment() {
         btnShowLocation = view.findViewById(R.id.btnShowLocation)
         btnLocationLayout = view.findViewById(R.id.btnLocationLayout)
 
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+
         mapView.let {
             mapView.setTileSource(TileSourceFactory.MAPNIK)
             mapView.setMultiTouchControls(true)
@@ -138,7 +141,7 @@ class SecondFragment : Fragment() {
         when(MainActivity.UserSession.rolId){
             1 -> {
                 if (this::mapView.isInitialized) {
-                    getLocals()
+                    getLocalsWithFiltering()
                 }
                 zone_text.visibility = View.INVISIBLE
                 zone_spinner.visibility = View.INVISIBLE
@@ -160,11 +163,6 @@ class SecondFragment : Fragment() {
 
         // Configuración inicial de osmdroid
         Configuration.getInstance().load(requireContext(), requireActivity().getPreferences(android.content.Context.MODE_PRIVATE))
-
-        // Referencia al MapView
-        mapView = view.findViewById(R.id.mapView)
-        mapView.setMultiTouchControls(true)
-        // Configurar el LocationManager
 
         // Configurar el overlay para mostrar la ubicación
         locationOverlay = MyLocationNewOverlay(mapView)
@@ -188,6 +186,97 @@ class SecondFragment : Fragment() {
 
         return view
     }
+
+    private fun getLocalsWithFiltering() {
+        lifecycleScope.launch {
+            try {
+                // 1. Get user's existing matches with timeout
+                val existingMatches = try {
+                    withTimeout(3_000) {
+                        getUserMatchesSuspend(MainActivity.UserSession.id!!)
+                    }
+                } catch (e: TimeoutCancellationException) {
+                    Log.e("Error", "Timeout getting matches")
+                    emptyList()
+                } catch (e: Exception) {
+                    Log.e("Error", "Error getting matches: ${e.message}")
+                    emptyList()
+                }
+
+                // 2. Filter IDs to exclude
+                val excludedUserIds = existingMatches
+                    .filter { match ->
+                        match.estado == 1 || match.estado == 3 || match.creador_id == MainActivity.UserSession.id
+                    }
+                    .flatMap { match ->
+                        listOf(match.creador_id, match.finalizador_id)
+                            .filterNotNull()
+                            .filter { it != MainActivity.UserSession.id }
+                    }
+                    .toSet()
+
+                // 3. Get all locals with timeout
+                val allLocals = try {
+                    withTimeout(3_000) {
+                        getLocalesSuspend()
+                    }
+                } catch (e: Exception) {
+                    Log.e("Error", "Error getting locals: ${e.message}")
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Error loading locals", Toast.LENGTH_SHORT).show()
+                    }
+                    return@launch
+                }
+
+                // 4. Filter locals
+                val filteredLocals = allLocals.filter { local ->
+                    !excludedUserIds.contains(local.id)
+                }
+
+                // 5. Update UI
+                withContext(Dispatchers.Main) {
+                    if (filteredLocals.isEmpty()) {
+                        Toast.makeText(context, "No locals available", Toast.LENGTH_SHORT).show()
+                    }
+                    showLocalsOnMap(filteredLocals)
+                }
+
+            } catch (e: Exception) {
+                Log.e("Error", "Unexpected error: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Unexpected error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    // Add this new suspend function to get locals
+    private suspend fun getLocalesSuspend(): List<UserRecievedWithDescription> {
+        return try {
+            suspendCoroutine { continuation ->
+                RetrofitClient.instance.getLocales().enqueue(object : Callback<List<UserRecievedWithDescription>> {
+                    override fun onResponse(
+                        call: Call<List<UserRecievedWithDescription>>,
+                        response: Response<List<UserRecievedWithDescription>>
+                    ) {
+                        if (response.isSuccessful) {
+                            continuation.resume(response.body() ?: listOf())
+                        } else {
+                            continuation.resumeWithException(Exception("HTTP ${response.code()}"))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<UserRecievedWithDescription>>, t: Throwable) {
+                        continuation.resumeWithException(t)
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            Log.e("API Error", "Error in getLocales: ${e.message}")
+            throw e
+        }
+    }
+
 
     private fun getMusicians() {
         lifecycleScope.launch {
@@ -308,8 +397,7 @@ class SecondFragment : Fragment() {
         }
     }
 
-// Las funciones updateSpinners y updateMusicianSpinner permanecen igual que en la solución anterior
-
+    // Las funciones updateSpinners y updateMusicianSpinner permanecen igual que en la solución anterior
     private fun updateSpinners(musicians: List<UserRecievedWithDescription>) {
         // Obtener ubicaciones únicas
         val locations = musicians.mapNotNull { it.ubicacion }.distinct()
@@ -361,37 +449,6 @@ class SecondFragment : Fragment() {
         }
     }
 
-    private fun setupSpinnersListeners(filteredMusicians: List<UserRecievedWithDescription>) {
-        zone_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedLocation = parent?.getItemAtPosition(position) as? String ?: return
-
-                val locationMusicians = filteredMusicians.filter { it.ubicacion == selectedLocation }
-                val musicianNames = locationMusicians.map { it.nombre }
-
-                val musicianAdapter = ArrayAdapter<String>(
-                    requireContext(),
-                    android.R.layout.simple_spinner_item,
-                    musicianNames
-                )
-                musicianAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                musician_spinner.adapter = musicianAdapter
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        musician_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedMusicianName = parent?.getItemAtPosition(position) as? String ?: return
-                val selectedMusician = filteredMusicians.find { it.nombre == selectedMusicianName }
-                selectedMusician?.let { showMusicianDetails(it) }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-    }
-
     private fun showMusicianDetails(selectedMusician: UserRecievedWithDescription) {
         layout_superior.visibility = View.VISIBLE
         frameDescription.visibility = View.VISIBLE
@@ -411,28 +468,12 @@ class SecondFragment : Fragment() {
         buttonContact.setOnClickListener {
             createMatch(selectedMusician)
             activity?.findViewById<BottomNavigationView>(R.id.navMenu)?.selectedItemId = R.id.itemFragment3
+            Toast.makeText(
+                context,
+                "Esperando la respuesta de " + selectedMusician.nombre,
+                Toast.LENGTH_SHORT
+            ).show()
         }
-    }
-
-    private fun getLocals() {
-        RetrofitClient.instance.getLocales().enqueue(object : Callback<List<UserRecievedWithDescription>> {
-            override fun onResponse(call: Call<List<UserRecievedWithDescription>>, response: Response<List<UserRecievedWithDescription>>) {
-                if (response.isSuccessful) {
-                    //
-                    val locals = response.body()
-                    if (locals != null) {
-                        Log.e("Locales", locals.toString())
-                        showLocalsOnMap(locals)
-                    }
-                } else {
-                    Log.e("Error", "Error de conexión")
-                }
-            }
-
-            override fun onFailure(call: Call<List<UserRecievedWithDescription>>, t: Throwable) {
-                Log.e("Error", "Error al cargar los locales")
-            }
-        })
     }
 
     fun getCoordinatesFromAddressNominatim(address: String, callback: (latitude: Double?, longitude: Double?) -> Unit) {
@@ -548,7 +589,12 @@ class SecondFragment : Fragment() {
                                 buttonContact.isVisible = true
                                 buttonContact.setOnClickListener {
                                     createMatch(local)
-
+                                    activity?.findViewById<BottomNavigationView>(R.id.navMenu)?.selectedItemId = R.id.itemFragment3
+                                    Toast.makeText(
+                                        context,
+                                        "Esperando la respuesta de " + local.nombre,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                                 true
                             }
