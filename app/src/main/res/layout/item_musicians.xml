@@ -26,12 +26,15 @@
             android:layout_height="wrap_content"
             android:text="Texto"
             android:textColor="@color/white"
-            android:textSize="35dp" />
+            android:textSize="35dp"
+
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVTags"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="5dp"/>
 
         <TextView
             android:id="@+id/TxtDescription"
@@ -39,7 +42,8 @@
             android:layout_height="wrap_content"
             android:text="Descripción"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
