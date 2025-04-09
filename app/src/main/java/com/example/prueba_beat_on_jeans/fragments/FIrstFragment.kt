@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.navigation.Navigation.findNavController
@@ -29,6 +30,7 @@ import kotlinx.coroutines.launch
 import coil.load
 import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.activities.MainActivity
+import com.example.prueba_beat_on_jeans.activities.NotificationActivity
 import com.example.prueba_beat_on_jeans.adapters.MusicsAdapter
 import com.example.prueba_beat_on_jeans.api.Matches
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
@@ -71,13 +73,21 @@ class FIrstFragment : Fragment() {
         val pfp: ImageButton = view.findViewById(R.id.profile_picture)
         val imageUrl = MainActivity.UserSession.urlImg
         val notification_button: ImageButton = view.findViewById(R.id.notification)
+        val rol_type_text: TextView = view.findViewById(R.id.rol_type_text)
 
         pfp.load(imageUrl) {
             crossfade(true)
         }
 
+        when(MainActivity.UserSession.rolId) {
+            1 -> {
+              rol_type_text.setText("Encuentra a tu local")
+            }
+        }
+
+
         notification_button.setOnClickListener{
-            val intent = Intent(context,NotificationActivity::class.java)
+            val intent = Intent(context, NotificationActivity::class.java)
             startActivity(intent)
         }
 
@@ -184,7 +194,6 @@ class FIrstFragment : Fragment() {
                 setCardView(view)
             } catch (e: Exception) {
                 Log.e("API_ERROR", "Error: ${e.message}", e)
-                Toast.makeText(context, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -199,7 +208,6 @@ class FIrstFragment : Fragment() {
                 setCardView(view)
             } catch (e: Exception) {
                 Log.e("API_ERROR", "Error: ${e.message}", e)
-                Toast.makeText(context, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show()
             }
         }
     }

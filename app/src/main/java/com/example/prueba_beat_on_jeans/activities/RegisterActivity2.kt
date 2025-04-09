@@ -20,9 +20,6 @@ class RegisterActivity2 : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_register2)
 
-
-        Toast.makeText(this, MainActivity.UserSession.rolId.toString(), Toast.LENGTH_SHORT).show()
-
         val editTextMail: EditText = findViewById(R.id.mail_text)
         val buttonContinue: Button = findViewById(R.id.continue_button)
         val imagebuttonBack: ImageButton = findViewById(R.id.back_imageButton)

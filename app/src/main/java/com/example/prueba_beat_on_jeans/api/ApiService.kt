@@ -115,7 +115,7 @@ interface ApiService {
     suspend fun getUserEvent(@Path("UserID") userId: Int): MutableList<EventRV>
 
     @GET("api/UsuarioMobils/{UserID}/Valoraciones")
-    suspend fun obtainUserRating(@Path("UserID") userId: Int): Float?
+    suspend fun obtainUserRating(@Path("UserID") userId: Int): Float
 
     @GET("api/Valoraciones/isNewRatting/{userID}")
     suspend fun obtainIsNewRatting(@Path("userID") userId: Int): MutableList<Rating>?
@@ -125,5 +125,10 @@ interface ApiService {
 
     @GET("api/UsuarioMobils/Notificaiones/{userID}")
     suspend fun getUserLatestNotification(@Path("userID") userId: Int): Notification?
-}
 
+    @PUT("api/Usuarios/UpdateUser/{usuarioMobilId}")
+    fun updateUser(
+        @Path("usuarioMobilId") usuarioMobilId: Int,
+        @Body usuarioRecibido: UserUpdated
+    ): Call<String>
+}
