@@ -7,11 +7,13 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.api.UserUpdated
+import com.example.prueba_beat_on_jeans.classes.CreateTicketDialog
 import com.example.prueba_beat_on_jeans.classes.NavigationBar
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +26,7 @@ class SettingsActivity : AppCompatActivity()
 
         val btnReturn = findViewById<ImageButton>(R.id.BtnReturn)
         val btnSave = findViewById<Button>(R.id.saveButton)
+        val btnHelp = findViewById<Button>(R.id.helpButton)
 
         val ediTxtlocation = findViewById<EditText>(R.id.Location)
         val editTxtPassword1 = findViewById<EditText>(R.id.EdTxtPassword)
@@ -110,6 +113,12 @@ class SettingsActivity : AppCompatActivity()
             val intent = Intent(this@SettingsActivity, NavigationBar::class.java)
             startActivity(intent)
 
+        }
+
+        btnHelp.setOnClickListener {
+            lifecycleScope.launch {
+                CreateTicketDialog().show(supportFragmentManager, "CreateTicketDialog")
+            }
         }
     }
 }
