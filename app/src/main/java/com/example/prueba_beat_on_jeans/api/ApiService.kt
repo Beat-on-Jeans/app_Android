@@ -132,4 +132,11 @@ interface ApiService {
         @Path("usuarioMobilId") usuarioMobilId: Int,
         @Body usuarioRecibido: UserUpdated
     ): Call<String>
+
+    @PUT("api/Soportes/{id}/Incidencia")
+    fun crearIncidencia(
+        @Path("id") usuarioId: Int,
+        @Query("incidencia_id") incidenciaId: Int
+    ): Call<Void>
+
 }

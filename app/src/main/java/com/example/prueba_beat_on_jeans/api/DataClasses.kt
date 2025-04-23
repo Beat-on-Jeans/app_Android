@@ -120,3 +120,8 @@ data class Rating(@SerializedName("ID") val id: Int?,
 }
 
 data class Notification(@SerializedName("Notificacion_ID") val id: Int?)
+
+data class Support(
+    @SerializedName("ID") val id: Int,
+    @SerializedName("Tipo_Incidencia") val id_incidencia: Int?,
+)
