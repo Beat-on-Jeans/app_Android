@@ -22,6 +22,7 @@ import android.widget.Toast
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -45,17 +46,9 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-// Para las librerías de Retrofit y las llamadas de red
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-
-// Para la clase de Adapter (suponiendo que usas un RecyclerView Adapter)
-
-// Para manejar los SharedPreferences y la sesión del usuario (si es necesario)
-
-// Para los métodos de Retrofit y la creación del cliente Retrofit
 import org.json.JSONArray
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import java.io.IOException
@@ -140,7 +133,7 @@ class SecondFragment : Fragment() {
 
         when(MainActivity.UserSession.rolId){
             1 -> {
-                if (this::mapView.isInitialized) {
+                if (mapView != null){
                     getLocalsWithFiltering()
                 }
                 zone_text.visibility = View.INVISIBLE
