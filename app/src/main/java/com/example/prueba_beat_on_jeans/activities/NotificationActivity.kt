@@ -48,7 +48,7 @@ class NotificationActivity:AppCompatActivity() {
     private fun getLatestNotifications() {
         lifecycleScope.launch {
             val newNotification = RetrofitClient.instance.getUserLatestNotification(MainActivity.UserSession.id!!)
-            if(newNotification != null){
+            if(newNotification?.id != null){
                 notificationList.add(newNotification)
             }
             setNotifications()

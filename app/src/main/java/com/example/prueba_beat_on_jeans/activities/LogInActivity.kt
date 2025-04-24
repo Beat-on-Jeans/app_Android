@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -17,11 +18,18 @@ import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.api.RetrofitClient
 import com.example.prueba_beat_on_jeans.api.User
 import kotlinx.coroutines.launch
+import org.bouncycastle.crypto.engines.BlowfishEngine
+import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher
+import org.bouncycastle.crypto.params.KeyParameter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LogInActivity : AppCompatActivity() {
+
+    private val secretKey = "999a999ale469993"
+
+    @RequiresApi(Build.VERSION_CODES.O)
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +54,7 @@ class LogInActivity : AppCompatActivity() {
             // Check if username and password fields are not empty
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 // Call method to verify the user
-                verifyUser(username, password)
+                verifyUser(username, password) //encryptPassword(password)
             } else {
                 Toast.makeText(this, "Please enter your username and password", Toast.LENGTH_SHORT).show()
             }
@@ -103,4 +111,22 @@ class LogInActivity : AppCompatActivity() {
                 })
             }
         }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun encryptPassword(pswd: String): String {
+
+        val engine = BlowfishEngine()
+        val blockCipher = PaddedBufferedBlockCipher(engine)
+
+        val keyBytes = secretKey.toByteArray(Charsets.UTF_8)
+        blockCipher.init(true, KeyParameter(keyBytes))
+
+        val inputBytes = pswd.toByteArray(Charsets.UTF_8)
+        val outputBytes = ByteArray(blockCipher.getOutputSize(inputBytes.size))
+
+        var length = blockCipher.processBytes(inputBytes, 0, inputBytes.size, outputBytes, 0)
+        length += blockCipher.doFinal(outputBytes, length)
+
+        return java.util.Base64.getEncoder().encodeToString(outputBytes.copyOf(length))
     }
+}
