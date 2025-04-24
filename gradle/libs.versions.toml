@@ -27,6 +27,8 @@ playServicesLocation = "21.3.0"
 playServicesLocationVersion = "21.0.1"
 navigationFragmentKtx = "2.8.6"
 retrofit = "2.9.0"
+securityCrypto = "1.1.0-alpha06"
+bcprovJdk15to18 = "1.76"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,7 +60,8 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 squareup-picasso = { module = "com.squareup.picasso:picasso", version.ref = "picassoVersion" }
-
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
+bcprov-jdk15to18 = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bcprovJdk15to18" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

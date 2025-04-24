@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.module.jackson.module.kotlin)
     implementation(libs.squareup.picasso)
     implementation(libs.osmdroid.android)
@@ -66,4 +65,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.picasso.v28)
     implementation("io.coil-kt:coil:2.0.0")
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.bcprov.jdk15to18)
 }

@@ -20,8 +20,16 @@ data class UserRecievedWithDescription(
     @SerializedName("Descripcion") val descripcion: String,
     @SerializedName("ValoracionTotal") val valoracion: Double?,
     @SerializedName("ROL_ID") val rolId: Int?,
-    @SerializedName("Ubicacion") val ubicacion: String?,
+    @SerializedName("Ubicacion")val ubicacion: String?,
     @SerializedName("Url_Imagen") val imagen: String,
+)
+
+data class UserUpdated(
+    @SerializedName("ID") val ID: Int,
+    @SerializedName("Nombre") var Nombre: String?,
+    @SerializedName("Correo") var Correo: String?,
+    @SerializedName("Contrasena") var Contrasena: String?,
+    @SerializedName("Ubicacion") var Ubicacion: String?
 )
 
 data class UserLogin(
@@ -112,3 +120,8 @@ data class Rating(@SerializedName("ID") val id: Int?,
 }
 
 data class Notification(@SerializedName("Notificacion_ID") val id: Int?)
+
+data class Support(
+    @SerializedName("ID") val id: Int,
+    @SerializedName("Tipo_Incidencia") val id_incidencia: Int?,
+)
