@@ -81,9 +81,9 @@ class ChatActivity : AppCompatActivity() {
     fun iniciarLlamadasMensajes() {
         job = lifecycleScope.launch {
             while (isActive) {
-                obtainNewMessagesChat()
+                obtainChat()
                 isNewEvent()
-                delay(10_000)
+                delay(3_000)
             }
         }
     }
@@ -173,23 +173,6 @@ class ChatActivity : AppCompatActivity() {
         chat = obtainIntent()
         obtainChat()
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun obtainNewMessagesChat() {
-        lifecycleScope.launch {
-            val currentChat = RetrofitClient.instance.getChat(chat.chatID)
-            when (MainActivity.UserSession.rolId){
-                1 -> userChat = RetrofitClient.instance.getUser(currentChat.local_ID)
-                2 -> userChat = RetrofitClient.instance.getUser(currentChat.musico_ID)
-            }
-            val newMessages = chatStats.mensajes
-
-            adapter?.updateChats(newMessages)
-        }
-    }
-
-
 
     private fun obtainIntent(): ChatRV {
         val intent = intent

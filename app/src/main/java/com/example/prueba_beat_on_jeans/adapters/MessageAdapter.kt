@@ -12,7 +12,7 @@ import com.example.prueba_beat_on_jeans.R
 import com.example.prueba_beat_on_jeans.classes.Chat
 
 class MessageAdapter(val context: Context,
-                     var messageList: List<Message>):
+                     private var messageList: MutableList<Message>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val ITEM_SENT = 1
@@ -63,10 +63,4 @@ class MessageAdapter(val context: Context,
     class SentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val sentMessage: TextView = itemView.findViewById(R.id.txtSentMessage)
     }
-
-    fun updateChats(newChats: List<Message>) {
-        messageList = newChats
-        notifyDataSetChanged()
-    }
-
 }
