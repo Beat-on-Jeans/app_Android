@@ -13,16 +13,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Encuentra a tu persona"
-        android:textSize="60sp"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
         android:layout_marginTop="80dp"
-        android:lineSpacingExtra="5dp"
+        android:layout_marginRight="50dp"
         android:fontFamily="@font/figtree_bold"
-        android:textStyle="bold"
-        >
-    </TextView>
+        android:lineSpacingExtra="5dp"
+        android:text="Encuentra tu beat"
+        android:textSize="60sp"
+        android:textStyle="bold"></TextView>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -33,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="65dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae nisi faucibus, suscipit elit in, viverra urna."
+            android:text="Únete a cientos de Beaters y crea eventos inolvidables!"
             android:layout_marginLeft="60dp"
             android:justificationMode="inter_word"
             android:layout_marginRight="115dp"
@@ -42,6 +40,14 @@
             android:fontFamily="@font/poppins_regular"
             >
         </TextView>
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/icon_light"
+            android:layout_gravity="center"
+            android:layout_marginTop="200dp"
+            />
 
     </FrameLayout>
 
