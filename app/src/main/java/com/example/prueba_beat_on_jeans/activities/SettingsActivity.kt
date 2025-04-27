@@ -1,6 +1,7 @@
 package com.example.prueba_beat_on_jeans.activities
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Locale
 
 class SettingsActivity : AppCompatActivity()
 {
@@ -33,6 +35,10 @@ class SettingsActivity : AppCompatActivity()
         val editTxtPassword2 = findViewById<EditText>(R.id.EdTxtConfPasword)
         val ediTxtName = findViewById<EditText>(R.id.EdTxtName)
         val ediTxtMail = findViewById<EditText>(R.id.EdTxtEmail)
+
+        val btnImgCat = findViewById<ImageButton>(R.id.BtnImgCat)
+        val btnImgEs = findViewById<ImageButton>(R.id.BtnImgEs)
+        val btnImgEn = findViewById<ImageButton>(R.id.BtnImgEn)
 
         ediTxtlocation.setText(MainActivity.UserSession.location.toString())
         ediTxtName.setText(MainActivity.UserSession.username.toString())
@@ -120,5 +126,37 @@ class SettingsActivity : AppCompatActivity()
                 CreateTicketDialog().show(supportFragmentManager, "CreateTicketDialog")
             }
         }
+
+        btnImgCat.setOnClickListener {
+            changelanguaje("cat")
+            recreate()
+        }
+
+        btnImgEs.setOnClickListener {
+            changelanguaje("es")
+            recreate()
+        }
+
+        btnImgEn.setOnClickListener {
+            changelanguaje("en")
+            recreate()
+        }
+
+    }
+
+    private fun changelanguaje(language: String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        resources.updateConfiguration(config, resources.displayMetrics)
+        saveLanguage(language)
+    }
+
+    private fun saveLanguage(language: String) {
+        val sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("selected_language", language)
+        editor.apply()
     }
 }

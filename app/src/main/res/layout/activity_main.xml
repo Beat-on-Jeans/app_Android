@@ -18,9 +18,9 @@
         android:layout_marginRight="50dp"
         android:fontFamily="@font/figtree_bold"
         android:lineSpacingExtra="5dp"
-        android:text="Encuentra tu beat"
+        android:text="@string/find_your_beat"
         android:textSize="60sp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold"/>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="65dp"
-            android:text="Únete a cientos de Beaters y crea eventos inolvidables!"
+            android:text="@string/presentation"
             android:layout_marginLeft="60dp"
             android:justificationMode="inter_word"
             android:layout_marginRight="115dp"
@@ -58,7 +58,7 @@
          android:layout_gravity="center"
          android:layout_marginTop="5dp"
          android:layout_marginBottom="120dp"
-         android:text="Continuar"
+         android:text="@string/next"
          android:textSize="18sp"
          >
      </Button>

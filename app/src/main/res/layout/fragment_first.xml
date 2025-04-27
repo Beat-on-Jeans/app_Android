@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
-            android:text="Encuentra a tu músico"
+            android:text="@string/encuentra_a_tu_m_sico"
             android:fontFamily="@font/figtree_bold"
             android:textSize="24dp"
             android:layout_marginBottom="20dp"
@@ -76,7 +76,6 @@
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/CVMusicians"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"

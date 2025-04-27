@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cuál es tu correo"
+            android:text="@string/what_mail"
             android:layout_marginBottom="100dp"
             android:fontFamily="@font/poppins_medium"
             android:textSize="16sp"
@@ -81,7 +81,7 @@
             android:id="@+id/continue_button"
             android:layout_width="306dp"
             android:layout_height="66dp"
-            android:text="Continuar"
+            android:text="@string/next"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_bold"
             android:textSize="14sp"

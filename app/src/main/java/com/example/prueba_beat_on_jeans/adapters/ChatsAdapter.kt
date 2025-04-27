@@ -32,10 +32,12 @@ class ChatsAdapter(private val chatList: MutableList<ChatRV>,
         private val notificationIcon: ImageView = itemView.findViewById(R.id.Notification)
 
         fun bind(chat: ChatRV) {
+            val hour = chat.hours.split("T")
+
             imgChat.setImageResource(chat.chatImg)
             txtChatName.text = chat.chatName
             txtLastMessage.hint = chat.lastMessage
-            txtHours.hint = chat.hours
+            txtHours.hint = hour[0]
 
             itemView.setOnClickListener{
                 onChatClick(chat)

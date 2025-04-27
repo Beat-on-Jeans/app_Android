@@ -18,7 +18,7 @@
             android:id="@+id/txtRecievedMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This is a message"
+            android:text="@string/this_is_a_message"
             android:textColor="@color/white"
             android:padding="10dp"
             android:textSize="18sp"

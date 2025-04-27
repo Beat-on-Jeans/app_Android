@@ -18,7 +18,7 @@
             android:gravity="center"
             android:fontFamily="@font/poppins_bold"
             android:textSize="20dp"
-            android:text="¡Este Usuario desea organizar un evento contigo!"
+            android:text="@string/txt_user_create_event"
             android:layout_margin="5dp"/>
 
         <TextView
@@ -26,8 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Una vez creado se sumara al perfil de cada uno,
-            tras terminar el evento cada uno podra evaluar la actuación del otro"
+            android:text="@string/txt_create_event"
             android:layout_margin="10dp"/>
 
 
@@ -42,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="Aceptar"
+                android:text="@string/aceptar"
                 android:layout_weight="1"/>
 
             <Button
@@ -50,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="Declinar"
+                android:text="@string/declinar"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>

@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Añade una imagen"
+            android:text="@string/add_img"
             android:fontFamily="@font/poppins_medium"
             android:textSize="16sp"
             android:textColor="@color/black"
@@ -64,7 +64,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crea un nombre de usuario"
+            android:text="@string/create_username"
             android:fontFamily="@font/poppins_medium"
             android:textSize="16sp"
             android:textColor="@color/black"
@@ -106,7 +106,7 @@
             android:id="@+id/continue_button"
             android:layout_width="306dp"
             android:layout_height="66dp"
-            android:text="Continuar"
+            android:text="@string/next"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_bold"
             android:textSize="14sp"

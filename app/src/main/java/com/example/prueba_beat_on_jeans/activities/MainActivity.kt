@@ -3,11 +3,13 @@ package com.example.prueba_beat_on_jeans.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prueba_beat_on_jeans.R
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity() {
             (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
         val button: Button = findViewById(R.id.login_button)
+
+        setLanguaje()
 
         UserSession.loadUserData(this)
 
@@ -35,7 +39,33 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
         }
+
     }
+
+    private fun setLanguaje() {
+        val sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+        val selectedLanguage = sharedPreferences.getString("language", Locale.getDefault().language)
+        if (selectedLanguage != null) {
+            changelanguaje(selectedLanguage)
+        }
+    }
+
+    private fun changelanguaje(language: String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        resources.updateConfiguration(config, resources.displayMetrics)
+        saveLanguage(language)
+    }
+
+    private fun saveLanguage(language: String) {
+        val sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("selected_language", language)
+        editor.apply()
+    }
+
 
     fun saveBooleanToPreferences(context: Context, key: String, value: Boolean) {
         val sharedPreferences = context.getSharedPreferences("my_preferences", Context.MODE_PRIVATE)

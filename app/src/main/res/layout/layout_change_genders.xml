@@ -18,7 +18,7 @@
             android:gravity="center"
             android:fontFamily="@font/poppins_bold"
             android:textSize="20dp"
-            android:text="Select the music genders"
+            android:text="@string/select_the_music_genders"
             android:layout_margin="8dp"/>
 
         <FrameLayout
@@ -37,7 +37,7 @@
                 android:id="@+id/btnSelectGenres"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Modify selection"
+                android:text="@string/modify_selection"
                 android:layout_gravity="center"
                 />
         </FrameLayout>
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="Confirm"
+                android:text="@string/confirm"
                 android:background="@drawable/rounded_button_dislike"
                 android:textColor="@color/black"
                 android:layout_weight="1"/>
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:background="@drawable/rounded_button_dislike"
                 android:textColor="@color/black"
                 android:layout_weight="1"/>

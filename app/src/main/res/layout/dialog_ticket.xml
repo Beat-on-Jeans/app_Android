@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select the incidence"
+        android:text="@string/select_the_incidence"
         android:gravity="center"
         android:textSize="20sp"
         android:fontFamily="@font/figtree_bold"
@@ -26,5 +26,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Send"/>
+        android:text="@string/send"/>
 </LinearLayout>

@@ -24,7 +24,6 @@
             android:id="@+id/TxtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Texto"
             android:textColor="@color/white"
             android:textSize="35dp"
 
@@ -40,7 +39,6 @@
             android:id="@+id/TxtDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descripción"
             android:textColor="@color/white"
             android:textSize="20dp"
             />
@@ -132,6 +130,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.0"
-            android:background="@color/metalickBlack"></FrameLayout>
+            android:background="@color/metalickBlack"/>
     </FrameLayout>
 </FrameLayout>

@@ -125,7 +125,7 @@ interface ApiService {
     suspend fun setRatting(@Body rating: Rating): Response<ResponseBody>
 
     @GET("api/UsuarioMobils/Notificaiones/{userID}")
-    suspend fun getUserLatestNotification(@Path("userID") userId: Int): Notification?
+    suspend fun getUserLatestNotification(@Path("userID") userId: Int): Int?
 
     @PUT("api/Usuarios/UpdateUser/{usuarioMobilId}")
     fun updateUser(
